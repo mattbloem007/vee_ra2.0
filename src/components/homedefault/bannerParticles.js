@@ -9,11 +9,7 @@ import { GatsbyImage } from "gatsby-plugin-image"
 const BannerParticles = () => {
     const banenrQueryData = useStaticQuery (graphql`
         query BannerDefaultQueryParticles {
-<<<<<<< HEAD
-                homedefaultJson(id: {eq: "main-banner"}) {
-=======
                 homedefaultJson(jsonId: {eq: "main-banner"}) {
->>>>>>> 5ec1c145 (trying to upload)
                 title
                 subtitle
                 bgImage {
@@ -34,11 +30,7 @@ const BannerParticles = () => {
         }
     `);
 
-    // const BannerImages = banenrQueryData.homedefaultJson.bgImage.childImageSharp.fluid;
-<<<<<<< HEAD
-=======
-    console.log("DATA", banenrQueryData)
->>>>>>> 5ec1c145 (trying to upload)
+    console.log(banenrQueryData)
     const PortfolioImages = banenrQueryData.file.childImageSharp.gatsbyImageData;
     const Title = banenrQueryData.homedefaultJson.title;
     const SubTitle = banenrQueryData.homedefaultJson.subtitle;

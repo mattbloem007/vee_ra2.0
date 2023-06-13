@@ -1,13 +1,8 @@
 [
     {
         "id": "main-banner",
-<<<<<<< HEAD
-        "title": "Bernard <span class='color-primary'>Sydney</span>",
-        "subtitle": "Creative Web & App Developer",
-=======
         "title": "Vee <span class='color-primary'>Ra</span>",
         "subtitle": "Decadent Botanical Blends",
->>>>>>> 5ec1c145 (trying to upload)
         "bgImage": "./images/banner/bg-image-02.jpg",
         "image": "./images/banner/person-image.jpg"
     },

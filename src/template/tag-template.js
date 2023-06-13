@@ -24,22 +24,13 @@ const TagTemplate = ({data , pageContext}) => {
                                     </ul>
                                 </div>
                             </div>
-<<<<<<< HEAD
-                            
-=======
-
->>>>>>> 5ec1c145 (trying to upload)
                         </div>
                     </div>
                     <div className="row">
                         {tagsblogs.map((blog) => (
                         <Post column="col-lg-4 col-md-6 col-12" key={blog.node.fields.slug}
                                 content={{
-<<<<<<< HEAD
-                                    ...blog.node.fields, 
-=======
                                     ...blog.node.fields,
->>>>>>> 5ec1c145 (trying to upload)
                                     ...blog.node.frontmatter,
                                     excerpt: blog.node.excerpt
                                 }}
@@ -53,45 +44,6 @@ const TagTemplate = ({data , pageContext}) => {
 }
 
 export const allTagQueryData = graphql`
-<<<<<<< HEAD
-    query allTagQuery ($tag: String!){
-        allMarkdownRemark (
-            sort: {fields: frontmatter___date, order: DESC}
-            filter: {frontmatter: {tags: { in: [$tag]}}}
-        ){
-        totalCount
-        edges {
-            node {
-            id
-            fields {
-                slug
-                authorId
-            }
-            excerpt
-            frontmatter {
-                author {
-                    name
-                }
-                title
-                tags
-                format
-                date(formatString: "MMM Do, YYYY")
-                category
-                image {
-                    childImageSharp {
-                        fluid(maxHeight: 300, maxWidth: 500, quality: 100, srcSetBreakpoints: 6) {
-                            ...GatsbyImageSharpFluid_withWebp
-                            presentationWidth
-                            presentationHeight
-                        }
-                    }
-                }
-            }
-            }
-        }
-        }
-    }
-=======
 query allTagQuery($tag: String!) {
 allMarkdownRemark(
 sort: {frontmatter: {date: DESC}}
@@ -131,6 +83,5 @@ srcSetBreakpoints: 6) {
 }
 }
 
->>>>>>> 5ec1c145 (trying to upload)
 `
 export default TagTemplate;

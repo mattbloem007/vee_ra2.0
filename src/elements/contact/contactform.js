@@ -3,36 +3,23 @@ import axios from 'axios'
 import { useForm } from "react-hook-form";
 
 const ContactForm = ({url}) => {
-<<<<<<< HEAD
-    const { register, handleSubmit, errors } = useForm({
-		mode: "onBlur"
-	})
-=======
+
     const { register, handleSubmit, formState: { errors } } = useForm({
 		mode: "onBlur"
 	})
 
->>>>>>> 5ec1c145 (trying to upload)
     const [serverState, setServerState] = useState({
 		submitting: false,
 		status: null
     });
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 5ec1c145 (trying to upload)
 	const [value, setValue] = useState({
 		name: '',
 		email: '',
 		subject: '',
 		message: ''
     });
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 5ec1c145 (trying to upload)
     const handleServerResponse = (ok, msg, form) => {
 		setServerState({
 			submitting: false,
@@ -48,11 +35,7 @@ const ContactForm = ({url}) => {
 			})
 		}
     };
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 5ec1c145 (trying to upload)
 
     const onSubmit = (data, e) => {
 		const form = e.target;
@@ -75,18 +58,7 @@ const ContactForm = ({url}) => {
 		setValue({ ...value, [e.target.name]: e.target.value })
 	}
 
-<<<<<<< HEAD
-    return ( 
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div className={`form-group ${(isErrors && errors.name) ? 'has-error' : ''} ${value.name ? 'has-value' : ''}`}>
-                <input 
-                    type="text"
-                    name="name"
-                    id="name"
-                    onChange={onChangeHandler}
-                    ref={register({
-                        required: 'Full Name Required',
-=======
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className={`form-group ${(isErrors && errors.name) ? 'has-error' : ''} ${value.name ? 'has-value' : ''}`}>
@@ -97,7 +69,6 @@ const ContactForm = ({url}) => {
                     {...register('name', {
                       onChange: (e) => {onChangeHandler(e)},
                       required: 'Full Name Required'
->>>>>>> 5ec1c145 (trying to upload)
                     })}
                 />
                 <label htmlFor="name">Full Name</label>
@@ -105,20 +76,6 @@ const ContactForm = ({url}) => {
             </div>
 
             <div className={`form-group ${(isErrors && errors.email) ? 'has-error' : ''} ${value.email ? 'has-value' : ''}`}>
-<<<<<<< HEAD
-                <input 
-                    type="email"
-                    name="email"
-                    id="email"
-                    onChange={onChangeHandler}
-                    ref={register({
-                        required: 'Email Required',
-                        pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                            message: "invalid email address"
-                        }
-                    })}
-=======
                 <input
                     type="email"
                     name="email"
@@ -131,7 +88,6 @@ const ContactForm = ({url}) => {
                           message: "invalid email address"
                       }
                      })}
->>>>>>> 5ec1c145 (trying to upload)
                 />
                 <label htmlFor="email">Enter Your Email</label>
                 {errors.email && <span className="error">{errors.email.message}</span>}
@@ -142,21 +98,12 @@ const ContactForm = ({url}) => {
                     type="text"
                     name="subject"
                     id="subject"
-<<<<<<< HEAD
-                    onChange={onChangeHandler}
-                    ref={register({
-                        required: 'Subject Required',
-                    })}
-                /> 
-                <label htmlFor="subject">Subject</label> 
-=======
                     {...register('subject', {
                       onChange: (e) => {onChangeHandler(e)},
                       required: 'Subject Required'
                     })}
                 />
                 <label htmlFor="subject">Subject</label>
->>>>>>> 5ec1c145 (trying to upload)
                 {errors.subject && <span className="error">{errors.subject.message}</span>}
             </div>
 
@@ -164,16 +111,6 @@ const ContactForm = ({url}) => {
                 <textarea
                     name="message"
                     id="message"
-<<<<<<< HEAD
-                    onChange={onChangeHandler}
-                    ref={register({
-                        required: 'Message Required',
-                        minLength: { value: 10, message: "Minimum length is 10" }
-                    })}
-                >
-                </textarea>
-                <label htmlFor="message">Write your message here.</label> 
-=======
                     {...register('message', {
                       onChange: (e) => {onChangeHandler(e)},
                       required: 'Message Required',
@@ -182,7 +119,6 @@ const ContactForm = ({url}) => {
                 >
                 </textarea>
                 <label htmlFor="message">Write your message here.</label>
->>>>>>> 5ec1c145 (trying to upload)
                 {errors.message && <span className="error">{errors.message.message}</span>}
             </div>
 
@@ -196,11 +132,7 @@ const ContactForm = ({url}) => {
                     </p>
                 )}
             </div>
-<<<<<<< HEAD
-        </form> 
-=======
         </form>
->>>>>>> 5ec1c145 (trying to upload)
     )
 }
 

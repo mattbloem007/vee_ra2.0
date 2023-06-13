@@ -4,39 +4,6 @@ import Blog from "./blog";
 
 const BlogPost = () => {
     const blogQueryData = useStaticQuery(graphql`
-<<<<<<< HEAD
-        query BlogListQuery {
-            allMarkdownRemark (limit: 3, sort: {order: DESC, fields: frontmatter___date}) {
-                edges {
-                    node {
-                        fields {
-                            slug
-                        }
-                        excerpt(pruneLength: 83, format: PLAIN, truncate: true)
-                        frontmatter {
-                            author {
-                                name
-                            }
-                            title
-                            date(formatString: "MMM Do, YYYY")
-                            format
-                            category
-                            image {
-                                childImageSharp {
-                                    fluid(maxWidth: 374, maxHeight: 280, quality: 100) {
-                                        ...GatsbyImageSharpFluid_withWebp
-                                        presentationWidth
-                                        presentationHeight
-                                    }
-                                }
-                            }
-                        }
-                        
-                    }
-                }
-            }
-        }
-=======
       query BlogListQuery {
         allMarkdownRemark(limit: 3, sort: {frontmatter: {date: DESC}}) {
           edges {
@@ -68,7 +35,6 @@ const BlogPost = () => {
         }
       }
 
->>>>>>> 5ec1c145 (trying to upload)
     `);
 
 

@@ -27,26 +27,14 @@ const Archive = ({data , pageContext}) => {
                     <div className="row row--25">
                         {authorblogs.map(blog => (
                             <div className="col-lg-4 col-md-6 col-12" key={blog.node.fields.slug}>
-<<<<<<< HEAD
-                                <Post 
-                                    content={{
-                                        ...blog.node.fields, 
-=======
                                 <Post
                                     content={{
                                         ...blog.node.fields,
->>>>>>> 5ec1c145 (trying to upload)
                                         ...blog.node.frontmatter,
                                         excerpt: blog.node.excerpt
                                     }}
                                 />
-<<<<<<< HEAD
-                            </div>  
-                            
-=======
                             </div>
-
->>>>>>> 5ec1c145 (trying to upload)
                         ))}
                     </div>
                 </div>
@@ -57,45 +45,6 @@ const Archive = ({data , pageContext}) => {
 
 
 export const allauthorQueryData = graphql`
-<<<<<<< HEAD
-    query allauthorQuery($author: String!){
-        allMarkdownRemark (
-            sort: {fields: frontmatter___date, order: DESC}
-            filter: {fields: {authorId: {eq: $author}}}
-        ){
-        totalCount
-        edges {
-            node {
-            id
-            fields {
-                slug
-                authorId
-            }
-            excerpt
-            frontmatter {
-                author {
-                    name
-                }
-                title
-                tags
-                format
-                date(formatString: "MMM Do, YYYY")
-                category
-                image {
-                    childImageSharp {
-                        fluid(maxHeight: 300, maxWidth: 500, quality: 100, srcSetBreakpoints: 6) {
-                            ...GatsbyImageSharpFluid_withWebp
-                            presentationWidth
-                            presentationHeight
-                        }
-                    }
-                }
-            }
-            }
-        }
-        }
-    }
-=======
 query allauthorQuery($author: String!) {
   allMarkdownRemark(
   sort: {frontmatter: {date: DESC}}
@@ -135,6 +84,5 @@ query allauthorQuery($author: String!) {
   }
 }
 
->>>>>>> 5ec1c145 (trying to upload)
 `
 export default Archive;

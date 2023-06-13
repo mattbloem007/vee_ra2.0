@@ -4,21 +4,12 @@ const path = require('path');
 const _ = require('lodash');
 
 
-<<<<<<< HEAD
-exports.onCreateNode = ({node , actions}) => {
-    const { createNodeField } = actions;
-    if (node.internal.type === 'MarkdownRemark') {
-        const slugFromTitle = slugify(node.frontmatter.title)
-        createNodeField({
-            node, 
-=======
 exports.onCreateNode = async ({node , actions, store, createNodeId, cache }) => {
     const { createNodeField, createNode } = actions;
     if (node.internal.type === 'MarkdownRemark') {
         const slugFromTitle = slugify(node.frontmatter.title)
         createNodeField({
             node,
->>>>>>> 5ec1c145 (trying to upload)
             name: 'slug',
             value: slugFromTitle,
         });
@@ -31,11 +22,7 @@ exports.onCreateNode = async ({node , actions, store, createNodeId, cache }) => 
             });
         }
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 5ec1c145 (trying to upload)
     if(node.internal.type === 'AuthorsJson'){
         createNodeField({
             node,
@@ -44,8 +31,6 @@ exports.onCreateNode = async ({node , actions, store, createNodeId, cache }) => 
         });
     }
 
-<<<<<<< HEAD
-=======
     if (node.internal.type !== "ChecProduct") {
       return
     }
@@ -69,7 +54,7 @@ exports.onCreateNode = async ({node , actions, store, createNodeId, cache }) => 
       node.localFile___NODE = fileNode.id
     }
 
->>>>>>> 5ec1c145 (trying to upload)
+
 }
 
 exports.createPages = ({actions, graphql}) => {
@@ -92,8 +77,6 @@ exports.createPages = ({actions, graphql}) => {
                 }
             }
 
-<<<<<<< HEAD
-=======
             allContentfulProjects {
               edges {
                 node {
@@ -101,8 +84,6 @@ exports.createPages = ({actions, graphql}) => {
                 }
               }
             }
-
->>>>>>> 5ec1c145 (trying to upload)
 
             allMarkdownRemark {
                 edges {
@@ -121,46 +102,25 @@ exports.createPages = ({actions, graphql}) => {
                     }
                 }
             }
-<<<<<<< HEAD
-            
-=======
-
->>>>>>> 5ec1c145 (trying to upload)
 
         }
     `).then( res => {
         if (res.errors) return Promise.reject(res.errors)
-<<<<<<< HEAD
-        const project = res.data.allProjectJson.edges
-=======
         const project = res.data.allContentfulProjects.edges
->>>>>>> 5ec1c145 (trying to upload)
         const posts = res.data.allMarkdownRemark.edges
 
          // Create Project Page
          project.forEach(({ node }) => {
             createPage({
-                // path: node.fields.slug,
-<<<<<<< HEAD
-                path: `project/${slugify(node.id)}`,
-                component: templates.projectDetails,
-                context: {
-                    id: node.id
-=======
                 path: `project/${slugify(node.name)}`,
                 component: templates.projectDetails,
                 context: {
                     name: node.name
->>>>>>> 5ec1c145 (trying to upload)
                 }
             })
         })
 
-<<<<<<< HEAD
-        // Create Single Blog Page 
-=======
-        // Create Single Blog Page
->>>>>>> 5ec1c145 (trying to upload)
+
         posts.forEach(({ node }) => {
             createPage({
                 path: `${slugify(node.fields.slug)}`,
@@ -171,19 +131,7 @@ exports.createPages = ({actions, graphql}) => {
             })
         })
 
-<<<<<<< HEAD
-        // Create Single Blog Page 
 
-        // Start Category Area 
-
-        // For get All Categiry Pages 
-=======
-        // Create Single Blog Page
-
-        // Start Category Area
-
-        // For get All Categiry Pages
->>>>>>> 5ec1c145 (trying to upload)
         let categories = []
         _.each(posts , edge => {
             if (_.get(edge , 'node.frontmatter.category')) {
@@ -198,34 +146,19 @@ exports.createPages = ({actions, graphql}) => {
         })
         categories = _.uniq(categories)
 
-<<<<<<< HEAD
-       
-=======
-
->>>>>>> 5ec1c145 (trying to upload)
         // Create Tag Posts Pages for indivedual Tag page
         categories.forEach(category => {
             createPage({
                 path: `/category/${slugify(category)}`,
                 component: templates.categoryPost,
                 context: {
-<<<<<<< HEAD
-                    category 
-=======
                     category
->>>>>>> 5ec1c145 (trying to upload)
                 }
             })
         })
         // End Category Area
 
 
-
-<<<<<<< HEAD
-        // Start Tags Pages 
-=======
-        // Start Tags Pages
->>>>>>> 5ec1c145 (trying to upload)
         let tags = []
         _.each(posts , edge => {
             if (_.get(edge , 'node.frontmatter.tags')) {
@@ -246,11 +179,6 @@ exports.createPages = ({actions, graphql}) => {
 
 
 
-<<<<<<< HEAD
-        // Start Create Authors Page 
-=======
-        // Start Create Authors Page
->>>>>>> 5ec1c145 (trying to upload)
         let authors = []
         _.each(posts, edge => {
             if(_.get(edge, 'node.fields.authorId')){
@@ -276,12 +204,3 @@ exports.createPages = ({actions, graphql}) => {
     })
 
 }
-<<<<<<< HEAD
-
-
-
-
-
-
-=======
->>>>>>> 5ec1c145 (trying to upload)

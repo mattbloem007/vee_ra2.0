@@ -31,11 +31,7 @@ const categoryPostList = ({data , pageContext}) => {
                         {categoryblogs.map((blog) => (
                         <Post column="col-lg-4 col-md-6 col-12" key={blog.node.fields.slug}
                                 content={{
-<<<<<<< HEAD
-                                    ...blog.node.fields, 
-=======
                                     ...blog.node.fields,
->>>>>>> 5ec1c145 (trying to upload)
                                     ...blog.node.frontmatter,
                                     excerpt: blog.node.excerpt
                                 }}
@@ -50,45 +46,6 @@ const categoryPostList = ({data , pageContext}) => {
 
 
 export const allCategoryQueryData = graphql`
-<<<<<<< HEAD
-    query allCategoryQuery ($category: String){
-        allMarkdownRemark (
-            sort: {fields: frontmatter___date, order: DESC}
-            filter: {frontmatter: {category: { in: [$category]}}}
-        ){
-        totalCount
-        edges {
-            node {
-            id
-            fields {
-                slug
-                authorId
-            }
-            excerpt
-            frontmatter {
-                author {
-                    name
-                }
-                title
-                tags
-                format
-                date(formatString: "MMM Do, YYYY")
-                category
-                image {
-                    childImageSharp {
-                        fluid(maxHeight: 300, maxWidth: 500, quality: 100, srcSetBreakpoints: 6) {
-                            ...GatsbyImageSharpFluid_withWebp
-                            presentationWidth
-                            presentationHeight
-                        }
-                    }
-                }
-            }
-            }
-        }
-        }
-    }
-=======
 query allCategoryQuery($category: String) {
 allMarkdownRemark(
 sort: {frontmatter: {date: DESC}}
@@ -128,13 +85,5 @@ srcSetBreakpoints: 6) {
 }
 }
 
->>>>>>> 5ec1c145 (trying to upload)
 `
-
-
-
-<<<<<<< HEAD
 export default categoryPostList;
-=======
-export default categoryPostList;
->>>>>>> 5ec1c145 (trying to upload)
