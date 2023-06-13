@@ -1,0 +1,27 @@
+{
+    "id": "project-03",
+    "title": "Ritual Roots",
+    "category": "Coffee Alternative",
+    "client": "Arloko Corp",
+    "imgesBY": "Draxler",
+    "year": "2009 - 2019",
+    "featured_image": "./images/products/rr.jpg",
+    "is_featured": true,
+    "body": [
+        "This is not your average hot choccie, no - this, my friend, is the Drink of Divinity Herself.", "We've created a potent blend of Cacao, medicinal mushrooms, and ashwagandha that makes it easeful to add this delicious food of the Gods to your daily ritual.",
+        "The Know-it-all", "Raw Cacao has been revered since the Time before time, and for good reason - this glorious bean boasts a range of mind, body, and soul-soothing benefits - from opening your heart and promoting cardiovascular health with its high magnesium content to inducing states of mental bliss, alleviating depression and boosting energy levels so you can write that novel, do that yoga and climb the proverbial or actual mountain!",
+        "Lions Mane truly is the mushroom of the lion-hearted - long touted as a bringer of courage. Be prepared to tackle those cobwebbed projects lurking in the shadows - this mushroom will illuminate them and eliminate any stagnation preventing you from achieving your dreams! Both neuroregenerative and neuroprotective, it is a powerful ally in keeping the brain in good working order. Adaptogenic and antioxidant, immune-boosting and cancer-fighting, there's honestly no excuse not to be raving about this magic mushroom all day, every day.",
+        "Reishi known in ancient Chinese medicine as the elixir of immortality, this queen of the forest is known for her anti-allergenic (recommend to all friends who claim cat allergies), anti-inflammatory, antiviral, antibacterial, and antioxidant properties. An amazing anti-stress mushroom, she promotes a state of calm and peacefulness to permeate your being through long-term use.",
+        "Ashwagandha is a powerful adaptogen whose name, translated from Sanskrit, means \"the smell and strength of a horse\" - hinting at its potential to enhance sexual vigour because we all know what studs horses can be! This heroic herb supports adrenal health, and soothes the nervous system - it truly is a potent rejuvenating tonic."
+    ],
+    "features": [
+        {
+            "id": "feature-1",
+            "image": "./images/products/rr.jpg"
+        },
+        {
+            "id": "feature-2",
+            "image": "./images/products/rr.jpg"
+        }
+    ]
+}

@@ -1,0 +1,152 @@
+[
+    {
+        "id": "main-banner",
+<<<<<<< HEAD
+        "title": "Bernard <span class='color-primary'>Sydney</span>",
+        "subtitle": "Creative Web & App Developer",
+=======
+        "title": "Vee <span class='color-primary'>Ra</span>",
+        "subtitle": "Decadent Botanical Blends",
+>>>>>>> 5ec1c145 (trying to upload)
+        "bgImage": "./images/banner/bg-image-02.jpg",
+        "image": "./images/banner/person-image.jpg"
+    },
+
+    {
+        "id": "about",
+        "title": "Vee/Ra",
+        "subtitle": "Decadent Botanical Blends",
+        "description": "We're a health and longevity brand dedicated to helping you cultivate inner harmony and vitality. Our decadent botanical blends are designed to support nervous system restoration, sustained energy, and overall well-being. We believe that daily ritual and connection with nature are key to a balanced, joyful life. 🌱",
+        "description2": "Cacao is a main plant ally in most of our products. The philosophy of Vee/Ra is born from the Embodiment teachings of Cacao. We honour and Devote our products to ixCacao, the spirit of the plant, Theobroma Cacao. Our Cacao Elixirs and botanical blends are delicious and natural ways to nourish your body and soul.",
+        "downloadButton": "Download CV",
+        "linkBUtton": "Send Message",
+        "aboutData": [
+            {
+                "id": "aboutinfo-1",
+                "iconName": "FiArrowRightCircle",
+                "label": "Birthday",
+                "value": "01.07.1990"
+            },
+            {
+                "id": "aboutinfo-2",
+                "iconName": "icon",
+                "label": "Age",
+                "value": "29"
+            },
+            {
+                "id": "aboutinfo-3",
+                "iconName": "icon",
+                "label": "Location",
+                "value": "Ave 11, New York, USA"
+            },
+            {
+                "id": "aboutinfo-3",
+                "iconName": "icon",
+                "label": "Interests",
+                "value": "PlayStation, Reading"
+            },
+            {
+                "id": "aboutinfo-3",
+                "iconName": "icon",
+                "label": "Study",
+                "value": "University of Chicago"
+            },
+            {
+                "id": "aboutinfo-4",
+                "iconName": "icon",
+                "label": "Degree",
+                "value": "Master"
+            },
+            {
+                "id": "aboutinfo-5",
+                "iconName": "icon",
+                "label": "Mail",
+                "value": "mymail@gmail.com"
+            },
+            {
+                "id": "aboutinfo-6",
+                "iconName": "icon",
+                "label": "Phone",
+                "value": "+77 022 177 05 05"
+            }
+        ]
+    },
+
+    {
+        "id": "skill",
+        "title": "In a <span class='theme-color'>short time</span>, I have been able to achieve excellence in all areas of development.",
+        "description": "I provide cost-effective and high quality products to meet our Clients’ needs of timely We provide cost-effective and high quality products to meet our Clients’ needs of timely."
+    },
+    {
+        "id": "portfolio",
+        "title": "Our Brews",
+        "description": "In other words, the best marketing decision you can make is to have a product or business that fulfills a real and compelling need for a real and defined group of people — no matter how much tweaking and refining this takes.(c)"
+    },
+    {
+        "id": "chooseus",
+        "imagegroup": [
+            {
+                "image": "./images/others/why-1.jpg"
+            },
+            {
+                "image": "./images/others/why-2.jpg"
+            }
+        ]
+
+    },
+
+    {
+        "id": "skillTwo",
+        "title": "My Skills in <span class='theme-color'>Years</span>",
+        "description": "When the past gets its teeth into our daily life, it may get to grips with an astringent reality and adjust our timeline. By recognizing ourselves in the light of our history, we become aware of what we are.(c)"
+    },
+    {
+        "id": "testimonial",
+        "title": "Steve Lehman",
+        "subtitle": "CEO of Hiday Motors.",
+        "description": "We were looking for a logo with a touch of modernism. Arlo grasped our needs and produced a stunning design. Awesome to work with Arlo. Incredibly organized, easy to communicate with, responsive with next iterations.",
+        "bgImage": "./images/banner/bg-image-03.jpg"
+    },
+    {
+        "id": "brand",
+        "brandGroup": [
+            {
+                "id": "brand-01",
+                "image": "./images/brand/1.png"
+            },
+            {
+                "id": "brand-02",
+                "image": "./images/brand/2.png"
+            },
+            {
+                "id": "brand-03",
+                "image": "./images/brand/3.png"
+            },
+            {
+                "id": "brand-04",
+                "image": "./images/brand/4.png"
+            },
+            {
+                "id": "brand-01",
+                "image": "./images/brand/5.png"
+            },
+            {
+                "id": "brand-02",
+                "image": "./images/brand/6.png"
+            },
+            {
+                "id": "brand-03",
+                "image": "./images/brand/3.png"
+            },
+            {
+                "id": "brand-04",
+                "image": "./images/brand/4.png"
+            }
+        ]
+    },
+    {
+        "id": "contactus",
+        "title": "Get in Touch",
+        "subtitle": "Crowds are the most difficult thing for me these days because I have to walk with my head down and my eyes averted. There's still that part of me that wants to hold my head up, make eye contact and smile. (c)"
+    }
+]
