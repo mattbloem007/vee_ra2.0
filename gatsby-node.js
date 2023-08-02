@@ -2,6 +2,7 @@
 const { slugify } = require('./src/utils/utilityFunctions');
 const path = require('path');
 const _ = require('lodash');
+const {createRemoteFileNode} = require('gatsby-source-filesystem');
 
 
 exports.onCreateNode = async ({node , actions, store, createNodeId, cache }) => {
@@ -65,6 +66,7 @@ exports.createPages = ({actions, graphql}) => {
         categoryPost: path.resolve('src/template/category-post.js'),
         tagPost: path.resolve('src/template/tag-template.js'),
         authorPage: path.resolve('src/template/archive.js'),
+        productPage: path.resolve('src/template/product.js'),
     }
 
     return graphql(`
@@ -81,6 +83,28 @@ exports.createPages = ({actions, graphql}) => {
               edges {
                 node {
                   name
+                }
+              }
+            }
+
+            allContentfulBlogPost {
+              edges {
+                node {
+                  title
+                  slug
+                }
+              }
+            }
+
+            allChecProduct {
+              edges {
+                node {
+                  id
+                  permalink
+                  name
+                  image {
+                    url
+                  }
                 }
               }
             }
@@ -107,7 +131,9 @@ exports.createPages = ({actions, graphql}) => {
     `).then( res => {
         if (res.errors) return Promise.reject(res.errors)
         const project = res.data.allContentfulProjects.edges
+        const blogposts = res.data.allContentfulBlogPost.edges
         const posts = res.data.allMarkdownRemark.edges
+        const products = res.data.allChecProduct.edges
 
          // Create Project Page
          project.forEach(({ node }) => {
@@ -119,6 +145,16 @@ exports.createPages = ({actions, graphql}) => {
                 }
             })
         })
+
+        blogposts.forEach(({ node }) => {
+           createPage({
+               path: `news/${slugify(node.slug)}`,
+               component: templates.blogDetails,
+               context: {
+                   slug: node.slug
+               }
+           })
+       })
 
 
         posts.forEach(({ node }) => {
@@ -196,6 +232,19 @@ exports.createPages = ({actions, graphql}) => {
             })
         })
         // End Create Authors Page
+
+        products.forEach(product => {
+          let urlString = product.node.image.url.split("|")
+          let url = urlString[0] + "%7C" + urlString[1]
+            createPage({
+                path: `/store/${product.node.permalink}`,
+                component: templates.productPage,
+                context: {
+                    id: product.node.id,
+                    url,
+                }
+            })
+        })
 
 
 

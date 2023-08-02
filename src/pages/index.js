@@ -12,19 +12,19 @@ import Contact from "../elements/contact/contact";
 import IntroVideo from "../components/homedefault/introVideo"
 
 const IndexPage = () => (
-  <Layout>
+  <>
     <SEO title="Vee/Ra Decadent Botanical Blends" />
     <BannerParticles />
     <IntroVideo />
-    <About />
+    <Project />
     {/**<Service />*/}
     <div className="portfolio-id" id="portfolio">
-      <Project />
+      <About />
       {/**<Brand />*/}
-      <Testimonial />
+      {/**<Testimonial />*/}
     </div>
     <BlogPost />
     <Contact />
-  </Layout>
+  </>
 )
 export default IndexPage;

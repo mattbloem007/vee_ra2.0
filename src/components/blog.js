@@ -2,23 +2,24 @@ import React from 'react';
 import { Link } from "gatsby";
 import { slugify } from "../utils/utilityFunctions";
 import Image from "../elements/image";
+import {GatsbyImage} from 'gatsby-plugin-image'
 
 const Blog = ({ title, date, author, path, image, excerpt, category }) => {
     return (
         <div className="content-block">
             <div className="post-thubnail">
-                {image && 
-                    <Link to={`/${path}`}>
-                        <Image fluid={image} alt={title}/>
-                    </Link>  
+                {image &&
+                    <Link to={`/news/${path}`}>
+                      <GatsbyImage image={image} alt={title}/>
+                    </Link>
                 }
             </div>
-            
+
             <div className="post-content">
                 <div className="blog-meta">
                     {date && <span className="date">{date}</span>}
                     {author &&
-                        <span className="author">By 
+                        <span className="author">By
                             <Link className="author-name" to={`/author/${slugify(author)}`}>
                                 {author}
                             </Link>
@@ -36,7 +37,7 @@ const Blog = ({ title, date, author, path, image, excerpt, category }) => {
                 {excerpt && <p className="description">{excerpt}</p>}
                 <div className="read-more">
                     <Link to={`/${path}`}>
-                        <span>Read More</span>   
+                        <span>Read More</span>
                     </Link>
                 </div>
             </div>

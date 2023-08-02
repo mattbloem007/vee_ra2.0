@@ -16,7 +16,13 @@ module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-netlify`,
-
+    {
+      resolve: `gatsby-source-open-exchange-rates`,
+      options: {
+        appId: process.env.OPEN_EXCHANGE_RATES_APP_ID,
+        base: "ZAR"
+      }
+    },
     {
       resolve: `gatsby-source-contentful`,
       options: {
@@ -31,6 +37,13 @@ module.exports = {
       options: {
         name: `images`,
         path: `${__dirname}/src/assets/images/`,
+      },
+    },
+    {
+      resolve: "@chec/gatsby-source-chec",
+      options: {
+        publicKey: process.env.NEXT_PUBLIC_CHEC_PUBLIC_KEY,
+        //downloadImageAssets: true,
       },
     },
     // {

@@ -9,7 +9,7 @@
 **********************************************************************************/
 
 /**************************************************************
-	
+
 	STYLESHEET INDEXING
 	|
 	|
@@ -27,8 +27,8 @@
 	|
 	|
 	|___Blocks Styles
-	|	|___ Header 
-	|	|___ Navigation 
+	|	|___ Header
+	|	|___ Navigation
 	|	|___ Banner
 	|	|___ Footer
 	|
@@ -38,7 +38,7 @@
 ***************************************************************/
 
 
-// Bootstrap Scss 
+// Bootstrap Scss
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
 
 
@@ -47,6 +47,7 @@
 ***************************************/
 @import 'default/variables';
 @import 'default/mixins';
+@import 'default/base';
 @import 'default/reset';
 @import 'default/typography';
 @import 'default/extend';
@@ -83,6 +84,9 @@
 @import 'elements/backtotop';
 @import 'elements/contact';
 @import 'elements/bannervariation';
+@import "elements/cart";
+@import "elements/nav";
+@import "elements/checkout";
 
 
 /**************************************

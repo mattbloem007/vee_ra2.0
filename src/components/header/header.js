@@ -4,10 +4,14 @@ import {useStaticQuery, graphql , Link} from 'gatsby';
 import Img from "gatsby-image";
 import Scrollspy from 'react-scrollspy';
 import { GatsbyImage } from "gatsby-plugin-image"
+import { CircleSpinner } from "react-spinners-kit";
+import CartNav from './cartnav'
+
 
 // Start Header Area
-const Header = () => {
+const Header = (props) => {
 
+    let {cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart, isCartVisible, setCartVisible} = props
 
     const headerQuery = useStaticQuery(graphql`
         query headerQuery {
@@ -58,43 +62,67 @@ const Header = () => {
                                 <div className="menu_wrapper">
                                     <Scrollspy className="mainmenuwrapper" items={['home','about', 'products',  'news' , 'contact']} currentClassName="is-current" offset={-200}>
                                         <li>
-                                            <a className="menu-hover-link" href="/#home">
+                                            <Link className="menu-hover-link" to="/#home">
                                                 <span className="hover-item">
                                                     <span data-text="Home">Home</span>
                                                 </span>
-                                            </a>
+                                            </Link>
                                         </li>
 
                                         <li>
-                                            <a className="menu-hover-link" href="/#about">
+                                            <Link className="menu-hover-link" to="/#about">
                                                 <span className="hover-item">
                                                     <span data-text="About">About</span>
                                                 </span>
-                                            </a>
+                                            </Link>
                                         </li>
 
                                         <li>
-                                            <a className="menu-hover-link" href="/#products">
+                                            <Link className="menu-hover-link" to="/#products">
                                                 <span className="hover-item">
                                                     <span data-text="Our Brews">Our Brews</span>
                                                 </span>
-                                            </a>
+                                            </Link>
                                         </li>
 
                                         <li>
-                                            <a className="menu-hover-link" href="/#news">
+                                            <Link className="menu-hover-link" to="/#news">
                                                 <span className="hover-item">
                                                     <span data-text="News">News</span>
                                                 </span>
-                                            </a>
+                                            </Link>
                                         </li>
 
                                         <li>
-                                            <a className="menu-hover-link" href="/#contact">
+                                            <Link className="menu-hover-link" to="/store">
+                                                <span className="hover-item">
+                                                    <span data-text="Store">Store</span>
+                                                </span>
+                                            </Link>
+                                        </li>
+
+                                        <li>
+                                            <Link className="menu-hover-link" to="/#contact">
                                                 <span className="hover-item">
                                                     <span data-text="Contact">Contact</span>
                                                 </span>
-                                            </a>
+                                            </Link>
+                                        </li>
+
+                                        <li>
+                                          {cart && Object.entries(cart).length == 0 ?
+                                            <CircleSpinner color="#A78035" size={30} loading={true} />
+                                            :
+                                            <CartNav
+                                              cart={cart}
+                                              onUpdateCartQty={onUpdateCartQty}
+                                              onRemoveFromCart={onRemoveFromCart}
+                                              onEmptyCart={onEmptyCart}
+                                              scroll={scroll}
+                                              isCartVisible={isCartVisible}
+                                              setCartVisible={setCartVisible}
+                                              />
+                                            }
                                         </li>
 
                                     </Scrollspy>

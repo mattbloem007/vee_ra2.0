@@ -10,7 +10,7 @@ const categoryPostList = ({data , pageContext}) => {
     const pageHeader = `${totalCount} post${(totalCount === 1) ? '':'s'} category with <span class="theme-color">${category}</span>`;
 
     return (
-        <Layout>
+        <>
             <div className="rn-category-post rn-section-gapBottom pt--90 bg-color-white">
                 <div className="container">
                     <div className="row">
@@ -40,7 +40,7 @@ const categoryPostList = ({data , pageContext}) => {
                     </div>
                 </div>
             </div>
-        </Layout>
+        </>
     )
 }
 
