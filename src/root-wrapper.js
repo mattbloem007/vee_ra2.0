@@ -7,8 +7,10 @@ import { navigate } from "gatsby"
 const VeeRa = (props) => {
   const [cart, setCart] = useState({});
   const [order, setOrder] = useState({});
+  const [variants, setVariants] = useState({product: "", variant: {}})
   const [isCartVisible, setCartVisible] = useState(false);
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+  const [productsHas, setProductsHas] = useState([]);
 
 //  const [product, setProduct] = useState({});
   console.log("PROPS", props)
@@ -17,6 +19,15 @@ const VeeRa = (props) => {
       setCart(cart);
     }).catch((error) => {
       console.log('There was an error fetching the cart', error);
+    });
+  }
+
+  const fetchVariants = (productId) => {
+  commerce.products.getVariants(productId).then((variant) => {
+      setVariants({product: productId, variant: variant});
+      console.log("Variants: ", variant)
+    }).catch((error) => {
+      console.log('There was an error fetching the variants', error);
     });
   }
 
@@ -35,14 +46,25 @@ const VeeRa = (props) => {
 
   const fetchProduct = (productId) => {
     commerce.products.retrieve(productId)
-    .then(product => returnProduct(product.assets))
+    .then(product => setProductsHas(product.has))
   }
 
 
-
-  const handleAddToCart = (productId, quantity) => {
-    commerce.cart.add(productId, quantity).then((item) => {
-      setCart(item.cart);
+  const handleAddToCart = (has, productId, quantity, variantID) => {
+    commerce.cart.add(productId, quantity, variantID).then((item) => {
+      console.log("cart", item)
+      setProductsHas([...productsHas, has])
+      // let info;
+      // if(typeof window !== 'undefined') {
+      //   info = window.sessionStorage.getItem("productHas")
+      // }
+      let existingHas = JSON.parse(typeof window !== 'undefined' && window.sessionStorage.getItem("productHas"))
+      if (existingHas == null) {
+        existingHas = []
+      }
+      existingHas.push(has)
+      typeof window !== 'undefined' && window.sessionStorage.setItem("productHas", JSON.stringify(existingHas))
+      setCart(item);
     }).catch((error) => {
       console.error('There was an error adding the item to the cart', error);
     });
@@ -50,7 +72,7 @@ const VeeRa = (props) => {
 
   const handleUpdateCartQty = (lineItemId, quantity) => {
     commerce.cart.update(lineItemId, { quantity }).then((resp) => {
-      setCart(resp.cart);
+      setCart(resp);
     }).catch((error) => {
       console.log('There was an error updating the cart items', error);
     });
@@ -58,15 +80,16 @@ const VeeRa = (props) => {
 
   const handleRemoveFromCart = (lineItemId) => {
     commerce.cart.remove(lineItemId).then((resp) => {
-      setCart(resp.cart);
+      setCart(resp);
     }).catch((error) => {
       console.error('There was an error removing the item from the cart', error);
     });
   }
 
   const handleEmptyCart = () => {
+    sessionStorage.clear();
     commerce.cart.empty().then((resp) => {
-      setCart(resp.cart);
+      setCart(resp);
     }).catch((error) => {
       console.error('There was an error emptying the cart', error);
     });
@@ -81,7 +104,7 @@ const VeeRa = (props) => {
   };
 
   const handleCaptureCheckout = (checkoutTokenId, newOrder) => {
-    console.log("NEW ORDER", newOrder)
+    console.log("NEW ORDER", newOrder, checkoutTokenId)
     commerce.checkout.capture(checkoutTokenId, newOrder).then((ord) => {
       // Save the order into state
       console.log("ORDER", ord)
@@ -126,7 +149,10 @@ const VeeRa = (props) => {
       isCartVisible: isCartVisible,
       setCartVisible: setCartVisibility,
       isOverlayOpen: isOverlayOpen,
-      setOverlay: setOverlay
+      setOverlay: setOverlay,
+      onFetchVariants: fetchVariants,
+      variants: variants,
+      productsHas: productsHas
     })
   );
 
@@ -134,6 +160,7 @@ const VeeRa = (props) => {
       <div>
         <Layout
           cart={cart}
+          productsHas={productsHas}
           onUpdateCartQty={handleUpdateCartQty}
           onRemoveFromCart={handleRemoveFromCart}
           onEmptyCart={handleEmptyCart}

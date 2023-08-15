@@ -151,6 +151,7 @@ const Checkout = (props) => {
                   onCaptureCheckout={props.onCaptureCheckout}
                   cart={props.cart}
                   data={props.data}
+                  productsHas={props.productsHas}
     />
   );
 }

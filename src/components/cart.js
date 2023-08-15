@@ -23,7 +23,7 @@ const Cart = (props) => {
       }
 
       return (
-        <p>
+        <p style={{color: "white"}}>
           You have no items in your shopping cart, start adding some!
         </p>
       );
@@ -58,8 +58,8 @@ const Cart = (props) => {
     if (cart) {
       return(
         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: "33px"}}>
-          <p>Subtotal:</p>
-          <p style={{fontWeight: "bold"}}>{cart.subtotal.formatted_with_symbol}</p>
+          <p style={{color: "#eee"}}>Subtotal:</p>
+          <p style={{fontWeight: "bold", color: "#eee"}}>{cart.subtotal.formatted_with_symbol}</p>
         </div>
       );
     }
@@ -69,10 +69,10 @@ const Cart = (props) => {
 
   }
     return (
-      <div className="cartContainer" style={{background: "#000000", paddingTop: "20px", borderRadius: "20px"}}>
+      <div className="cartContainer" style={{background: "#A78035", paddingTop: "20px", borderRadius: "20px"}}>
           <div className="col-lg-12">
-              <div className="page-top">
-                  <h1 className="title_holder">Your Shopping Cart</h1>
+              <div className="page-top" style={{textAlign: "center"}}>
+                  <h1 className="title_holder" style={{color: "#eee"}}>Your Shopping Cart</h1>
               </div>
           </div>
           { renderEmptyMessage() }
