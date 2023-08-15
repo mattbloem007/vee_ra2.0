@@ -9,13 +9,13 @@ import Service from "../components/homedefault/service";
 import Brand from "../components/homedefault/brand";
 import BlogPost from "../components/blogPost";
 import Contact from "../elements/contact/contact";
-import IntroVideo from "../components/homedefault/introVideo"
+//import IntroVideo from "../components/homedefault/introVideo"
 
 const IndexPage = () => (
   <>
     <SEO title="Vee/Ra Decadent Botanical Blends" />
     <BannerParticles />
-    <IntroVideo />
+    {/**<IntroVideo />*/}
     <Project />
     {/**<Service />*/}
     <div className="portfolio-id" id="portfolio">
