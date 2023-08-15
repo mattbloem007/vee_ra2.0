@@ -31,7 +31,7 @@ const options = {
 }
 
 const BlogDetails = ({data, pageContext}) => {
-
+  console.log("data blog", data)
     return (
         <>
             <div className="blog-details-wrapper rn-section-gap bg-color-white">
@@ -39,7 +39,7 @@ const BlogDetails = ({data, pageContext}) => {
                     <div className="row">
                         <div className="col-lg-8 offset-lg-2">
                             <div className="post-image" style={{display: "flex", justifyContent: "center"}}>
-                                <GatsbyImage image={data.contentfulBlogPost.image.fixed} alt={data.contentfulBlogPost.title}/>
+                                {data.contentfulBlogPost.image && <GatsbyImage image={data.contentfulBlogPost.image.fixed} alt={data.contentfulBlogPost.title}/>}
                             </div>
                             <div className="post-single-title">
                                 <h1 className="post-title">{data.contentfulBlogPost.title}</h1>

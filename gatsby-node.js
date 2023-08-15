@@ -132,7 +132,7 @@ exports.createPages = ({actions, graphql}) => {
         if (res.errors) return Promise.reject(res.errors)
         const project = res.data.allContentfulProjects.edges
         const blogposts = res.data.allContentfulBlogPost.edges
-        const posts = res.data.allMarkdownRemark.edges
+      //  const posts = res.data.allMarkdownRemark.edges
         const products = res.data.allChecProduct.edges
 
          // Create Project Page
@@ -157,15 +157,15 @@ exports.createPages = ({actions, graphql}) => {
        })
 
 
-        posts.forEach(({ node }) => {
-            createPage({
-                path: `${slugify(node.fields.slug)}`,
-                component: templates.blogDetails,
-                context: {
-                    slug: node.fields.slug
-                }
-            })
-        })
+        // posts.forEach(({ node }) => {
+        //     createPage({
+        //         path: `${slugify(node.fields.slug)}`,
+        //         component: templates.blogDetails,
+        //         context: {
+        //             slug: node.fields.slug
+        //         }
+        //     })
+        // })
 
 
         let categories = []
