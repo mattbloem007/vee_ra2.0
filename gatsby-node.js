@@ -168,30 +168,30 @@ exports.createPages = ({actions, graphql}) => {
         // })
 
 
-        let categories = []
-        _.each(posts , edge => {
-            if (_.get(edge , 'node.frontmatter.category')) {
-                categories = categories.concat(edge.node.frontmatter.category)
-            }
-        })
-
-        // [design , code]
-        let categoryPostCounts = {}
-        categories.forEach( category => {
-            categoryPostCounts[category] = (categoryPostCounts[category] || 0) + 1
-        })
-        categories = _.uniq(categories)
-
-        // Create Tag Posts Pages for indivedual Tag page
-        categories.forEach(category => {
-            createPage({
-                path: `/category/${slugify(category)}`,
-                component: templates.categoryPost,
-                context: {
-                    category
-                }
-            })
-        })
+        // let categories = []
+        // _.each(posts , edge => {
+        //     if (_.get(edge , 'node.frontmatter.category')) {
+        //         categories = categories.concat(edge.node.frontmatter.category)
+        //     }
+        // })
+        //
+        // // [design , code]
+        // let categoryPostCounts = {}
+        // categories.forEach( category => {
+        //     categoryPostCounts[category] = (categoryPostCounts[category] || 0) + 1
+        // })
+        // categories = _.uniq(categories)
+        //
+        // // Create Tag Posts Pages for indivedual Tag page
+        // categories.forEach(category => {
+        //     createPage({
+        //         path: `/category/${slugify(category)}`,
+        //         component: templates.categoryPost,
+        //         context: {
+        //             category
+        //         }
+        //     })
+        // })
         // End Category Area
 
 
