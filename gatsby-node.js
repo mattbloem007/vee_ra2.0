@@ -42,7 +42,7 @@ exports.onCreateNode = async ({node , actions, store, createNodeId, cache }) => 
     let urlString = node.image.url.split("|")
     let url = urlString[0] + "%7C" + urlString[1]
     const fileNode = await createRemoteFileNode({
-      url: url,
+      url,
       store,
       cache,
       createNode,

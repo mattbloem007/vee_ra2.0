@@ -122,7 +122,7 @@ const Product = (props) => {
 
 
 export const allCategoryQueryData = graphql`
-    query oneProductQuery ($id: String!, $url: String!) {
+    query oneProductQuery ($id: String!) {
       checProduct(id: {eq: $id}) {
         id
         description
@@ -142,21 +142,21 @@ export const allCategoryQueryData = graphql`
         }
       }
 
-      file(url: {eq: $url}) {
-        name
-        url
-        childImageSharp {
-          fluid(maxWidth: 374, maxHeight: 374, quality: 100) {
-            ...GatsbyImageSharpFluid_withWebp
-            presentationWidth
-            presentationHeight
-          }
-          id
-        }
-      }
+
     }
 `
 
-
+// file(url: {eq: $url}) {
+//   name
+//   url
+//   childImageSharp {
+//     fluid(maxWidth: 374, maxHeight: 374, quality: 100) {
+//       ...GatsbyImageSharpFluid_withWebp
+//       presentationWidth
+//       presentationHeight
+//     }
+//     id
+//   }
+// }
 
 export default Product;

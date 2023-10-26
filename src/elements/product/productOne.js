@@ -54,6 +54,7 @@ const ProductOne = () => {
               let url = urlString[0] + "%7C" + urlString[1]
               let fluidImage = null
               filesData.map(file => {
+                console.log("FILE URL", file.node.url)
                 if (file.node.url) {
                   if (file.node.url == url) {
                     fluidImage = file
