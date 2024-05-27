@@ -1,5 +1,5 @@
 /*----------------------
-    Blog List Area  
+    Blog List Area
 ------------------------*/
 
 .rn-post-area {
@@ -11,8 +11,8 @@
                     position: absolute;
                     left: 0;
                     top: 0;
-                    font-family: montserrat;
-                    color: transparent;
+                    color: var(--color-primary);
+                    font-family: var(--font-secondary);
                     font-size: 150px;
                     font-weight: 900;
                     opacity: .1;
@@ -165,7 +165,7 @@
         }
         &.category {
             a {
-                color: var(--color-primary);
+                color: #F9F0DF;
             }
         }
     }
@@ -188,22 +188,3 @@ ul {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

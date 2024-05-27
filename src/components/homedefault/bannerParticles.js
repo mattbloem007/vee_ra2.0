@@ -4,7 +4,7 @@ import Img from "gatsby-image";
 import { Controller, Scene } from 'react-scrollmagic';
 import Particles from "react-tsparticles";
 import { GatsbyImage } from "gatsby-plugin-image"
-
+import Background from '../../data/images/others/cups-display.jpeg'
 
 const BannerParticles = () => {
     const banenrQueryData = useStaticQuery (graphql`
@@ -22,7 +22,7 @@ const BannerParticles = () => {
                     }
                 }
             },
-            file(relativePath: {eq: "images/Final Logo PNGs/Gold/Ra Logo-29.png"}) {
+            file(relativePath: {eq: "images/Final-Logo-PNGs/Gold/Ra-Logo-29.png"}) {
               childImageSharp {
                 gatsbyImageData(width: 1250)
               }
@@ -42,15 +42,11 @@ const BannerParticles = () => {
 
             </div>
             {/* End Single Slider  */}
-            <div className="thumbnail">
+            <div className="thumbnail" style={{backgroundImage: `url(${Background})`}}>
                 <div className="trigger" id="trigger" />
-                <Controller>
-                    <Scene classToggle="animated" triggerElement="#trigger" triggerHook="onCenter">
-                        <div className="thumbnail-inner rn_surface story-image">
+                        <div className="thumbnail-inner rn_surface story-image" style={{backgroundColor: "rgba(0, 0, 0, 0.3)"}}>
                             <GatsbyImage className="portfolio-images" image={PortfolioImages} />
                         </div>
-                    </Scene>
-                </Controller>
                 <Particles className="particle"
                     options={{
                         style:{

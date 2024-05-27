@@ -1,5 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500;800&display=swap');
 
+@font-face {
+   font-family: 'Bodoni';
+   src: url("Bodoni 72 Smallcaps Book.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: 'Atlane Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('Atlane-Regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Minion';
+    src: url('Minion-Variable-Concept.otf') format("opentype");
+}
 /*-- Variables --*/
 :root {
     //Themes colors
@@ -8,8 +24,8 @@
     --color-tertiary: #050505;
 
     // Typo Color
-    --color-heading: #000000;
-    --color-body: #333333;
+    --color-heading: #8D6D2A;
+    --color-body: #421B1A;
 
     // Gery Colors
     --color-gray: #65676B;
@@ -81,9 +97,9 @@
 
 
     //Font Family
-    --font-primary: 'Fira Sans', sans-serif;
-    --font-secondary: 'Fira Sans', sans-serif;
-    --font-tertiary: 'Kaushan Script', cursive;
+    --font-primary: 'Minion', sans-serif;
+    --font-secondary: 'Bodoni', sans-serif;
+    --font-tertiary: 'Atlane Regular', sans-serif;
     --font-extra1: 'Rubik', sans-serif;
     --font-extra2: 'Lora', serif;
     --font-awesome: 'Font Awesome 5 Pro';

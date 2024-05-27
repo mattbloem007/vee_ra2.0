@@ -15,7 +15,7 @@ const About = ( ) => {
                 linkBUtton
 
             },
-            file(relativePath: {eq: "images/Final Logo PNGs/Black/Ra Logo-22.png"}) {
+            file(relativePath: {eq: "images/Final-Logo-PNGs/Black/Ra Logo-22.png"}) {
                 childImageSharp {
                   fixed (quality: 100, width: 518, height: 480) {
                     ...GatsbyImageSharpFixed
@@ -35,7 +35,7 @@ const About = ( ) => {
 
 
     return (
-        <div className="rb-about-area about-style rn-section-gap bg-color-white" id="about">
+        <div className="rb-about-area about-style rn-section-gap bg-color-cream" id="about">
             <div className="container">
                 <div className="row row--45 align-items-center">
                     <div className="col-lg-5">

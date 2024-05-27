@@ -206,7 +206,6 @@ p {
 	font-size: var(--font-size-b2);
 	line-height: var(--line-height-b2);
 	font-weight: var(--p-regular);
-	color: var(--color-body);
 	margin: 0 0 24px;
 	&:last-child {
 		margin-bottom: 0 !important;
@@ -257,7 +256,7 @@ var {
 }
 
 /*---------------------------
-	List Style 
+	List Style
 ---------------------------*/
 ul,
 ol {

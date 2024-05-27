@@ -9,6 +9,7 @@ import Service from "../components/homedefault/service";
 import Brand from "../components/homedefault/brand";
 import BlogPost from "../components/blogPost";
 import Contact from "../elements/contact/contact";
+import WhyVeera from "../components/homedefault/whyVeera"
 //import IntroVideo from "../components/homedefault/introVideo"
 
 const IndexPage = () => (
@@ -20,6 +21,7 @@ const IndexPage = () => (
     {/**<Service />*/}
     <div className="portfolio-id" id="portfolio">
       <About />
+      <WhyVeera />
       {/**<Brand />*/}
       {/**<Testimonial />*/}
     </div>

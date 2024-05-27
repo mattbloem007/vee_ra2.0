@@ -1,5 +1,5 @@
 /*-----------------------
-    Header Scss  
+    Header Scss
 ------------------------*/
 
 .rn-header {
@@ -64,7 +64,7 @@
                                 transition: all .3s ease;
                             }
                             span {
-    
+
                             }
                             &:last-child {
                                 &::before {
@@ -84,7 +84,8 @@
         width: auto;
         z-index: 99;
         position: fixed;
-        
+        background-color: rgba(249, 240, 223, 0.5)
+
     }
 
 }
@@ -110,8 +111,8 @@
             padding: 30px;
         }
     }
-    &.scrolled{ 
-        background-color: #fff;
+    &.scrolled{
+        background-color: rgba(249, 240, 223, 1);
         box-shadow: 0 0 10px rgba(0,0,0,.06);
         .header-inner {
             padding: 15px 0;
@@ -147,7 +148,7 @@
 }
 
 /*------------------------
-    Hambergur Menu  
+    Hambergur Menu
 -------------------------*/
 
 .hambergur-menu {
@@ -158,7 +159,7 @@
         display: inline-block;
         position: relative;
         cursor: pointer;
-        
+
         .hamburger-inner,
         .hamburger-inner::after,
         .hamburger-inner::before {
@@ -211,4 +212,3 @@
         }
     }
 }
-

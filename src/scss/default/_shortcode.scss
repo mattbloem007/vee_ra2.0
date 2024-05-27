@@ -105,7 +105,10 @@ font-family: 'Mulish', sans-serif;
     'black'#000,
     'white'#FFFFFF,
     'grey'#f8f9fa,
-    'extra05'var(--color-extra05)
+    'extra05'var(--color-extra05),
+    'cream'#F9F0DF,
+    'red'#421B1A,
+    'green'#666342,
 
 
 );
@@ -328,7 +331,7 @@ Custom Row
 
     // Responsive
     @media #{$laptop-device} {
-        margin-left: -15px;
+        margin-left: 50px;
         margin-right: -15px;
     }
 

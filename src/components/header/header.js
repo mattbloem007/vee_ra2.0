@@ -21,7 +21,7 @@ const Header = (props) => {
                     path
                 }
             },
-            file(relativePath: {eq: "images/Final Logo PNGs/Gold/Ra Logo-28.png"}) {
+            file(relativePath: {eq: "images/Final-Logo-PNGs/Gold/Ra-Logo-28.png"}) {
                 childImageSharp {
                     gatsbyImageData(width: 150)
                 }
@@ -40,7 +40,7 @@ const Header = (props) => {
 
     return (
         <Fragment>
-            <header className={scroll ? "rn-header header-default header-transparent scrolled d-none d-xl-block" : "rn-header header-default header-transparent d-none d-xl-block"}>
+            <header className={scroll ? "rn-header header-default header-transparent scrolled d-none d-xl-block" : "rn-header header-default header-transparent d-none d-xl-block" }>  {/*scroll? "rn-header header-default header-transparent scrolled d-none d-xl-block" : "rn-header header-default header-transparent d-none d-xl-block"*/}
                 <div className="header-inner">
                     <div className="container">
                         <div className="row align-items-center">
@@ -94,11 +94,11 @@ const Header = (props) => {
                                         </li>
 
                                         <li>
-                                            <Link className="menu-hover-link" to="/store">
+                                            <a className="menu-hover-link" target="_blank" href="https://mygembox.co.za/collections/botanical-blends-1">
                                                 <span className="hover-item">
                                                     <span data-text="Store">Store</span>
                                                 </span>
-                                            </Link>
+                                            </a>
                                         </li>
 
                                         <li>
@@ -109,7 +109,7 @@ const Header = (props) => {
                                             </Link>
                                         </li>
 
-                                        <li>
+                                        {/**<li>
                                           {cart && Object.entries(cart).length == 0 ?
                                             <CircleSpinner color="#A78035" size={30} loading={true} />
                                             :
@@ -123,7 +123,7 @@ const Header = (props) => {
                                               setCartVisible={setCartVisible}
                                               />
                                             }
-                                        </li>
+                                        </li>*/}
 
                                     </Scrollspy>
                                 </div>

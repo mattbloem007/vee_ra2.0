@@ -1,5 +1,5 @@
 /*----------------------
-About Styles  
+About Styles
 -----------------------*/
 
 .about-style {
@@ -22,8 +22,9 @@ About Styles
             text-transform: uppercase;
             font-weight: 900;
             font-size: 35px;
+            font-family: var(--font-secondary);
             position: relative;
-            color: #000;
+            color: #8D6D2A;
             line-height: 1.4;
             @media #{$sm-layout} {
                 font-size: 26px;
@@ -60,18 +61,17 @@ About Styles
             font-size: 15px;
             line-height: 2.1;
             letter-spacing: .8px;
-            color: #333;
+            color: #421B1A;
         }
 
         .description {
             margin-bottom: 12px;
-            font-size: 15px;
+            font-size: 20px;
             line-height: 2.1;
             letter-spacing: .8px;
             font-weight: 400;
-            color: #333;
+            color: #421B1A;
             padding-right: 14%;
-            font-family: 'Mulish', sans-serif;
             @media #{$sm-layout} {
                 padding-right: 0;
             }
@@ -81,7 +81,7 @@ About Styles
             &.aboutdata-list {
                 margin-top: 36px;
                 li {
-                   
+
                     .icon {
 
                     }
@@ -118,6 +118,3 @@ About Styles
         }
     }
 }
-
-
-

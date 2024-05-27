@@ -1,5 +1,5 @@
 /* ----------------------
-Contact Styles  
+Contact Styles
 ------------------------*/
 .rn-contact-area {
     .section-title {
@@ -12,6 +12,7 @@ Contact Styles
                     color: transparent;
                     font-size: 150px;
                     font-weight: 900;
+                    font-family: var(--font-secondary);
                     opacity: .1;
                     line-height: 0;
                     -webkit-text-stroke: 1px #000;
@@ -152,7 +153,7 @@ Contact Styles
 }
 
 /*--------------------------
-    Contact Area Styles  
+    Contact Area Styles
 ----------------------------*/
 
 .rn-contact-area {

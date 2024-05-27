@@ -1,6 +1,5 @@
 import React from 'react';
 import {useStaticQuery, graphql} from 'gatsby';
-import Video from '../../data/videos/pexels-michael-burrows-7118151-3840x2160-50fps.mp4';
 
 const IntroVideo = () => {
   const videoData = useStaticQuery (graphql`
