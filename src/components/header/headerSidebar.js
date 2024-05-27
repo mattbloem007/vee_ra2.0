@@ -4,7 +4,7 @@ import {useStaticQuery, graphql , Link} from 'gatsby';
 import Img from "gatsby-image";
 import Scrollspy from 'react-scrollspy';
 
-// Start Header Area 
+// Start Header Area
 const HeaderNoSidebar = () => {
     const headerQuerySidebar = useStaticQuery(graphql`
         query headerQuerySidebarQuery {
@@ -14,7 +14,7 @@ const HeaderNoSidebar = () => {
                     path
                 }
             },
-            file(relativePath: {eq: "images/logo/logo.png"}) {
+            file(relativePath: {eq: "images/Final-Logo-PNGs/Gold/Ra-Logo-28.png"}) {
                 childImageSharp {
                     fixed (quality: 100, width: 70, height: 35) {
                         ...GatsbyImageSharpFixed
@@ -48,7 +48,7 @@ const HeaderNoSidebar = () => {
         })
     }, []);
 
-    const waxonLogo = headerQuerySidebar.file.childImageSharp.fixed;
+    const veeraLogo = headerQuerySidebar.file.childImageSharp.fixed;
 
     return (
         <Fragment>
@@ -58,7 +58,7 @@ const HeaderNoSidebar = () => {
                     <div className="header-left">
                         <div className="logo">
                             <Link to="/">
-                                <Img fixed={waxonLogo}  />
+                                <Img fixed={veeraLogo}  />
                             </Link>
                         </div>
                     </div>
@@ -67,7 +67,7 @@ const HeaderNoSidebar = () => {
                         <div className="hambergur-menu">
                             <div className="hamburger-box">
                                 <div className="hamburger-inner">
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -78,7 +78,7 @@ const HeaderNoSidebar = () => {
             <div className="trigger-popup-menu">
                 <div className="menu_full">
                     <div className="menu_wrapper">
-                        <Scrollspy className="popup_mainmenu" items={['home','about', 'portfolio' , 'news' , 'contact']} currentClassName="is-current" offset={-200}>
+                        <Scrollspy className="popup_mainmenu" items={['home','about', 'products' , 'news' , 'contact']} currentClassName="is-current" offset={-200}>
                             <li>
                                 <a className="menu-hover-link" href="/#home" onClick={onMenuToggleClick}>
                                     <span className="hover-item">
@@ -96,9 +96,9 @@ const HeaderNoSidebar = () => {
                             </li>
 
                             <li>
-                                <a className="menu-hover-link" href="/#portfolio" onClick={onMenuToggleClick}>
+                                <a className="menu-hover-link" href="/#products" onClick={onMenuToggleClick}>
                                     <span className="hover-item">
-                                        <span data-text="Portfolio">Portfolio</span>
+                                        <span data-text="Our Brews">Our Brews</span>
                                     </span>
                                 </a>
                             </li>
@@ -110,7 +110,7 @@ const HeaderNoSidebar = () => {
                                     </span>
                                 </a>
                             </li>
-                            
+
                             <li>
                                 <a className="menu-hover-link" href="/#contact" onClick={onMenuToggleClick}>
                                     <span className="hover-item">
@@ -129,7 +129,7 @@ const HeaderNoSidebar = () => {
         </Fragment>
     )
 }
-// End Header Area 
+// End Header Area
 
 HeaderNoSidebar.propTypes = {
   siteTitle: PropTypes.string,

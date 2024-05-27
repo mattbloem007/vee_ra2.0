@@ -3,9 +3,9 @@ require("dotenv").config();
 module.exports = {
   siteMetadata: {
     title: `Vee/Ra Botanical Blends`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
-    siteUrl: "http://localhost:8000/",
+    description: `Health and longevity brand dedicated to helping you cultivate inner harmony and vitality.`,
+    author: `Matthew Gabriel`,
+    siteUrl: "https://vee-ra.netlify.app",
     getform_url: "https://getform.io/f/7a6695a7-c8e3-442c-bc2f-d46d3b9a535e",
   },
 
