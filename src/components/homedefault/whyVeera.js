@@ -7,7 +7,7 @@ import {GatsbyImage} from 'gatsby-plugin-image'
 
 const renderDocument = document => {
   const Bold = ({ children }) => <span>{children}</span>
-  const Text = ({ children }) => <p>{children}</p>
+  const Text = ({ children }) => <p style={{fontSize: "20px"}}>{children}</p>
 
   const options = {
     renderMark: {
@@ -65,7 +65,9 @@ const WhyVeera = ( ) => {
                                     <h3 className="title wow fadeInLeft" data-wow-delay="200ms" data-wow-duration="1000ms">{veera.title}</h3>
                                     {veera.title && <h4 className="subtitle wow fadeInLeft" data-wow-delay="200ms" data-wow-duration="1000ms" dangerouslySetInnerHTML={{ __html: veera.subtitle }}></h4>}
                                 </div>
-                                {veera.description && renderDocument(JSON.parse(veera.description.raw))}
+                                <div style={{fontSize: "20px", paddingBottom: "50px"}}>
+                                  {veera.description && renderDocument(JSON.parse(veera.description.raw))}
+                                </div>
                             </div>
                           {/**  <div className="button-group mt--30">
                                 {downloadButton && <a className="rn-button wow fadeInLeft" data-wow-delay="200ms" data-wow-duration="1000ms" href="#downloadbutton"><span>{downloadButton}</span></a>}

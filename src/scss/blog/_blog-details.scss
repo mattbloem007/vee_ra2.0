@@ -1,5 +1,5 @@
 /* ------------------
-Blog Details Area  
+Blog Details Area
 --------------------*/
 
 .blog-details-wrapper {
@@ -8,6 +8,7 @@ Blog Details Area
     }
     @media #{$sm-layout} {
         padding-top: 120px;
+        text-align: center;
     }
 }
 
@@ -62,7 +63,7 @@ Blog Details Area
 
 
 
-// Tag Cloud 
+// Tag Cloud
 .tags-cloud {
     margin: -5px;
     a {
@@ -139,4 +140,3 @@ blockquote {
     }
 
 }
-

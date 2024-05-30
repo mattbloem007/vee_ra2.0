@@ -8,8 +8,8 @@ import {GatsbyImage} from 'gatsby-plugin-image'
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { BLOCKS, MARKS } from "@contentful/rich-text-types"
 
-const Bold = ({ children }) => <span style={{color: "white"}}>{children}</span>
-const Text = ({ children }) => <p style={{color: "white", textAlign: "center"}}>{children}</p>
+const Bold = ({ children }) => <span>{children}</span>
+const Text = ({ children }) => <p style={{textAlign: "center"}}>{children}</p>
 
 const options = {
   renderMark: {
@@ -34,7 +34,7 @@ const BlogDetails = ({data, pageContext}) => {
   console.log("data blog", data)
     return (
         <>
-            <div className="blog-details-wrapper rn-section-gap bg-color-white">
+            <div className="blog-details-wrapper rn-section-gap bg-color-cream">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-8 offset-lg-2">

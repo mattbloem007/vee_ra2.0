@@ -13,7 +13,7 @@
     top: 0;
     z-index: 999999;
     transition: all .7s ease;
-    background-color: #080812;
+    background-color: #F9F0DF;
 
     .menu_full {
         width: 100%;
@@ -49,7 +49,6 @@
                             span{
                                 font-size: 80px;
                                 line-height: 1.2;
-                                color: #ffffff;
                                 @media #{$md-layout} {
                                     font-size: 60px;
                                     line-height: 70px;
@@ -86,7 +85,6 @@
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            color: #ccc;
             font-family: 'Quicksand', sans-serif;
             letter-spacing: 0;
             font-size: 14px;
@@ -108,7 +106,7 @@
                     right: 0;
                     position: absolute;
                     display: block;
-                    background-color: #282828;
+                    background-color: #8D6D2A;
                     border-radius: 3px;
                     transition: all 300ms ease;
 

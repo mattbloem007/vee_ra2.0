@@ -102,7 +102,7 @@ const ProjectDetails = ({data}) => {
                                                   {/**<li><span className="icon"><FiUser />Client:</span><span className="projectinfo">{projectData.client}</span></li>
                                                   <li><span className="icon"><FiInstagram />Images by:</span><span className="projectinfo">{projectData.imgesBY}</span></li>*/}
                                               </ul>
-                                              <div style={{color: textColor}}>
+                                              <div style={{color: textColor, paddingBottom: "40px"}}>
                                                 {projectData.body ? renderDocument(JSON.parse(data.contentfulProjects.body.raw)) : null}
                                               </div>
                                               <Link to="/#portfolio" style={{color: textColor}}><FiArrowLeftCircle size={50} /></Link>

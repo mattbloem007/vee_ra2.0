@@ -348,6 +348,7 @@ Custom Row
     @media #{$sm-layout} {
         margin-left: -15px !important;
         margin-right: -15px !important;
+        text-align: center;
     }
 
     &>[class*="col"],
