@@ -12,6 +12,7 @@
     "bootstrap": "^5.2.3",
     "classnames": "^2.3.2",
     "disqus-react": "^1.1.5",
+    "emailjs-com": "^3.2.0",
     "fontello-cli": "^0.6.2",
     "gatsby": "^5.2.0",
     "gatsby-image": "^3.11.0",

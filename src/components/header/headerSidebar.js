@@ -52,7 +52,7 @@ const HeaderNoSidebar = () => {
 
     return (
         <Fragment>
-            <header className={scroll ? "rn-header header-default header-transparent d-block d-xl-none scrolled" : "rn-header header-default header-transparent d-block d-xl-none"}>
+            <header className="rn-header header-default header-transparent d-block d-xl-none scrolled">
                 <div className="header-inner">
                     {/* Header Logo  */}
                     <div className="header-left">

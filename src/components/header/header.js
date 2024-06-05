@@ -40,7 +40,7 @@ const Header = (props) => {
 
     return (
         <Fragment>
-            <header className={scroll ? "rn-header header-default header-transparent scrolled d-none d-xl-block" : "rn-header header-default header-transparent d-none d-xl-block" }>  {/*scroll? "rn-header header-default header-transparent scrolled d-none d-xl-block" : "rn-header header-default header-transparent d-none d-xl-block"*/}
+            <header className="rn-header header-default header-transparent scrolled d-none d-xl-block">  {/*scroll? "rn-header header-default header-transparent scrolled d-none d-xl-block" : "rn-header header-default header-transparent d-none d-xl-block"*/}
                 <div className="header-inner">
                     <div className="container">
                         <div className="row align-items-center">

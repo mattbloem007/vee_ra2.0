@@ -41,7 +41,6 @@ const Footer = ({showBelow}) => {
                         <div className="col-lg-3 col-md-6 col-sm-6 col-12 mt_md--30 mt_sm--30 wow fadeInDown" data-wow-delay="200ms" data-wow-duration="0.4s">
                             <div className="ft-info">
                                 <p>Matthew Gabriel<br />+27 83 293 5904</p>
-                                <p>Robert Waller<br />+27 83 293 5904</p>
                             </div>
                         </div>
 

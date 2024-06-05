@@ -69,6 +69,36 @@ Contact Styles
     }
 }
 
+// form {
+//   .message {
+//     opacity: 0;
+//
+//     &:before {
+//       margin-right: 0.5em;
+//     }
+//
+//     &.visible {
+//       opacity: 1;
+//     }
+//
+//     &.success {
+//       color: "#666342";
+//
+//       &:before {
+//         content: '\f00c';
+//       }
+//     }
+//
+//     &.failure {
+//       color: "red";
+//
+//       &:before {
+//         content: '\f119';
+//       }
+//     }
+//   }
+// }
+
 
 .form-group {
     position: relative;

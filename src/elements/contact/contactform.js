@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios'
 import { useForm } from "react-hook-form";
+import emailjs from 'emailjs-com';
 
 const ContactForm = ({url}) => {
 
@@ -17,7 +18,8 @@ const ContactForm = ({url}) => {
 		name: '',
 		email: '',
 		subject: '',
-		message: ''
+		message: '',
+    success: '',
     });
 
     const handleServerResponse = (ok, msg, form) => {
@@ -31,7 +33,8 @@ const ContactForm = ({url}) => {
 				name: '',
 				email: '',
 				subject: '',
-				message: ''
+				message: '',
+        success: '',
 			})
 		}
     };
@@ -46,14 +49,35 @@ const ContactForm = ({url}) => {
 			data
 		})
 			.then(res => {
-				handleServerResponse(true, "Thanks! for being with us", form);
+				handleServerResponse(true, "Thank you! Your email has been sent", form);
 			})
 			.catch(err => {
 				handleServerResponse(false, err.response.data.error, form);
 			});
+
+      console.log("DATA", data)
+
+      var template_params = {
+                 "reply_to": data.email,
+                 "from_name": data.name,
+                 "to_name": "Vee/Ra",
+                 "message": data.message
+              }
+
+      var service_id = "vee/ra";
+      var template_id = "template_uviwld5";
+      var user_id = "user_E7hnIvNfEqvZm2avmHiqG";
+      try {
+        emailjs.send(service_id, template_id, template_params, user_id)
+      }
+      catch(e) {
+        console.log("ERROR", e)
+      }
+
 	}
 
-    const isErrors = Object.keys(errors).length !== 0 && true;
+  const isErrors = Object.keys(errors).length !== 0 && true;
+
 	const onChangeHandler = e => {
 		setValue({ ...value, [e.target.name]: e.target.value })
 	}
