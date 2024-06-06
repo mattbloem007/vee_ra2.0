@@ -94,7 +94,7 @@ const Header = (props) => {
                                         </li>
 
                                         <li>
-                                            <a className="menu-hover-link" target="_blank" href="https://mygembox.co.za/collections/botanical-blends-1">
+                                            <a className="menu-hover-link" target="_blank" href="https://mygembox.co.za/collections/botanical-blends-1/?ref=eemafdwy">
                                                 <span className="hover-item">
                                                     <span data-text="Store">Store</span>
                                                 </span>
