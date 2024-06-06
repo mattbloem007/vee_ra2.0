@@ -35,7 +35,7 @@ import { BLOCKS, MARKS } from "@contentful/rich-text-types"
 // }
 
 const renderDocument = document => {
-  const Bold = ({ children }) => <span>{children}</span>
+  const Bold = ({ children }) => <span style={{textWeight: "bold"}}>{children}</span>
   const Text = ({ children }) => <p>{children}</p>
 
   const options = {
