@@ -89,7 +89,7 @@ const ProjectDetails = ({data}) => {
                                   <div className="row">
                                       <div className="col-lg-12 col-md-12 col-12">
                                           <div className="content-left">
-                                              <Link to="/#portfolio" style={{color: textColor}}><FiArrowLeftCircle size={50} /></Link>
+                                              <Link to="/#products" style={{color: textColor}}><FiArrowLeftCircle size={50} /></Link>
                                               <div className="page-top" style={{display: "flex", justifyContent: "center", textAlign: "center"}}>
                                                   <h1 className="title_holder" style={{color: textColor}}>{projectData.title}</h1>
                                               </div>
@@ -105,7 +105,7 @@ const ProjectDetails = ({data}) => {
                                               <div style={{color: textColor, paddingBottom: "40px"}}>
                                                 {projectData.body ? renderDocument(JSON.parse(data.contentfulProjects.body.raw)) : null}
                                               </div>
-                                              <Link to="/#portfolio" style={{color: textColor}}><FiArrowLeftCircle size={50} /></Link>
+                                              <Link to="/#products" style={{color: textColor}}><FiArrowLeftCircle size={50} /></Link>
                                           </div>
                                       </div>
 
