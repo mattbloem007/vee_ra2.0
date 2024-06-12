@@ -112,6 +112,14 @@ const HeaderNoSidebar = () => {
                             </li>
 
                             <li>
+                                <a className="menu-hover-link" target="_blank" href="https://mygembox.co.za/collections/botanical-blends-1/?ref=eemafdwy">
+                                    <span className="hover-item">
+                                        <span data-text="Store">Store</span>
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li>
                                 <a className="menu-hover-link" href="/#contact" onClick={onMenuToggleClick}>
                                     <span className="hover-item">
                                         <span data-text="Contact">Contact</span>
