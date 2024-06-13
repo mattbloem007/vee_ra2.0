@@ -31,6 +31,11 @@ const Projectcard = ({image, id, title, category, column, name}) => {
                     <div className="inner">
                         {title && <h4 className="title"><Link to={`/project/${name}`}>{title}</Link></h4>}
                         {category && <span className="category"><a href="#category">{category}</a></span>}
+                        <div className="read-more">
+                            <Link to={`/project/${name}`}>
+                                <span>Read More</span>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

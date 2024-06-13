@@ -115,6 +115,43 @@ Portfolio Styles
                 }
 
             }
+            .read-more {
+                a {
+                    color: var(--color-primary);
+                    display: inline-block;
+                    @extend %transition;
+                    position: relative;
+                    font-size: 15px;
+                    line-height: 2.1;
+                    letter-spacing: .3px;
+                    font-weight: 500;
+                    font-family: 'Mulish', sans-serif;
+
+                    &::before {
+                        position: absolute;
+                        content: "";
+                        width: 0;
+                        height: 1px;
+                        background-color: #000;
+                        left: 0;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        -webkit-transition: all .3s ease;
+                        -moz-transition: all .3s ease;
+                        -ms-transition: all .3s ease;
+                        -o-transition: all .3s ease;
+                        transition: all .3s ease;
+                    }
+
+                    &:hover {
+                        padding-left: 45px;
+                        &::before {
+                            width: 35px;
+                        }
+                    }
+
+                }
+            }
         }
     }
     &:hover {
