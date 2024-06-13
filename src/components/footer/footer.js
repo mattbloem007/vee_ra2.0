@@ -50,7 +50,7 @@ const Footer = ({showBelow}) => {
                                     {/**<li><a href="#link"><FaFacebookF /></a></li>
                                     <li><a href="#link"><FaLinkedinIn /></a></li>
                                     <li><a href="#link"><FaTwitter /></a></li>*/}
-                                    <li><a href="#link"><FaInstagram /></a></li>
+                                    <li><a target="_blank" href="https://instagram.com/vee_ra_botanicalblends"><FaInstagram /></a></li>
                                     {/**<li><a href="#link"><FaSkype /></a></li>
                                     <li><a href="#link"><FaVimeo /></a></li>*/}
                                 </ul>
