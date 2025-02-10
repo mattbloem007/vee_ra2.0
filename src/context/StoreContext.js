@@ -3,7 +3,6 @@ import {createStorefrontApiClient} from '@shopify/storefront-api-client';
 import { gql, GraphQLClient } from "graphql-request";
 import Layout from '../components/layout'
 const endpoint = `https://u8chnc-qf.myshopify.com/api/graphql`;
-const SHOPIFY_CHECKOUT_STORAGE_KEY = "shopify_checkout_id"
 
 
 // const client = createStorefrontApiClient({
@@ -11,10 +10,9 @@ const SHOPIFY_CHECKOUT_STORAGE_KEY = "shopify_checkout_id"
 //   apiVersion: '2024-04',
 //   publicAccessToken: process.env.SHOP_TOKEN,
 // });
-
 const graphQLClient = new GraphQLClient(endpoint, {
     headers: {
-      "X-Shopify-Storefront-Access-Token": "e48e3a07a4dea28b6ad4aa65d5214e81",
+      "X-Shopify-Storefront-Access-Token": process.env.GATSBY_SHOP_TOKEN,
     },
   });
 
