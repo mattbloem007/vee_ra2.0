@@ -4,7 +4,10 @@ node_modules
 yarn-error.log
 package-lock.json
 yarn.lock
-.env
+*.env
+*.env.example
+*.env.local
+*.env.staging
 
 # Build directory
 /public
