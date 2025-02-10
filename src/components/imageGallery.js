@@ -1,5 +1,6 @@
 import React from "react";
 import { Carousel } from 'react-responsive-carousel';
+import {GatsbyImage} from 'gatsby-plugin-image'
 
 class ImageGalleryComponent extends React.Component {
     render() {
@@ -9,8 +10,7 @@ class ImageGalleryComponent extends React.Component {
                 {this.props.images ? this.props.images.map(image => {
                   return (
                     <div>
-                        <img src={image.url} />
-                        {/**<p className="legend">My Classic Still 1</p>*/}
+                        <img src={image.preview.image.src} />
                     </div>
                   )
                 })

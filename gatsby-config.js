@@ -24,6 +24,14 @@ module.exports = {
       }
     },
     {
+      resolve: "gatsby-source-shopify",
+      options: {
+        password: process.env.SHOPIFY_APP_PASSWORD,
+        storeUrl: process.env.GATSBY_MYSHOPIFY_URL,
+      //  salesChannel: process.env.SHOPIFY_APP_ID, // Optional but recommended
+      },
+    },
+    {
       resolve: `gatsby-source-contentful`,
       options: {
         spaceId: process.env.CONTENTFUL_SPACE_ID || '',
@@ -39,13 +47,13 @@ module.exports = {
         path: `${__dirname}/src/assets/images/`,
       },
     },
-    {
-      resolve: "@chec/gatsby-source-chec",
-      options: {
-        publicKey: process.env.NEXT_PUBLIC_CHEC_PUBLIC_KEY,
-        //downloadImageAssets: true,
-      },
-    },
+    // {
+    //   resolve: "@chec/gatsby-source-chec",
+    //   options: {
+    //     publicKey: process.env.NEXT_PUBLIC_CHEC_PUBLIC_KEY,
+    //     //downloadImageAssets: true,
+    //   },
+    // },
     // {
     //   resolve: `gatsby-omni-font-loader`,
     //   options: {

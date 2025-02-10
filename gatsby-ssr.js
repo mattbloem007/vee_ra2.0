@@ -5,39 +5,19 @@
  */
 
 // You can delete this file if you're not using it
-import VeeRa from './src/root-wrapper'
-import React from 'react'
+import React from "react"
+import { StoreContextProvider } from "./src/context/StoreContext"
+export const wrapRootElement = ({ element }) => (
+  <StoreContextProvider>{element}</StoreContextProvider>
+)
 
-// export function onRenderBody(
-//   { setHeadComponents,
-//     setPreBodyComponents,
-//   }
-// ) {
-//  setHeadComponents([
-//    <script
-//     type="text/javascript"
-//     src="//static.klaviyo.com/onsite/js/klaviyo.js?company_id=VECYLf"
-//     ></script>,
-//     <script
-//      dangerouslySetInnerHTML={{
-//         __html:`
-//         window.omnisend = window.omnisend || [];
-//         omnisend.push(["accountID", "64917181025b19a15626b18b"]);
-//         omnisend.push(["track", "$pageViewed"]);
-//         !function(){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src="https://omnisnippet1.com/inshop/launcher-v2.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)}();
-//    	 `
-//      }}
-//      />
-//   ])
-  // setPreBodyComponents([
-  //   <div id="checkout">
-  //     <div id="paypal-button-container"></div>
-  //   </div>,
-  // ])
-//}
-
-const Wrapper = ({ element }) => {
-  return <VeeRa element={element} />
-}
-
-export const wrapPageElement = Wrapper
+// import "react-responsive-carousel/lib/styles/carousel.min.css";
+//
+// import VeeRa from './src/root-wrapper'
+// import React from 'react'
+//
+// const Wrapper = ({ element }) => {
+//   return <VeeRa element={element} />
+// }
+//
+// export const wrapPageElement = Wrapper

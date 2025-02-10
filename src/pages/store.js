@@ -31,39 +31,25 @@ const ProductArchive = (props, {data}) => {
     )
 }
 
-// export const query = graphql`
-// query featureItemQuery {
-//   allChecProduct {
-//     edges {
-//       node {
-//         id
-//         name
-//         image {
-//           url
-//         }
-//         categories {
-//           name
-//         }
-//       }
-//     }
-//   }
-//
-//   allFile {
-//     edges {
-//       node {
-//         name
-//         url
-//         childImageSharp {
-//             fluid(maxWidth: 374, maxHeight: 374, quality: 100) {
-//                 ...GatsbyImageSharpFluid_withWebp
-//                 presentationWidth
-//                 presentationHeight
-//             }
-//         }
-//       }
-//     }
-//   }
-// }
-// `
+export const query = graphql`
+query featureItemQuery {
+  allShopifyProduct {
+    edges {
+      node {
+        featuredImage {
+          gatsbyImageData
+        }
+        description
+        title
+        variants {
+          price
+          title
+        }
+        shopifyId
+      }
+    }
+  }
+}
+`
 
 export default ProductArchive;

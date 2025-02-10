@@ -5,13 +5,55 @@ import Img from "gatsby-image";
 import Scrollspy from 'react-scrollspy';
 import { GatsbyImage } from "gatsby-plugin-image"
 import { CircleSpinner } from "react-spinners-kit";
-import CartNav from './cartnav'
+import { useStore } from "../../context/StoreContext"
+import ShoppingCartIcon from './ShoppingCartIcon'
+
 
 
 // Start Header Area
 const Header = (props) => {
+    const { cartData, fetchCartDetails } = useStore();
+    let count = 0;
 
-    let {cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart, isCartVisible, setCartVisible} = props
+    useEffect(() => {
+      const initializeCart = async () => {
+        const cartId = localStorage.getItem("cartId");
+        if (cartId && (!cartData || cartData.id !== cartId)) {
+          try {
+            await fetchCartDetails(cartId); // Ensure the latest cart data
+          } catch (error) {
+            console.error("Error fetching cart:", error);
+          }
+        }
+      };
+
+      initializeCart();
+    }, [fetchCartDetails, cartData]);
+
+    if (cartData) {
+      count = cartData.lines.edges.length
+    }
+
+    const countMarkup = (
+    <span
+      style={{
+        display: "inline-block",
+        background: "white",
+        color: "black",
+        height: "20px",
+        lineHeight: "20px",
+        width: "20px",
+        fontSize: "0.8em",
+        borderRadius: "10px",
+        ml: 2,
+        top: "-2px",
+        position: "relative",
+        textAlign: "center",
+      }}
+    >
+      {count}
+    </span>
+  )
 
     const headerQuery = useStaticQuery(graphql`
         query headerQuery {
@@ -107,6 +149,10 @@ const Header = (props) => {
                                                     <span data-text="Contact">Contact</span>
                                                 </span>
                                             </Link>
+                                        </li>
+                                        <li>
+                                        <ShoppingCartIcon cartCount={count} name="Cart" />
+
                                         </li>
 
                                         {/**<li>

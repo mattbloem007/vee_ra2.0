@@ -6,55 +6,45 @@ import Img from 'gatsby-image'
 import Calltoaction from '../elements/calltoaction/calltoaction'
 import Collapsible from "react-collapsible-paragraph";
 import ImageGalleryComponent from '../components/imageGallery'
-import commerce from '../lib/Commerce';
 import { isMobile } from "react-device-detect";
+import { useStore } from "../context/StoreContext";
+
 
 const Product = (props) => {
-    console.log("Data", props)
     let data = props.data
     const [product, setProduct] = useState({});
-    const [productPrice, setPrice] = useState(data.checProduct.price.formatted_with_symbol);
+    const [productPrice, setPrice] = useState();
     const [variantId, setVariantId] = useState()
-    let urlString = data.checProduct.image.url.split("|")
-    let url = urlString[0] + "%7C" + urlString[1]
+    const { addToCart, cartId, cartData } = useStore();
+    console.log("ID", cartData)
+
 
     useEffect(() => {
-      commerce.products.retrieve(data.checProduct.id)
-      .then(product => setProduct(product.assets))
-
-      handleFetchVariants()
+      if (data.shopifyProduct.variants.length == 1) {
+        setPrice(data.shopifyProduct.variants[0].price)
+      }
     }, []);
-    const handleAddToCart = () => {
-      if (variantId) {
-        props.onAddToCart(data.checProduct.has, data.checProduct.id, 1, variantId);
-      }
-      else {
-        props.onAddToCart(data.checProduct.has, data.checProduct.id, 1);
-      }
-      if (isMobile && props.isOverlayOpen == false) {
-        props.setOverlay(true)
-        document.querySelector('.trigger-popup-menu').classList.toggle('overlay-wrapper-open');
-        document.querySelector('.hambergur-menu').classList.toggle('hambergur-menu-open');
-      }
-      props.setCartVisible(!props.isCartVisible)
 
-    }
-
-    const handleFetchVariants = () => {
-      props.onFetchVariants(data.checProduct.id)
-    }
-
+    const handleAddToCart = async () => {
+      try {
+        await addToCart(data.shopifyProduct.variants[0].storefrontId, 1);
+        console.log("Item successfully added to cart");
+      } catch (error) {
+        console.error("Failed to add item to cart:", error);
+      }
+    };
+    //
+    // const handleFetchVariants = () => {
+    //   props.onFetchVariants(data.shopifyProduct.id)
+    // }
+    //
     const handleChangeProduct = (e) => {
-      let obj = props.variants.variant.data.find(o => o.description === e.target.value);
-      setPrice(obj.price.formatted_with_symbol)
+      let obj = data.shopifyProduct.variants.find(o => o.title === e.target.value);
+      setPrice(obj.price)
       setVariantId(obj.options)
     }
 
-    const htmlToText = (html) => {
-        return html.replace(/(<([^>]+)>)/g, " ")
-    }
-    let desc = htmlToText(data.checProduct.description)
-    console.log("Product", product)
+
     return (
         <>
             <div className="rn-category-post rn-section-gap bg-color-white">
@@ -62,14 +52,14 @@ const Product = (props) => {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="page-top">
-                                <h1 className="title_holder">{data.checProduct.name}</h1>
+                                <h1 className="title_holder">{data.shopifyProduct.title}</h1>
                                 <div className="breadcrumbs-area">
                                     <ul className="breadcrumbs">
                                         <li><a href="/">Home</a></li>
                                         <li className="separator"><span></span></li>
                                         <li className="active"><a href="/store">Shop</a></li>
                                         <li className="separator"><span></span></li>
-                                        <li className="active">{data.checProduct.categories[0].name}</li>
+                                        {/**<li className="active">{data.shopifyProduct.categories[0].name}</li>*/}
                                     </ul>
                                 </div>
                             </div>
@@ -77,13 +67,13 @@ const Product = (props) => {
                     </div>
                     <div className="row row--25">
                       <div className="col-lg-4">
-                        {Object.entries(product).length !== 0 &&  <ImageGalleryComponent images={product} />/**<Img fluid={data.file.childImageSharp.fluid}/>*/}
+                        {data.shopifyProduct.media &&  <ImageGalleryComponent images={data.shopifyProduct.media} />/**<Img fluid={data.file.childImageSharp.fluid}/>*/}
                       </div>
                       <div className="col-lg-8">
                       <div className="content">
                           <div className="inner">
-                            {data.checProduct.name && <h4 className="title">{data.checProduct.name}</h4>}
-                            {props.variants.variant.data && <div className="row" style={{marginBottom: "20px"}}>
+                            {data.shopifyProduct.title && <h4 className="title" style={{marginBottom: "20px"}}>{data.shopifyProduct.title}</h4>}
+                            {data.shopifyProduct.variants.length > 1 && <div className="row" style={{marginBottom: "20px"}}>
                               <div className="col-lg-4">
                                 <label htmlFor="subject">Size:</label>
                               </div>
@@ -97,9 +87,9 @@ const Product = (props) => {
                                   >
                                   <option>-----Select Size-----</option>
                                   {
-                                    props.variants.variant.data && props.variants.variant.data.length !== 0  && props.variants.variant.data.map((index) => {
+                                    data.shopifyProduct.variants && data.shopifyProduct.variants !== 0  && data.shopifyProduct.variants.map((index) => {
                                       return (
-                                        <option value={index.description} key={index.id}>{index.description}</option>
+                                        <option value={index.title} key={index.title}>{index.title}</option>
                                       )
                                     })
                                   }
@@ -107,10 +97,11 @@ const Product = (props) => {
                                 </div>
                             </div>
                           }
-                            {productPrice && <span className="category">{productPrice}</span>}
-                            {data.checProduct.description && <div style={{ lineHeight: "22px"}} dangerouslySetInnerHTML={{__html: data.checProduct.description}}></div>}
+                            {productPrice && <h5 className="title">ZAR {productPrice}</h5>}
+                            {data.shopifyProduct.descriptionHtml && <div style={{ lineHeight: "22px", marginBottom: "40px"}} dangerouslySetInnerHTML={{__html: data.shopifyProduct.descriptionHtml}}></div>}
                           </div>
-                          <Calltoaction title="" buttonText="Add to Cart" action={handleAddToCart} />
+                          {productPrice && <h5 className="title">ZAR {productPrice}</h5>}
+                          <Calltoaction title="" buttonText="Add to Cart" action={handleAddToCart}/>
                       </div>
                       </div>
                     </div>
@@ -122,41 +113,30 @@ const Product = (props) => {
 
 
 export const allCategoryQueryData = graphql`
-    query oneProductQuery ($id: String!) {
-      checProduct(id: {eq: $id}) {
+    query oneProductQuery2 ($id: String!) {
+      shopifyProduct(shopifyId: {eq: $id}) {
+        title
+        descriptionHtml
+        storefrontId
         id
-        description
-        has {
-          digital_delivery
-          physical_delivery
-        }
-        price {
-          formatted_with_symbol
-        }
-        image {
-          url
-        }
-        name
-        categories {
-          name
-        }
+         featuredImage {
+           gatsbyImageData
+         }
+         media {
+           preview {
+             image {
+               gatsbyImageData
+               src
+             }
+           }
+         }
+         variants {
+           price
+           title
+           storefrontId
+         }
       }
-
-
     }
 `
-
-// file(url: {eq: $url}) {
-//   name
-//   url
-//   childImageSharp {
-//     fluid(maxWidth: 374, maxHeight: 374, quality: 100) {
-//       ...GatsbyImageSharpFluid_withWebp
-//       presentationWidth
-//       presentationHeight
-//     }
-//     id
-//   }
-// }
 
 export default Product;

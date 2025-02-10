@@ -1,5 +1,5 @@
 /*-------------------------
-Choose Us Area  
+Choose Us Area
 -------------------------*/
 
 .choose-us-style-01 {
@@ -8,6 +8,7 @@ Choose Us Area
         margin: 0 -15px;
         height: 100%;
         padding-right: 50px;
+
         @media #{$lg-layout} {
             padding-right: 0;
         }
@@ -56,4 +57,3 @@ Choose Us Area
         }
     }
 }
-

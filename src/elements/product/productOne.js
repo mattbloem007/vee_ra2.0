@@ -5,73 +5,51 @@ import Productcard from "./productcard";
 
 const ProductOne = () => {
     const ProductData = useStaticQuery(graphql`
-      query featureItemQuery {
-        allChecProduct {
+      query featureItemQuery1 {
+        allShopifyProduct {
           edges {
             node {
-              id
-              name
-              permalink
-              image {
-                url
+              featuredImage {
+                gatsbyImageData
               }
-              categories {
-                name
+              description
+              title
+              variants {
+                price
+                title
               }
-              price {
-                formatted_with_symbol
+              priceRangeV2 {
+                maxVariantPrice {
+                  amount
+                  currencyCode
+                }
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
               }
-            }
-          }
-        }
-
-        allFile {
-          edges {
-            node {
-              name
-              url
-              childImageSharp {
-                  fluid(maxWidth: 374, maxHeight: 374, quality: 100) {
-                      ...GatsbyImageSharpFluid_withWebp
-                      presentationWidth
-                      presentationHeight
-                  }
-              }
+              shopifyId
             }
           }
         }
       }
     `);
 
-    const productData = ProductData.allChecProduct.edges;
-    const filesData = ProductData.allFile.edges
+    const productData = ProductData.allShopifyProduct.edges
 
 
     return (
         <div className="row row--45 mt_dec--30">
             {productData.map( data => {
-              let urlString = data.node.image.url.split("|")
-              let url = urlString[0] + "%7C" + urlString[1]
-              let fluidImage = null
-              filesData.map(file => {
-                console.log("FILE URL", file.node.url)
-                if (file.node.url) {
-                  if (file.node.url == url) {
-                    fluidImage = file
-                  }
-                }
-              })
               return(
-                <Productcard key={data.node.id}
+                <Productcard key={data.node.shopifyId}
                     column="col-lg-4 col-md-6 col-12"
                     portfolioStyle="portfolio-style-1"
-                    key={data.node.id}
-                    id={data.node.id}
-                    image={fluidImage.node.childImageSharp}
-                    title={data.node.name}
-                    category={data.node.categories[0].name}
-                    price={data.node.price.formatted_with_symbol}
-                    permalink={data.node.permalink}
+                    key={data.node.shopifyId}
+                    id={data.node.shopifyId}
+                    image={data.node.featuredImage.gatsbyImageData}
+                    title={data.node.title}
+                    price={data.node.priceRangeV2}
                 />
             )})}
         </div>

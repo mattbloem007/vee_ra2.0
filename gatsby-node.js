@@ -96,15 +96,19 @@ exports.createPages = ({actions, graphql}) => {
               }
             }
 
-            allChecProduct {
+            allShopifyProduct {
               edges {
                 node {
-                  id
-                  permalink
-                  name
-                  image {
-                    url
+                  featuredImage {
+                    gatsbyImageData
                   }
+                  description
+                  title
+                  variants {
+                    price
+                    title
+                  }
+                  shopifyId
                 }
               }
             }
@@ -133,7 +137,7 @@ exports.createPages = ({actions, graphql}) => {
         const project = res.data.allContentfulProjects.edges
         const blogposts = res.data.allContentfulBlogPost.edges
       //  const posts = res.data.allMarkdownRemark.edges
-        const products = res.data.allChecProduct.edges
+        const products = res.data.allShopifyProduct.edges
 
          // Create Project Page
          project.forEach(({ node }) => {
@@ -234,14 +238,12 @@ exports.createPages = ({actions, graphql}) => {
         // End Create Authors Page
 
         products.forEach(product => {
-          let urlString = product.node.image.url.split("|")
-          let url = urlString[0] + "%7C" + urlString[1]
+
             createPage({
-                path: `/store/${product.node.permalink}`,
+                path: `/store/${product.node.title}`,
                 component: templates.productPage,
                 context: {
-                    id: product.node.id,
-                    url,
+                    id: product.node.shopifyId,
                 }
             })
         })
