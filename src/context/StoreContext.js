@@ -439,9 +439,9 @@ const createCheckoutUrl = async () => {
     const checkoutUrl = response.cartBuyerIdentityUpdate.cart.checkoutUrl;
 
     if (checkoutUrl) {
-      console.log("Checkout URL:", checkoutUrl);
       const returnUrl = encodeURIComponent("https://veera.co.za/cart?checkout=success");
       const finalCheckoutUrl = `${checkoutUrl}&return_to=${returnUrl}`;
+      console.log("Checkout URL:", finalCheckoutUrl);
       return finalCheckoutUrl;
     } else {
       console.warn("No checkout URL returned.");

@@ -21,7 +21,7 @@ export default ({items, removeFromCart, loading, completed, cartId, updateCart})
   if (completed)
     return (
       <Message success>
-        <Message.Header>Your placed!</Message.Header>
+        <Message.Header>Success!</Message.Header>
         <p>Congratulations. Your order and payment has been accepted.</p>
       </Message>
     )
