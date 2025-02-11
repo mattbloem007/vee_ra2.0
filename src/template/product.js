@@ -14,8 +14,14 @@ const Product = (props) => {
     let data = props.data
     const [product, setProduct] = useState({});
     const [productPrice, setPrice] = useState();
-    const [variantId, setVariantId] = useState()
+    const [variantId, setVariantId] = useState();
     const { addToCart, cartId, cartData } = useStore();
+    const [error, setError] = useState(false)
+    const [selected, setSelected] = useState(false)
+    const [quantity, setQuantity] = useState(1)
+    const [showButton, setShowButton] = useState(false)
+    const [height, setHeight] = useState("170px")
+    const [x, setX] = useState("more...")
     console.log("ID", cartData)
 
 
@@ -23,26 +29,71 @@ const Product = (props) => {
       if (data.shopifyProduct.variants.length == 1) {
         setPrice(data.shopifyProduct.variants[0].price)
       }
+      countLines();
     }, []);
 
-    const handleAddToCart = async () => {
-      try {
-        await addToCart(data.shopifyProduct.variants[0].storefrontId, 1);
-        console.log("Item successfully added to cart");
-      } catch (error) {
-        console.error("Failed to add item to cart:", error);
+    const countLines = () => {
+      let lineHeight = document.getElementById("description").offsetHeight;
+      console.log("HEIGHt", (lineHeight - 2 ) / 16)
+      if ( lineHeight > 3.3 ) {
+        console.log("INSide")
+         setShowButton(true)
       }
+    }
+
+    const showHidePara = () => {
+       if (document.getElementById("description").style.height == 'auto') {
+          setHeight("170px")
+          setX("more...")
+       } else {
+          setHeight("auto")
+          setX("less...")
+       }
+    }
+
+    const handleAddToCart = async () => {
+      console.log("VAR", variantId)
+
+      if (selected) {
+        setError(true)
+      }
+      if (variantId) {
+        try {
+          await addToCart(variantId, quantity);
+          console.log("Item successfully added to cart");
+        } catch (error) {
+          setError(true)
+          console.error("Failed to add item to cart:", error);
+        }
+      }
+      else {
+        setError(true)
+      }
+
     };
-    //
-    // const handleFetchVariants = () => {
-    //   props.onFetchVariants(data.shopifyProduct.id)
-    // }
-    //
+
+
     const handleChangeProduct = (e) => {
       let obj = data.shopifyProduct.variants.find(o => o.title === e.target.value);
-      setPrice(obj.price)
-      setVariantId(obj.options)
+      console.log("VAR OPTIONS", obj)
+      if (obj) {
+        setPrice(obj.price)
+        setVariantId(obj.storefrontId)
+        setError(false)
+      }
+      else {
+        setSelected(true)
+      }
     }
+
+    const handleQuantityChange = (e) => {
+      console.log("ID", e)
+      const newQuantity = e.target.value;
+      console.log("quantity change", newQuantity)
+      if (newQuantity >= 0) {
+        setQuantity(newQuantity)
+      }
+    };
 
 
     return (
@@ -73,14 +124,11 @@ const Product = (props) => {
                       <div className="content">
                           <div className="inner">
                             {data.shopifyProduct.title && <h4 className="title" style={{marginBottom: "20px"}}>{data.shopifyProduct.title}</h4>}
-                            {data.shopifyProduct.variants.length > 1 && <div className="row" style={{marginBottom: "20px"}}>
-                              <div className="col-lg-4">
-                                <label htmlFor="subject">Size:</label>
-                              </div>
-                              <div className="col-lg-8">
+                            {data.shopifyProduct.variants.length > 1 && <div className="row">
+                              <div className="form-group col-lg-8" style={{display: "flex", alignItems: "center"}}>
                                 <select
                                   className="form-select"
-                                  style={{width: "50%", textAlign: "center", fontSize: "1.5rem"}}
+                                  style={{width: "50%", height: "50%", textAlign: "center", fontSize: "1.5rem", marginRight: "20px"}}
                                   name="size"
                                   id="size"
                                   onChange={handleChangeProduct}
@@ -94,14 +142,35 @@ const Product = (props) => {
                                     })
                                   }
                                   </select>
+                                  <input
+                                    type="number"
+                                    value={quantity}
+                                    onChange={(e) => handleQuantityChange(e)}
+                                    min="0"
+                                    style={{
+                                      width: '50px',
+                                      textAlign: 'center',
+                                      marginRight: '10px',
+                                      padding: '5px',
+                                    }}
+                                  />
+                                  <Calltoaction title="" buttonText="Add to Cart" action={handleAddToCart}/>
+                                  {error && <div style={{color: "red", fontWeight: "bold"}}>Please select a size option above before adding to cart</div>}
                                 </div>
+
                             </div>
                           }
-                            {productPrice && <h5 className="title">ZAR {productPrice}</h5>}
-                            {data.shopifyProduct.descriptionHtml && <div style={{ lineHeight: "22px", marginBottom: "40px"}} dangerouslySetInnerHTML={{__html: data.shopifyProduct.descriptionHtml}}></div>}
+                            {productPrice && <h5 className="title">ZAR {productPrice * quantity}</h5>}
+                            {data.shopifyProduct.descriptionHtml &&
+                              <div style={{display: "flex", flexDirection: "column"}}>
+                                <div id="description" style={{ overflow: "hidden", height: `${height}`, lineHeight: "22px", marginBottom: "40px"}} dangerouslySetInnerHTML={{__html: data.shopifyProduct.descriptionHtml}}></div>
+                                {showButton ? <button onClick={showHidePara} style={{border: "none", background: "none", textAlign: "right", color: "#A78035"}}> Read {x} </button> : null}
+                              </div>
+                            }
                           </div>
-                          {productPrice && <h5 className="title">ZAR {productPrice}</h5>}
+                          {/**productPrice && <h5 className="title">ZAR {productPrice}</h5>*/}
                           <Calltoaction title="" buttonText="Add to Cart" action={handleAddToCart}/>
+                          {error && <div style={{color: "red", fontWeight: "bold"}}>Please select a size option above before adding to cart</div>}
                       </div>
                       </div>
                     </div>

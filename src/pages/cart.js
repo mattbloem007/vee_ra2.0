@@ -29,7 +29,7 @@ const CartPage = () => {
       }
       setCartId(cartId)
       setLoading(false); // Set loading to false once cart is initialized
-      
+
 
     };
 
