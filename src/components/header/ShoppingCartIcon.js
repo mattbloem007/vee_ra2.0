@@ -1,6 +1,7 @@
 import React from 'react'
 import {Icon} from 'semantic-ui-react'
 import {Link} from 'gatsby';
+import { isMobile } from "react-device-detect";
 
 const ShoppingCartIcon = ({cartCount, name}) => {
   console.log(cartCount)
@@ -19,7 +20,7 @@ const ShoppingCartIcon = ({cartCount, name}) => {
   }
   return (
     <Link className="menu-hover-link" to="/cart">
-      <div style={{display: "flex"}}>
+      <div style={{display: "flex", fontSize: isMobile ? '60px' : '20px'}}>
         {` ${name} `}
         {showCartCount()}
       </div>

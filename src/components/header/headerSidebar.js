@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import {useStaticQuery, graphql , Link} from 'gatsby';
 import Img from "gatsby-image";
 import Scrollspy from 'react-scrollspy';
+import ShoppingCartIcon from './ShoppingCartIcon'
+import { useStore } from "../../context/StoreContext"
 
 // Start Header Area
 const HeaderNoSidebar = () => {
@@ -25,6 +27,27 @@ const HeaderNoSidebar = () => {
     `);
 
     const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+    const { cartData, fetchCartDetails } = useStore();
+    let count = 0;
+
+    useEffect(() => {
+      const initializeCart = async () => {
+        const cartId = localStorage.getItem("cartId");
+        if (cartId && (!cartData || cartData.id !== cartId)) {
+          try {
+            await fetchCartDetails(cartId); // Ensure the latest cart data
+          } catch (error) {
+            console.error("Error fetching cart:", error);
+          }
+        }
+      };
+
+      initializeCart();
+    }, [fetchCartDetails, cartData]);
+
+    if (cartData) {
+      count = cartData.lines.edges.length
+    }
 
 
 
@@ -112,11 +135,11 @@ const HeaderNoSidebar = () => {
                             </li>
 
                             <li>
-                                <a className="menu-hover-link" target="_blank" href="https://mygembox.co.za/collections/botanical-blends-1/?ref=eemafdwy">
+                                <Link className="menu-hover-link" to="/store">
                                     <span className="hover-item">
                                         <span data-text="Store">Store</span>
                                     </span>
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
@@ -125,6 +148,9 @@ const HeaderNoSidebar = () => {
                                         <span data-text="Contact">Contact</span>
                                     </span>
                                 </a>
+                            </li>
+                            <li>
+                              <ShoppingCartIcon cartCount={count} name="Cart" />
                             </li>
                         </Scrollspy>
                     </div>

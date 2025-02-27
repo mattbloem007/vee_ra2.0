@@ -19,7 +19,7 @@ const ProductArchive = (props, {data}) => {
                             <ul className="breadcrumbs">
                                 <li><a href="/">Home</a></li>
                                 <li className="separator"><span></span></li>
-                                <li className="active">Shop</li>
+                                <li className="active">Store</li>
                             </ul>
                         </div>
                     </div>

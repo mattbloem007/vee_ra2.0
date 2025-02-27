@@ -29,6 +29,10 @@ const CartPage = () => {
       }
       setCartId(cartId)
       setLoading(false); // Set loading to false once cart is initialized
+      // localStorage.setItem("checkoutCompleted", "true"); // Save to localStorage if needed
+      // localStorage.removeItem("cartId");
+      // // Optionally reset state (cartId and cart data) in context
+      // setCartId(null);
 
 
     };

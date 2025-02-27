@@ -52,7 +52,7 @@ const Product = (props) => {
     }
 
     const handleAddToCart = async () => {
-      console.log("VAR", variantId)
+      console.log("VAR", variantId, selected)
 
       if (selected) {
         setError(true)
@@ -66,7 +66,8 @@ const Product = (props) => {
           console.error("Failed to add item to cart:", error);
         }
       }
-      else {
+
+      if (variantId === undefined) {
         setError(true)
       }
 
@@ -108,7 +109,7 @@ const Product = (props) => {
                                     <ul className="breadcrumbs">
                                         <li><a href="/">Home</a></li>
                                         <li className="separator"><span></span></li>
-                                        <li className="active"><a href="/store">Shop</a></li>
+                                        <li className="active"><a href="/store">Store</a></li>
                                         <li className="separator"><span></span></li>
                                         {/**<li className="active">{data.shopifyProduct.categories[0].name}</li>*/}
                                     </ul>
@@ -124,7 +125,7 @@ const Product = (props) => {
                       <div className="content">
                           <div className="inner">
                             {data.shopifyProduct.title && <h4 className="title" style={{marginBottom: "20px"}}>{data.shopifyProduct.title}</h4>}
-                            {data.shopifyProduct.variants.length > 1 && <div className="row">
+                            <div className="row">
                               <div className="form-group col-lg-8" style={{display: "flex", alignItems: "center"}}>
                                 <select
                                   className="form-select"
@@ -133,7 +134,7 @@ const Product = (props) => {
                                   id="size"
                                   onChange={handleChangeProduct}
                                   >
-                                  <option>-----Select Size-----</option>
+                                  <option value="select">-----Select Size-----</option>
                                   {
                                     data.shopifyProduct.variants && data.shopifyProduct.variants !== 0  && data.shopifyProduct.variants.map((index) => {
                                       return (
@@ -159,7 +160,8 @@ const Product = (props) => {
                                 </div>
 
                             </div>
-                          }
+
+
                             {productPrice && <h5 className="title">ZAR {productPrice * quantity}</h5>}
                             {data.shopifyProduct.descriptionHtml &&
                               <div style={{display: "flex", flexDirection: "column"}}>
@@ -168,9 +170,10 @@ const Product = (props) => {
                               </div>
                             }
                           </div>
-                          {/**productPrice && <h5 className="title">ZAR {productPrice}</h5>*/}
+                          {/**productPrice && <h5 className="title">ZAR {productPrice}</h5>
                           <Calltoaction title="" buttonText="Add to Cart" action={handleAddToCart}/>
-                          {error && <div style={{color: "red", fontWeight: "bold"}}>Please select a size option above before adding to cart</div>}
+                          {error && <div style={{color: "red", fontWeight: "bold"}}>Please select a size option above before adding to cart</div>}*/}
+
                       </div>
                       </div>
                     </div>
