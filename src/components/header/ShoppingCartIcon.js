@@ -20,7 +20,7 @@ const ShoppingCartIcon = ({cartCount, name}) => {
   }
   return (
     <Link className="menu-hover-link" to="/cart">
-      <div style={{display: "flex", fontSize: isMobile ? '60px' : '20px'}}>
+      <div className="cart-header-link">
         {` ${name} `}
         {showCartCount()}
       </div>

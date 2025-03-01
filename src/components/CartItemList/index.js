@@ -54,14 +54,14 @@ export default ({items, removeFromCart, loading, completed, cartId, updateCart})
           </Item.Header>
         ),
         image: (
-          <div style={{padding: 1, border: "2px solid gray", width: "10%", height: "100%", marginRight: "20px"}}>
+          <div className="cart-item-list">
             <img src={imageUrl} />
           </div>
         ),
         meta: `${quantity}x ${name}`,
         description: size,
         extra: (
-          <div className="cart-item-container" style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', float: "right"}}>
+          <div className="cart-item-container">
             <input
               type="number"
               value={quantity}

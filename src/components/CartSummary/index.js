@@ -1,11 +1,12 @@
 import React from 'react'
-import {Button, Segment, Divider} from 'semantic-ui-react'
+import {Button, Segment, Divider, Container} from 'semantic-ui-react'
+import {isMobile} from 'react-device-detect'
 
 export default ({
   handleCheckout,
   estimatedCost
 }) => (
-  <div>
+  <Container textAlign="center">
     <Divider />
     <Segment clearing size="large">
       <span>
@@ -16,5 +17,5 @@ export default ({
           Checkout
         </Button>
     </Segment>
-  </div>
+  </Container>
 )

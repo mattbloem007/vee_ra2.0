@@ -65,7 +65,7 @@ const CartPage = () => {
     const { lines, estimatedCost } = cartData;
     console.log("estimatedCost", estimatedCost)
     return (
-      <div style={{marginLeft: "150px", marginRight: "150px"}} className="rn-portfolio-area pt--200 pb--150 bg-color-white portfolio-style-1">
+      <div className="rn-portfolio-area pt--200 pb--150 bg-color-white portfolio-style-1 cart-container">
       <SEO title="Cart" />
         <CartItemList
           completed={completed}
@@ -86,7 +86,7 @@ const CartPage = () => {
   }
   else {
     return (
-      <div style={{marginLeft: "150px", marginRight: "150px"}} className="rn-portfolio-area pt--200 pb--150 bg-color-white portfolio-style-1">
+      <div className="rn-portfolio-area pt--200 pb--150 bg-color-white portfolio-style-1 cart-container">
       <SEO title="Cart" />
         <CartItemList
           completed={completed}
