@@ -21,6 +21,7 @@ const Product = (props) => {
     const [quantity, setQuantity] = useState(1)
     const [showButton, setShowButton] = useState(false)
     const [height, setHeight] = useState("170px")
+    const [outOfStock, setOutOfStock] = useState(false)
     const [x, setX] = useState("more...")
     console.log("ID", cartData)
 
@@ -81,6 +82,11 @@ const Product = (props) => {
         setPrice(obj.price)
         setVariantId(obj.storefrontId)
         setError(false)
+
+        if (obj.inventoryQuantity == 0) {
+          setOutOfStock(true)
+        }
+
       }
       else {
         setSelected(true)
@@ -95,7 +101,7 @@ const Product = (props) => {
         setQuantity(newQuantity)
       }
     };
-
+    console.log("data", data.shopifyProduct.variants)
 
     return (
         <>
@@ -155,7 +161,7 @@ const Product = (props) => {
                                       padding: '5px',
                                     }}
                                   />
-                                  <Calltoaction title="" buttonText="Add to Cart" action={handleAddToCart}/>
+                                  <Calltoaction title="" buttonText="Add to Cart" action={handleAddToCart} isOutOfStock={outOfStock}/>
                                   {error && <div style={{color: "red", fontWeight: "bold"}}>Please select a size option above before adding to cart</div>}
                                 </div>
 
@@ -206,6 +212,7 @@ export const allCategoryQueryData = graphql`
            price
            title
            storefrontId
+           inventoryQuantity
          }
       }
     }
