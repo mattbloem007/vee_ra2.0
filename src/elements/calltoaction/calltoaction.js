@@ -1,10 +1,37 @@
-import React from 'react';
-import {useStaticQuery, graphql} from 'gatsby';
+import React, { useState } from 'react';
+import {useStaticQuery, graphql, navigate} from 'gatsby';
+import { isMobile } from 'react-device-detect'
 
 
-const Calltoaction = ({title, buttonText, action, isOutOfStock }) => {
+const Calltoaction = ({title, buttonText, action, isOutOfStock, addedToCart }) => {
 
-    return (
+  const [buttonLabel, setButtonLabel] = useState(buttonText);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  console.log("isMobile", isMobile)
+
+  const handleClick = () => {
+      if (isOutOfStock) return;
+
+      // Perform the action (e.g., add to cart)
+      action();
+
+      // Temporarily change button text
+      setButtonLabel("Added!");
+      setShowSuccess(true);
+
+      if (isMobile) {
+        navigate("/cart")
+      }
+
+      // Revert after 3 seconds
+      setTimeout(() => {
+          setButtonLabel(buttonText);
+          setShowSuccess(false);
+      }, 3000);
+  };
+
+  return (
       <div className="rn-callto-action-area callto-action-style-1 ptb--10">
           <div className="container">
               <div className="align-items-center" style={{ marginLeft: "0px" }}>
@@ -24,19 +51,22 @@ const Calltoaction = ({title, buttonText, action, isOutOfStock }) => {
                                   opacity: isOutOfStock ? 0.5 : 1,
                                   cursor: isOutOfStock ? "not-allowed" : "pointer"
                               }}
-                              onClick={isOutOfStock ? null : action} // Prevent click if out of stock
-                              disabled={isOutOfStock} // Disable button if out of stock
+                              onClick={handleClick} // Use the new handleClick function
+                              disabled={isOutOfStock}
                           >
                               <span style={{ whiteSpace: "nowrap" }}>
-                                  {isOutOfStock ? "Out of Stock" : buttonText}
+                                  {isOutOfStock ? "Out of Stock" : buttonLabel}
                               </span>
                           </button>
                       </div>
+                      {showSuccess && (
+                          <p style={{ color: "green", marginLeft: "10px" }}>✓ Added to cart!</p>
+                      )}
                   </div>
               </div>
           </div>
       </div>
-    )
+  );
 }
 
 export default Calltoaction

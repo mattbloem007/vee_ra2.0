@@ -149,7 +149,7 @@ const HeaderNoSidebar = () => {
                                     </span>
                                 </a>
                             </li>
-                            <li>
+                            <li onClick={onMenuToggleClick}>
                               <ShoppingCartIcon cartCount={count} name="Cart" />
                             </li>
                         </Scrollspy>

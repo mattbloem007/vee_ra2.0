@@ -22,8 +22,9 @@ const Product = (props) => {
     const [showButton, setShowButton] = useState(false)
     const [height, setHeight] = useState("170px")
     const [outOfStock, setOutOfStock] = useState(false)
+    const [addedToCart, setAddedToCart] = useState(false)
     const [x, setX] = useState("more...")
-    console.log("ID", cartData)
+
 
 
     useEffect(() => {
@@ -61,7 +62,7 @@ const Product = (props) => {
       if (variantId) {
         try {
           await addToCart(variantId, quantity);
-          console.log("Item successfully added to cart");
+          setAddedToCart(true)
         } catch (error) {
           setError(true)
           console.error("Failed to add item to cart:", error);
@@ -101,7 +102,7 @@ const Product = (props) => {
         setQuantity(newQuantity)
       }
     };
-    console.log("data", data.shopifyProduct.variants)
+
 
     return (
         <>
@@ -161,7 +162,7 @@ const Product = (props) => {
                                       padding: '5px',
                                     }}
                                   />
-                                  <Calltoaction title="" buttonText="Add to Cart" action={handleAddToCart} isOutOfStock={outOfStock}/>
+                                  <Calltoaction title="" buttonText="Add to Cart" action={handleAddToCart} isOutOfStock={outOfStock} addedToCart={addedToCart}/>
                                   {error && <div style={{color: "red", fontWeight: "bold"}}>Please select a size option above before adding to cart</div>}
                                 </div>
 

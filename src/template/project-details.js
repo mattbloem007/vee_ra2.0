@@ -4,7 +4,7 @@ import {GatsbyImage} from 'gatsby-plugin-image'
 import Image from "../elements/image";
 import { FiList, FiUser, FiInstagram, FiArrowLeftCircle } from "react-icons/fi";
 import Layout from "../components/layout";
-import { graphql, Link } from 'gatsby'
+import { graphql, Link, navigate } from 'gatsby'
 import Calltoaction from '../elements/calltoaction/calltoaction'
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { BLOCKS, MARKS } from "@contentful/rich-text-types"
@@ -78,6 +78,18 @@ const ProjectDetails = ({data}) => {
       textColor = "#DBB977"
     }
     //const projectImage = data.projectJson.featuredImage;
+
+    const handleBuyNow = () => {
+      if (projectData.title == "Moon Mylk") {
+          navigate("/store/Moon%20Mylk%20-%20Gaba%20Food%20Supplement/")
+      } else if (projectData.title == "Mood Magick") {
+          navigate("/store/Mood%20Magick%20-%20Raw%20Cacao%20Drink/")
+      } else if (projectData.title == "Ritual Roots") {
+          navigate("/store/Ritual%20Roots%20-%20Immunity%20Booster%20Drink/")
+      }
+    }
+
+
     return (
       <>
           <div className={`rn-project-details-area rn-section-gap ${bgColor}`}>
@@ -104,6 +116,22 @@ const ProjectDetails = ({data}) => {
                                               </ul>
                                               <div style={{color: textColor, paddingBottom: "40px"}}>
                                                 {projectData.body ? renderDocument(JSON.parse(data.contentfulProjects.body.raw)) : null}
+                                              </div>
+                                              <div className="action-btn text-left text-md-left" style={{display: "flex", justifyContent: "center"}}>
+                                                  <button
+                                                      className={`rn-button ${bgColor}`}
+                                                      style={{
+                                                          display: "flex",
+                                                          justifyContent: "center",
+                                                          padding: "0px 30px",
+                                                          opacity: 1,
+                                                          cursor: "pointer",
+
+                                                      }}
+                                                      onClick={handleBuyNow} // Use the new handleClick function
+                                                  >
+                                                  Buy Now
+                                                  </button>
                                               </div>
                                               <Link to="/#products" style={{color: textColor}}><FiArrowLeftCircle size={50} /></Link>
                                           </div>
