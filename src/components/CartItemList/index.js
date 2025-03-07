@@ -50,7 +50,7 @@ export default ({items, removeFromCart, loading, completed, cartId, updateCart})
         childKey: id,
         header: (
           <Item.Header>
-            <Link to={`/product/${name}/`}>{name}</Link>
+            <Link to={`/store/${name}/`}>{name}</Link>
           </Item.Header>
         ),
         image: (
