@@ -87,6 +87,9 @@ const Product = (props) => {
         if (obj.inventoryQuantity == 0) {
           setOutOfStock(true)
         }
+        else {
+          setOutOfStock(false)
+        }
 
       }
       else {
