@@ -23,7 +23,7 @@ const Productcard = ({image, id, title, category, column, price}) => {
                 </div>
                 <div className="content">
                     <div className="inner">
-                        {title && <h4 className="title"><Link to={`/project/${title}`}>{title}</Link></h4>}
+                        {title && <h4 className="title"><Link to={`/store/${title}`}>{title}</Link></h4>}
                         {/**category && <span className="category"><a href="#category">{category}</a><br/></span>*/}
                         {cost == 0 ?
                           <span className="category">ZAR {price.minVariantPrice.amount} - {price.maxVariantPrice.amount}</span>
