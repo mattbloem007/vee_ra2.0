@@ -20,9 +20,9 @@ const Calltoaction = ({title, buttonText, action, isOutOfStock, addedToCart }) =
       setButtonLabel("Added!");
       setShowSuccess(true);
 
-      if (isMobile) {
-        navigate("/cart")
-      }
+      // if (isMobile) {
+      //   navigate("/cart")
+      // }
 
       // Revert after 3 seconds
       setTimeout(() => {
