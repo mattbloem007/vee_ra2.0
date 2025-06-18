@@ -84,7 +84,7 @@ const Product = (props) => {
         setVariantId(obj.storefrontId)
         setError(false)
 
-        if (obj.inventoryQuantity == 0) {
+        if (obj.inventoryQuantity <= 0) {
           setOutOfStock(true)
         }
         else {
