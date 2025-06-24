@@ -44,12 +44,22 @@ const StoreContextProvider = ({ children }) => {
 
   const [cartData, setCartData] = useState(null);
 
+  // useEffect(() => {
+  //   if (cartId) {
+  //     localStorage.setItem("cartId", cartId);
+  //     fetchCartDetails(cartId); // Fetch cart details if a cart ID exists
+  //   }
+  // }, [cartId]);
+
   useEffect(() => {
-    if (cartId) {
-      localStorage.setItem("cartId", cartId);
-      fetchCartDetails(cartId); // Fetch cart details if a cart ID exists
-    }
-  }, [cartId]);
+  if (cartId) {
+    fetchCartDetails(cartId).then(cart => {
+      if (cart) {
+        localStorage.setItem("cartId", cart.id);
+      }
+    });
+  }
+}, [cartId]);
 
   const fetchCartDetails = async (id) => {
     const fetchCartQuery = gql`
@@ -101,6 +111,16 @@ const StoreContextProvider = ({ children }) => {
 
     try {
       const response = await graphQLClient.request(fetchCartQuery, { cartId: id });
+
+        // ✅ If cart is null (deleted/expired), clear it
+      if (!response.cart) {
+        console.warn("Cart not found or expired. Clearing saved cart ID.");
+        setCartId(null);
+        localStorage.removeItem("cartId");
+        setCartData(null);
+        return null;
+      }
+
       setCartData(response.cart); // Update cart data in state
       return response.cart
     } catch (error) {
