@@ -1,21 +1,21 @@
 import React from 'react'
-import {Button, Segment, Divider, Container} from 'semantic-ui-react'
-import {isMobile} from 'react-device-detect'
 
 export default ({
   handleCheckout,
   estimatedCost
 }) => (
-  <Container textAlign="center">
-    <Divider />
-    <Segment clearing size="large">
-      <span>
-        <strong>Sub total:</strong>
-         R{estimatedCost && ` ${estimatedCost.subtotalAmount.amount}`}
-      </span>
-        <Button color="black" floated="right" onClick={handleCheckout}>
-          Checkout
-        </Button>
-    </Segment>
-  </Container>
+  <div className="cart-summary">
+    <div className="cart-summary__content">
+      <div className="cart-summary__total">
+        <span className="cart-summary__label">Subtotal:</span>
+        <span className="cart-summary__amount">
+          R{estimatedCost && estimatedCost.subtotalAmount ? parseFloat(estimatedCost.subtotalAmount.amount).toFixed(2) : '0.00'}
+        </span>
+      </div>
+      
+      <button className="btn btn--primary cart-summary__checkout" onClick={handleCheckout}>
+        Proceed to Checkout
+      </button>
+    </div>
+  </div>
 )

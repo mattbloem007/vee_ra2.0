@@ -1,225 +1,293 @@
 import React, { useEffect, useState } from 'react';
-import { graphql } from "gatsby";
-import Post from "../components/post";
+import { graphql, Link } from "gatsby";
 import Layout from "../components/layout";
-import Img from 'gatsby-image'
-import Calltoaction from '../elements/calltoaction/calltoaction'
-import Collapsible from "react-collapsible-paragraph";
-import ImageGalleryComponent from '../components/imageGallery'
-import { isMobile } from "react-device-detect";
+import { GatsbyImage } from "gatsby-plugin-image";
 import { useStore } from "../context/StoreContext";
 
-
 const Product = (props) => {
-    let data = props.data
-    const [product, setProduct] = useState({});
-    const [productPrice, setPrice] = useState();
-    const [variantId, setVariantId] = useState();
-    const { addToCart, cartId, cartData } = useStore();
-    const [error, setError] = useState(false)
-    const [selected, setSelected] = useState(false)
-    const [quantity, setQuantity] = useState(1)
-    const [showButton, setShowButton] = useState(false)
-    const [height, setHeight] = useState("170px")
-    const [outOfStock, setOutOfStock] = useState(false)
-    const [addedToCart, setAddedToCart] = useState(false)
-    const [x, setX] = useState("more...")
+    const data = props.data;
+    const [selectedVariant, setSelectedVariant] = useState(null);
+    const [quantity, setQuantity] = useState(1);
+    const [isAddingToCart, setIsAddingToCart] = useState(false);
+    const [addedToCart, setAddedToCart] = useState(false);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const { addToCart } = useStore();
 
-
+    // Get all product images including featured image and media
+    const productImages = React.useMemo(() => {
+        const images = [];
+        
+        // Add featured image if it exists
+        if (data.shopifyProduct.featuredImage) {
+            images.push({
+                id: 'featured',
+                image: data.shopifyProduct.featuredImage.gatsbyImageData,
+                alt: data.shopifyProduct.title
+            });
+        }
+        
+        // Add media images if they exist
+        if (data.shopifyProduct.media && data.shopifyProduct.media.length > 0) {
+            data.shopifyProduct.media.forEach((mediaItem, index) => {
+                if (mediaItem.preview && mediaItem.preview.image) {
+                    images.push({
+                        id: `media-${index}`,
+                        image: mediaItem.preview.image.gatsbyImageData,
+                        alt: `${data.shopifyProduct.title} - Image ${index + 1}`
+                    });
+                }
+            });
+        }
+        
+        return images;
+    }, [data.shopifyProduct]);
 
     useEffect(() => {
-      if (data.shopifyProduct.variants.length == 1) {
-        setPrice(data.shopifyProduct.variants[0].price)
-      }
-      countLines();
-    }, []);
-
-    const countLines = () => {
-      let lineHeight = document.getElementById("description").offsetHeight;
-      console.log("HEIGHt", (lineHeight - 2 ) / 16)
-      if ( lineHeight > 3.3 ) {
-        console.log("INSide")
-         setShowButton(true)
-      }
-    }
-
-    const showHidePara = () => {
-       if (document.getElementById("description").style.height == 'auto') {
-          setHeight("170px")
-          setX("more...")
-       } else {
-          setHeight("auto")
-          setX("less...")
-       }
-    }
-
-    const handleAddToCart = async () => {
-      console.log("VAR", variantId, selected)
-
-      if (selected) {
-        setError(true)
-      }
-      if (variantId) {
-        try {
-          await addToCart(variantId, quantity);
-          setAddedToCart(true)
-        } catch (error) {
-          setError(true)
-          console.error("Failed to add item to cart:", error);
+        if (data.shopifyProduct.variants.length === 1) {
+            setSelectedVariant(data.shopifyProduct.variants[0]);
         }
-      }
+    }, [data]);
 
-      if (variantId === undefined) {
-        setError(true)
-      }
-
+    const handleVariantChange = (e) => {
+        const variant = data.shopifyProduct.variants.find(v => v.title === e.target.value);
+        setSelectedVariant(variant);
     };
-
-
-    const handleChangeProduct = (e) => {
-      let obj = data.shopifyProduct.variants.find(o => o.title === e.target.value);
-      console.log("VAR OPTIONS", obj)
-      if (obj) {
-        setPrice(obj.price)
-        setVariantId(obj.storefrontId)
-        setError(false)
-
-        if (obj.inventoryQuantity <= 0) {
-          setOutOfStock(true)
-        }
-        else {
-          setOutOfStock(false)
-        }
-
-      }
-      else {
-        setSelected(true)
-      }
-    }
 
     const handleQuantityChange = (e) => {
-      console.log("ID", e)
-      const newQuantity = e.target.value;
-      console.log("quantity change", newQuantity)
-      if (newQuantity >= 0) {
-        setQuantity(newQuantity)
-      }
+        const newQuantity = parseInt(e.target.value);
+        if (newQuantity > 0) {
+            setQuantity(newQuantity);
+        }
     };
 
+    const handleAddToCart = async () => {
+        if (!selectedVariant) return;
+
+        setIsAddingToCart(true);
+        try {
+            await addToCart(selectedVariant.storefrontId, quantity);
+            setAddedToCart(true);
+            setTimeout(() => setAddedToCart(false), 3000);
+        } catch (error) {
+            console.error("Failed to add item to cart:", error);
+        } finally {
+            setIsAddingToCart(false);
+        }
+    };
+
+    const formatPrice = (price) => {
+        return `R${parseFloat(price).toFixed(2)}`;
+    };
+
+    const nextImage = () => {
+        setCurrentImageIndex((prev) => 
+            prev === productImages.length - 1 ? 0 : prev + 1
+        );
+    };
+
+    const prevImage = () => {
+        setCurrentImageIndex((prev) => 
+            prev === 0 ? productImages.length - 1 : prev - 1
+        );
+    };
+
+    const goToImage = (index) => {
+        setCurrentImageIndex(index);
+    };
 
     return (
-        <>
-            <div className="rn-category-post rn-section-gap bg-color-white">
+        <Layout>
+            <div className="product-page">
                 <div className="container">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="page-top">
-                                <h1 className="title_holder">{data.shopifyProduct.title}</h1>
-                                <div className="breadcrumbs-area">
-                                    <ul className="breadcrumbs">
-                                        <li><a href="/">Home</a></li>
-                                        <li className="separator"><span></span></li>
-                                        <li className="active"><a href="/store">Store</a></li>
-                                        <li className="separator"><span></span></li>
-                                        {/**<li className="active">{data.shopifyProduct.categories[0].name}</li>*/}
-                                    </ul>
+                    {/* Breadcrumb */}
+                    <nav className="breadcrumb">
+                        <Link to="/" className="breadcrumb__link">Home</Link>
+                        <span className="breadcrumb__separator">/</span>
+                        <Link to="/store" className="breadcrumb__link">Shop</Link>
+                        <span className="breadcrumb__separator">/</span>
+                        <span className="breadcrumb__current">{data.shopifyProduct.title}</span>
+                    </nav>
+
+                    <div className="product-grid">
+                        {/* Product Image Gallery */}
+                        <div className="product-images">
+                            {productImages.length > 0 && (
+                                <div className="product-gallery">
+                                    {/* Main Image */}
+                                    <div className="product-gallery__main">
+                                        <GatsbyImage 
+                                            image={productImages[currentImageIndex].image}
+                                            alt={productImages[currentImageIndex].alt}
+                                            className="product-gallery__image"
+                                        />
+                                        
+                                        {/* Navigation Arrows */}
+                                        {productImages.length > 1 && (
+                                            <>
+                                                <button 
+                                                    className="product-gallery__nav product-gallery__nav--prev"
+                                                    onClick={prevImage}
+                                                    aria-label="Previous image"
+                                                >
+                                                    ‹
+                                                </button>
+                                                <button 
+                                                    className="product-gallery__nav product-gallery__nav--next"
+                                                    onClick={nextImage}
+                                                    aria-label="Next image"
+                                                >
+                                                    ›
+                                                </button>
+                                            </>
+                                        )}
+                                        
+                                        {/* Image Counter */}
+                                        {productImages.length > 1 && (
+                                            <div className="product-gallery__counter">
+                                                {currentImageIndex + 1} / {productImages.length}
+                                            </div>
+                                        )}
+                                    </div>
+                                    
+                                    {/* Thumbnail Navigation */}
+                                    {productImages.length > 1 && (
+                                        <div className="product-gallery__thumbnails">
+                                            {productImages.map((image, index) => (
+                                                <button
+                                                    key={image.id}
+                                                    className={`product-gallery__thumbnail ${index === currentImageIndex ? 'product-gallery__thumbnail--active' : ''}`}
+                                                    onClick={() => goToImage(index)}
+                                                    aria-label={`Go to image ${index + 1}`}
+                                                >
+                                                    <GatsbyImage 
+                                                        image={image.image}
+                                                        alt={image.alt}
+                                                        className="product-gallery__thumbnail-image"
+                                                    />
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
+                            )}
                         </div>
-                    </div>
-                    <div className="row row--25">
-                      <div className="col-lg-4">
-                        {data.shopifyProduct.media &&  <ImageGalleryComponent images={data.shopifyProduct.media} />/**<Img fluid={data.file.childImageSharp.fluid}/>*/}
-                      </div>
-                      <div className="col-lg-8">
-                      <div className="content">
-                          <div className="inner">
-                            {data.shopifyProduct.title && <h4 className="title" style={{marginBottom: "20px"}}>{data.shopifyProduct.title}</h4>}
-                            <div className="row">
-                              <div className="form-group col-lg-8" style={{display: "flex", alignItems: "center"}}>
-                                <select
-                                  className="form-select"
-                                  style={{width: "50%", height: "50%", textAlign: "center", fontSize: "1.5rem", marginRight: "20px"}}
-                                  name="size"
-                                  id="size"
-                                  onChange={handleChangeProduct}
-                                  >
-                                  <option value="select">-----Select Size-----</option>
-                                  {
-                                    data.shopifyProduct.variants && data.shopifyProduct.variants !== 0  && data.shopifyProduct.variants.map((index) => {
-                                      return (
-                                        <option value={index.title} key={index.title}>{index.title}</option>
-                                      )
-                                    })
-                                  }
-                                  </select>
-                                  <input
-                                    type="number"
-                                    value={quantity}
-                                    onChange={(e) => handleQuantityChange(e)}
-                                    min="0"
-                                    style={{
-                                      width: '50px',
-                                      textAlign: 'center',
-                                      marginRight: '10px',
-                                      padding: '5px',
-                                    }}
-                                  />
-                                  <Calltoaction title="" buttonText="Add to Cart" action={handleAddToCart} isOutOfStock={outOfStock} addedToCart={addedToCart}/>
-                                  {error && <div style={{color: "red", fontWeight: "bold"}}>Please select a size option above before adding to cart</div>}
-                                </div>
 
+                        {/* Product Details */}
+                        <div className="product-details">
+                            <h1 className="product-title">{data.shopifyProduct.title}</h1>
+                            
+                            {selectedVariant && (
+                                <div className="product-price">
+                                    {formatPrice(selectedVariant.price * quantity)}
+                                </div>
+                            )}
+
+                            {/* Variant Selection */}
+                            {data.shopifyProduct.variants.length > 1 && (
+                                <div className="product-variants">
+                                    <label className="product-variants__label">Select Size</label>
+                                    <select 
+                                        className="product-variants__select"
+                                        onChange={handleVariantChange}
+                                        value={selectedVariant?.title || ''}
+                                    >
+                                        <option value="">Choose a size</option>
+                                        {data.shopifyProduct.variants.map((variant) => (
+                                            <option 
+                                                key={variant.storefrontId} 
+                                                value={variant.title}
+                                                disabled={variant.inventoryQuantity <= 0}
+                                            >
+                                                {variant.title} - {formatPrice(variant.price)}
+                                                {variant.inventoryQuantity <= 0 ? ' (Out of Stock)' : ''}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
+
+                            {/* Out of Stock Notice */}
+                            {selectedVariant && selectedVariant.inventoryQuantity <= 0 && (
+                                <div className="product-out-of-stock">
+                                    <span className="product-out-of-stock__icon">⚠️</span>
+                                    <span className="product-out-of-stock__text">This variant is out of stock</span>
+                                </div>
+                            )}
+
+                            {/* Quantity */}
+                            <div className="product-quantity">
+                                <label className="product-quantity__label">Quantity</label>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    max={selectedVariant ? selectedVariant.inventoryQuantity : 1}
+                                    value={quantity}
+                                    onChange={handleQuantityChange}
+                                    className="product-quantity__input"
+                                    disabled={selectedVariant && selectedVariant.inventoryQuantity <= 0}
+                                />
                             </div>
 
+                            {/* Add to Cart Button */}
+                            <button
+                                className={`btn btn--primary product-add-to-cart ${isAddingToCart ? 'btn--loading' : ''}`}
+                                onClick={handleAddToCart}
+                                disabled={!selectedVariant || isAddingToCart || (selectedVariant && selectedVariant.inventoryQuantity <= 0)}
+                            >
+                                {isAddingToCart ? 'Adding...' : 
+                                 selectedVariant && selectedVariant.inventoryQuantity <= 0 ? 'Out of Stock' : 'Add to Cart'}
+                            </button>
 
-                            {productPrice && <h5 className="title">ZAR {productPrice * quantity}</h5>}
-                            {data.shopifyProduct.descriptionHtml &&
-                              <div style={{display: "flex", flexDirection: "column"}}>
-                                <div id="description" style={{ overflow: "hidden", height: `${height}`, lineHeight: "22px", marginBottom: "40px"}} dangerouslySetInnerHTML={{__html: data.shopifyProduct.descriptionHtml}}></div>
-                                {showButton ? <button onClick={showHidePara} style={{border: "none", background: "none", textAlign: "right", color: "#A78035"}}> Read {x} </button> : null}
-                              </div>
-                            }
-                          </div>
-                          {/**productPrice && <h5 className="title">ZAR {productPrice}</h5>
-                          <Calltoaction title="" buttonText="Add to Cart" action={handleAddToCart}/>
-                          {error && <div style={{color: "red", fontWeight: "bold"}}>Please select a size option above before adding to cart</div>}*/}
+                            {addedToCart && (
+                                <div className="product-added-message">
+                                    ✓ Added to cart
+                                </div>
+                            )}
 
-                      </div>
-                      </div>
+                            {/* Product Description */}
+                            {data.shopifyProduct.descriptionHtml && (
+                                <div className="product-description">
+                                    <h3>About this blend</h3>
+                                    <div 
+                                        dangerouslySetInnerHTML={{ __html: data.shopifyProduct.descriptionHtml }}
+                                        className="product-description__content"
+                                    />
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
-        </>
-    )
-}
+        </Layout>
+    );
+};
 
-
-export const allCategoryQueryData = graphql`
-    query oneProductQuery2 ($id: String!) {
-      shopifyProduct(shopifyId: {eq: $id}) {
-        title
-        descriptionHtml
-        storefrontId
-        id
-         featuredImage {
-           gatsbyImageData
-         }
-         media {
-           preview {
-             image {
-               gatsbyImageData
-               src
-             }
-           }
-         }
-         variants {
-           price
-           title
-           storefrontId
-           inventoryQuantity
-         }
-      }
+export const query = graphql`
+    query ProductQuery($id: String!) {
+        shopifyProduct(shopifyId: {eq: $id}) {
+            title
+            descriptionHtml
+            storefrontId
+            id
+            featuredImage {
+                gatsbyImageData
+            }
+            media {
+                preview {
+                    image {
+                        gatsbyImageData
+                        src
+                    }
+                }
+            }
+            variants {
+                price
+                title
+                storefrontId
+                inventoryQuantity
+            }
+        }
     }
-`
+`;
 
 export default Product;

@@ -1,15 +1,12 @@
 import React from 'react';
-import { graphql } from "gatsby";
-import Img from 'gatsby-image';
-import { slugify } from "../utils/utilityFunctions";
-import { DiscussionEmbed } from 'disqus-react';
+import { graphql, Link } from "gatsby";
+import { GatsbyImage } from 'gatsby-plugin-image';
 import Layout from "../components/layout";
-import {GatsbyImage} from 'gatsby-plugin-image'
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { BLOCKS, MARKS } from "@contentful/rich-text-types"
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { BLOCKS, MARKS } from "@contentful/rich-text-types";
 
-const Bold = ({ children }) => <span>{children}</span>
-const Text = ({ children }) => <p style={{textAlign: "center"}}>{children}</p>
+const Bold = ({ children }) => <strong>{children}</strong>;
+const Text = ({ children }) => <p>{children}</p>;
 
 const options = {
   renderMark: {
@@ -19,104 +16,102 @@ const options = {
     [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
     [BLOCKS.EMBEDDED_ASSET]: node => {
       return (
-        <>
-          <h2>Embedded Asset</h2>
-          <pre>
-            <code>{JSON.stringify(node, null, 2)}</code>
-          </pre>
-        </>
-      )
+        <div className="blog-image">
+          <GatsbyImage image={node.data.target.gatsbyImageData} alt={node.data.target.title} />
+        </div>
+      );
     },
   },
-}
+};
 
-const BlogDetails = ({data, pageContext}) => {
-  console.log("data blog", data)
-    return (
-        <>
-            <div className="blog-details-wrapper rn-section-gap bg-color-cream">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-8 offset-lg-2">
-                            <div className="post-image" style={{display: "flex", justifyContent: "center"}}>
-                                {data.contentfulBlogPost.image && <GatsbyImage image={data.contentfulBlogPost.image.fixed} alt={data.contentfulBlogPost.title}/>}
-                            </div>
-                            <div className="post-single-title">
-                                <h1 className="post-title">{data.contentfulBlogPost.title}</h1>
-                            </div>
-                            <div className="post-content">{documentToReactComponents(JSON.parse(data.contentfulBlogPost.body.raw, options))}</div>
-                            {/**<div className="tag-list d-flex align-items-center">
-                                <span>Tags:</span>
-                                <div className="tags-cloud">
-                                    {tags.map((tag) => (
-                                        <a key={tag} href={`/tag/${slugify(tag)}`}>{tag}</a>
-                                    ))}
-                                </div>
-                            </div>*/}
+const BlogDetails = ({ data, pageContext }) => {
+  const post = data.contentfulBlogPost;
 
-                        </div>
-                    </div>
-                    {/**<div className="row">
-                        <div className="col-lg-8 offset-lg-2">
-                            <div className="blog-contact-form">
-                                <div className="social-share-inner text-center pt--50">
-                                    <h3>Share This Post</h3>
-                                    <ul className="social-share-links liststyle d-flex justify-content-center">
-                                        <li>
-                                            <a className="facebook" target="_blank" rel="noopener noreferrer" href={'https://www.facebook.com/sharer.php?u=' +
-                                            baseUrl +
-                                            pageContext.slug
-                                            }>
-                                                <span>facebook</span>
-                                            </a>
-                                        </li>
+  console.log(("POST", post))
+  
+  return (
+    <Layout>
+      <article className="blog-post">
+        <div className="container">
+          {/* Breadcrumb */}
+          <nav className="breadcrumb">
+            <Link to="/" className="breadcrumb__link">Home</Link>
+            <span className="breadcrumb__separator">/</span>
+            <Link to="/news" className="breadcrumb__link">News</Link>
+            <span className="breadcrumb__separator">/</span>
+            <span className="breadcrumb__current">{post.title}</span>
+          </nav>
 
-                                        <li>
-                                            <a className="google" target="_blank" rel="noopener noreferrer" href={'https://plus.google.com/share?url=' +
-                                            baseUrl +
-                                            pageContext.slug
+          <div className="blog-content">
+            {/* Featured Image */}
+            {post.image && (
+              <div className="blog-image">
+                <GatsbyImage 
+                  image={post.image.gatsbyImageData} 
+                  alt={post.title}
+                  className="blog-image__main"
+                />
+              </div>
+            )}
 
-                                            }>
-                                                <span>Google</span>
-                                            </a>
-                                        </li>
+            {/* Post Header */}
+            <header className="blog-header">
+              <h1 className="blog-title">{post.title}</h1>
+              {post.createdAt && (
+                <time className="blog-date">
+                  {new Date(post.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </time>
+              )}
+            </header>
 
-                                        <li>
-                                            <a className="linkedin" target="_blank" rel="noopener noreferrer" href={'https://www.linkedin.com/shareArticle?url=' +
-                                            baseUrl +
-                                            pageContext.slug
-                                            }>
-                                                <span>linkedin</span>
-                                            </a>
-                                        </li>
-
-                                    </ul>
-                                </div>
-
-                                <DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
-                            </div>
-                        </div>
-                    </div>*/}
+            {/* Post Content */}
+            <div className="blog-body">
+              {post.body && (
+                <div className="blog-content__text">
+                  {documentToReactComponents(JSON.parse(post.body.raw), options)}
                 </div>
+              )}
             </div>
-        </>
-    )
-}
 
-export const blogDetailsData = graphql`
+            {/* category */}
+            {/*post.category && post.category.length > 0 && (
+              <div className="blog-tags">
+                <span className="blog-tags">category:</span>
+                <div className="blog-tags__list">
+                  {post.category.map((tag, index) => (
+                    <Link key={index} to={`/tag/${tag}`} className="blog-tag">
+                      {tag}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )*/}
+          </div>
+        </div>
+      </article>
+    </Layout>
+  );
+};
+
+export const query = graphql`
 query blogDetailsQuery ($slug: String!) {
     contentfulBlogPost (slug: { eq: $slug }) {
       title
       slug
+      createdAt
       image {
-        fixed: gatsbyImageData(layout: FIXED, height: 350, width: 510)
+        gatsbyImageData
+        title
       }
       body {
         raw
       }
-
     }
-}
-`
+  }
+`;
 
 export default BlogDetails;

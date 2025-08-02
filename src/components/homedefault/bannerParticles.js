@@ -37,104 +37,27 @@ const BannerParticles = () => {
 
     return (
         <div className="rn-slider-area" id="home">
-            {/* Start Single Slider  */}
+            {/* Start Single Slider
             <div className="rn-slide slider-style-01 banner-fixed-height">
 
             </div>
-            {/* End Single Slider  */}
+            */}
+            {/* End Single Slider
             <div className="thumbnail" style={{backgroundImage: `url(${Background})`}}>
                 <div className="trigger" id="trigger" />
                         <div className="thumbnail-inner rn_surface story-image" style={{backgroundColor: "rgba(0, 0, 0, 0.3)"}}>
                             <GatsbyImage className="portfolio-images" image={PortfolioImages} />
                         </div>
-                <Particles className="particle"
-                    options={{
-                        style:{
-                            position: "absolute"
-                        },
-                        fpsLimit: 60,
-                        interactivity: {
-                        detectsOn: "canvas",
-                        events: {
-                            onClick: {
-                            enable: true,
-                            mode: "push",
-                            },
-                            onHover: {
-                            enable: true,
-                            mode: "repulse",
-                            },
-                            resize: true,
-                        },
-                        modes: {
-                            bubble: {
-                            distance: 150,
-                            duration: 2,
-                            opacity: 0.8,
-                            size: 40,
-                            color: "#888",
-                            },
-                            push: {
-                            quantity: 4,
-                            },
-                            repulse: {
-                            distance: 200,
-                            duration: 0.4,
-                            color: "#888",
-                            },
-                        },
-                        },
-                        particles: {
-                        color: {
-                            value: "#888",
-                        },
-                        links: {
-                            color: "#888",
-                            distance: 150,
-                            enable: true,
-                            opacity: 0.5,
-                            width: 1,
-                        },
-                        collisions: {
-                            enable: true,
-                        },
-                        move: {
-                            direction: "none",
-                            enable: true,
-                            outMode: "bounce",
-                            random: false,
-                            speed: 6,
-                            straight: false,
-                            attract: {
-                                enable: false,
-                                rotateX: 600,
-                                rotateY: 1200,
-                            }
-                        },
-                        number: {
-                            density: {
-                            enable: true,
-                            value_area: 800,
-                            },
-                            value: 80,
-                        },
-                        opacity: {
-                            value: 0.5,
-                        },
-                        shape: {
-                            type: "circle",
-                        },
-                        size: {
-                            random: true,
-                            value: 5,
-                        },
-                        },
-                        detectRetina: true,
-                    }}
-
-                />
             </div>
+            */}
 
+            <section className="hero-landing" style={{backgroundImage: `url(${Background})`}}>
+              <div className="hero-overlay">
+                <h1>Feel the Difference</h1>
+                <p>Daily Cacao Rituals for Energy and Calm</p>
+                <a href="/store" className="cta">Explore Blends</a>
+              </div>
+          </section>
         </div>
     )
 }

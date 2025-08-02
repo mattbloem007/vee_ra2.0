@@ -1,173 +1,119 @@
 import React from 'react';
-import Img from "gatsby-image";
-import {GatsbyImage} from 'gatsby-plugin-image'
-import Image from "../elements/image";
-import { FiList, FiUser, FiInstagram, FiArrowLeftCircle } from "react-icons/fi";
+import { graphql, Link, navigate } from 'gatsby';
+import { GatsbyImage } from 'gatsby-plugin-image';
 import Layout from "../components/layout";
-import { graphql, Link, navigate } from 'gatsby'
-import Calltoaction from '../elements/calltoaction/calltoaction'
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { BLOCKS, MARKS } from "@contentful/rich-text-types"
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { BLOCKS, MARKS } from "@contentful/rich-text-types";
 
+const Bold = ({ children }) => <strong>{children}</strong>;
+const Text = ({ children }) => <p>{children}</p>;
 
-
-// const options = {
-//   renderMark: {
-//     [MARKS.BOLD]: text => <Bold>{text}</Bold>,
-//   },
-//   renderNode: {
-//     [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
-//     [BLOCKS.EMBEDDED_ASSET]: node => {
-//       return (
-//         <>
-//           <h2>Embedded Asset</h2>
-//           <pre>
-//             <code>{JSON.stringify(node, null, 2)}</code>
-//           </pre>
-//         </>
-//       )
-//     },
-//   },
-//   renderText: text => {
-//     console.log("In Text", text)
-//     text.split("\n").flatMap((text, i) => [i > 0 && <br />, text])
-//   },
-// }
-
-const renderDocument = document => {
-  const Bold = ({ children }) => <span style={{fontWeight: "bold"}}>{children}</span>
-  const Text = ({ children }) => <p>{children}</p>
-
-  const options = {
-    renderMark: {
-       [MARKS.BOLD]: text => <Bold>{text}</Bold>,
-     },
-     renderNode: {
-       [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
-       [BLOCKS.EMBEDDED_ASSET]: node => {
-         return (
-           <>
-             <h2>Embedded Asset</h2>
-             <pre>
-               <code>{JSON.stringify(node, null, 2)}</code>
-             </pre>
-           </>
-         )
-       },
-     },
-    renderText: text =>
-      text.split("\n").flatMap((text, i) => [i > 0 && <br />, text])
-  };
-
-  return documentToReactComponents(document, options);
+const options = {
+  renderMark: {
+    [MARKS.BOLD]: text => <Bold>{text}</Bold>,
+  },
+  renderNode: {
+    [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
+    [BLOCKS.EMBEDDED_ASSET]: node => {
+      return (
+        <div className="project-image">
+          <GatsbyImage image={node.data.target.gatsbyImageData} alt={node.data.target.title} />
+        </div>
+      );
+    },
+  },
 };
 
-const ProjectDetails = ({data}) => {
-    const projectData = data.contentfulProjects;
-    console.log("Project Data", projectData)
-    let bgColor = "bg-color-white"
-    let textColor = "#333"
-    if (projectData.title == "Moon Mylk") {
-      bgColor = "bg-color-cream"
-      textColor = "#8D6D2A"
-    } else if (projectData.title == "Mood Magick") {
-      bgColor = "bg-color-red"
-      textColor = "#A78035"
-    } else if (projectData.title == "Ritual Roots") {
-      bgColor = "bg-color-green"
-      textColor = "#DBB977"
+const ProjectDetails = ({ data }) => {
+  const project = data.contentfulProjects;
+
+  console.log(("PROJECT", project))
+  
+  const handleBuyNow = () => {
+    if (project.title === "Moon Mylk") {
+      navigate("/store/Moon%20Mylk%20-%20Gaba%20Food%20Supplement/");
+    } else if (project.title === "Mood Magick") {
+      navigate("/store/Mood%20Magick%20-%20Raw%20Cacao%20Drink/");
+    } else if (project.title === "Ritual Roots") {
+      navigate("/store/Ritual%20Roots%20-%20Immunity%20Booster%20Drink/");
     }
-    //const projectImage = data.projectJson.featuredImage;
+  };
 
-    const handleBuyNow = () => {
-      if (projectData.title == "Moon Mylk") {
-          navigate("/store/Moon%20Mylk%20-%20Gaba%20Food%20Supplement/")
-      } else if (projectData.title == "Mood Magick") {
-          navigate("/store/Mood%20Magick%20-%20Raw%20Cacao%20Drink/")
-      } else if (projectData.title == "Ritual Roots") {
-          navigate("/store/Ritual%20Roots%20-%20Immunity%20Booster%20Drink/")
-      }
-    }
+  return (
+    <Layout>
+      <div className="project-page">
+        <div className="container">
+          {/* Breadcrumb */}
+          <nav className="breadcrumb">
+            <Link to="/" className="breadcrumb__link">Home</Link>
+            <span className="breadcrumb__separator">/</span>
+            <Link to="/projects" className="breadcrumb__link">Projects</Link>
+            <span className="breadcrumb__separator">/</span>
+            <span className="breadcrumb__current">{project.title}</span>
+          </nav>
 
+          <div className="project-content">
+            {/* Project Header */}
+            <header className="project-header">
+              <h1 className="project-title">{project.title}</h1>
+              
+            </header>
 
-    return (
-      <>
-          <div className={`rn-project-details-area rn-section-gap ${bgColor}`}>
-              <div className="container">
-                  <div className="row">
-                      <div className="col-lg-12">
-                          <div className="inner">
-                              <div className="portfolio-content">
-                                  <div className="row">
-                                      <div className="col-lg-12 col-md-12 col-12">
-                                          <div className="content-left">
-                                              <Link to="/#products" style={{color: textColor}}><FiArrowLeftCircle size={50} /></Link>
-                                              <div className="page-top" style={{display: "flex", justifyContent: "center", textAlign: "center"}}>
-                                                  <h1 className="title_holder" style={{color: textColor}}>{projectData.title}</h1>
-                                              </div>
-                                              <div className="thumbnail mt_md--40 mt_sm--40" style={{display: "flex", justifyContent: "center"}}>
-                                                <GatsbyImage image={projectData.featuredImage.fixed} alt={projectData.title}/>;
-                                              </div>
-                                              <h3 className="mt--20" style={{color: textColor}}>Details</h3>
-                                              <ul className="list_holder">
-                                                  <li><span className="icon" style={{color: textColor}}><FiList />Category:</span><span className="projectinfo" style={{color: textColor}}>{projectData.category}</span></li>
-                                                  {/**<li><span className="icon"><FiUser />Client:</span><span className="projectinfo">{projectData.client}</span></li>
-                                                  <li><span className="icon"><FiInstagram />Images by:</span><span className="projectinfo">{projectData.imgesBY}</span></li>*/}
-                                              </ul>
-                                              <div style={{color: textColor, paddingBottom: "40px"}}>
-                                                {projectData.body ? renderDocument(JSON.parse(data.contentfulProjects.body.raw)) : null}
-                                              </div>
-                                              <div className="action-btn text-left text-md-left" style={{display: "flex", justifyContent: "center"}}>
-                                                  <button
-                                                      className={`rn-button ${bgColor}`}
-                                                      style={{
-                                                          display: "flex",
-                                                          justifyContent: "center",
-                                                          padding: "0px 30px",
-                                                          opacity: 1,
-                                                          cursor: "pointer",
-
-                                                      }}
-                                                      onClick={handleBuyNow} // Use the new handleClick function
-                                                  >
-                                                  Buy Now
-                                                  </button>
-                                              </div>
-                                              <Link to="/#products" style={{color: textColor}}><FiArrowLeftCircle size={50} /></Link>
-                                          </div>
-                                      </div>
-
-                                  </div>
-                              </div>
-
-
-                            {/**  <div className="image-group">
-                                  {projectImage ? projectImage.map((data, index) => (
-                                      <div className="single-image mt--30" key={index}>
-                                          <Img fluid={data.image.childImageSharp.fluid} />
-                                      </div>
-                                  ))
-                                  :
-                                  <div></div>
-                                }
-                              </div>*/}
-
-
-                          </div>
-                      </div>
-                  </div>
+            {/* Project Image */}
+            {project.featuredImage && (
+              <div className="project-image">
+                <GatsbyImage 
+                  image={project.featuredImage.gatsbyImageData}
+                  alt={project.title}
+                  className="project-image__main"
+                />
               </div>
+            )}
+
+            {/* Project Description */}
+            {/*project.description && (
+              <div className="project-description">
+                <h2>About this project</h2>
+                <div className="project-description__content">
+                  {documentToReactComponents(JSON.parse(project.description.raw), options)}
+                </div>
+              </div>
+            )*/}
+
+            {/* Project Details */}
+            {project.body && (
+              <div className="project-details">
+                <h2>Project details</h2>
+                <div className="project-details__content">
+                  {documentToReactComponents(JSON.parse(project.body.raw), options)}
+                </div>
+              </div>
+            )}
+
+            {/* Call to Action */}
+            <div className="project-cta">
+              <button onClick={handleBuyNow} className="btn btn--primary">
+                Shop This Blend
+              </button>
+            </div>
           </div>
-      </>
-    )
-}
+        </div>
+      </div>
+    </Layout>
+  );
+};
+
 
 export const query = graphql `
 query ProjectQuery($name: String!) {
-  contentfulProjects (name: { eq: $name } ){
+  contentfulProjects (name: { eq: $name } ) {
             id
             name
             title
+            featuredImage {
+              gatsbyImageData
+              title
+            }
             body {
               raw
             }
@@ -178,5 +124,6 @@ query ProjectQuery($name: String!) {
         }
   }
 }
-`;
+`
+
 export default ProjectDetails;

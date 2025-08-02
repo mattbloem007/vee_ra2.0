@@ -1,86 +1,94 @@
 import React from 'react'
 import {Link} from 'gatsby'
-import {Item, Button, Loader, Message} from 'semantic-ui-react'
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
 
 export default ({items, removeFromCart, loading, completed, cartId, updateCart}) => {
 
-  console.log("ITEMS", items)
-
   const handleQuantityChange = (id, e) => {
-    console.log("ID", e, id)
     const newQuantity = e.target.value;
-    console.log("quantity change", newQuantity)
     if (newQuantity >= 0) {
-      updateCart(id, newQuantity); // Function to update the quantity
+      updateCart(id, newQuantity);
     }
   };
 
-  if (loading) return <Loader active inline="centered" />
+  if (loading) return (
+    <div className="cart-loading">
+      <div className="cart-loading__spinner"></div>
+      <p>Loading your cart...</p>
+    </div>
+  );
 
   if (completed)
     return (
-      <Message success>
-        <Message.Header>Success!</Message.Header>
+      <div className="cart-success">
+        <div className="cart-success__icon">✓</div>
+        <h2>Success!</h2>
         <p>Congratulations. Your order and payment has been accepted.</p>
-      </Message>
-    )
+      </div>
+    );
 
   if (items === null || items.lines.edges.length === 0)
     return (
-      <Message warning>
-        <Message.Header>Your cart is empty</Message.Header>
-        <p>
-          You will need to add some items to the cart before you can checkout.
-        </p>
-      </Message>
-    )
-  const mapCartItemsToItems = items =>
-    items.lines.edges.map((node) => {
-      console.log("merch", node.node)
-      const id = node.node.id
-      const size = node.node.merchandise.title
-      const name = node.node.merchandise.product.title
-      const product_id = node.node.merchandise.product.id
-      const quantity = node.node.quantity
-      const price = node.node.merchandise.id || ''
-      const imageUrl = node.node.merchandise.product.images.edges[0].node.url || ''
+      <div className="cart-empty">
+        <div className="cart-empty__icon">🛒</div>
+        <h2>Your cart is empty</h2>
+        <p>You will need to add some items to the cart before you can checkout.</p>
+        <Link to="/store" className="btn btn--primary">
+          Continue Shopping
+        </Link>
+      </div>
+    );
 
-      return {
-        childKey: id,
-        header: (
-          <Item.Header>
-            <Link to={`/store/${name}/`}>{name}</Link>
-          </Item.Header>
-        ),
-        image: (
-          <div className="cart-item-list">
-            <img src={imageUrl} />
-          </div>
-        ),
-        meta: `${quantity}x ${name}`,
-        description: size,
-        extra: (
-          <div className="cart-item-container">
-            <input
-              type="number"
-              value={quantity}
-              onChange={(e) => handleQuantityChange(id, e)}
-              min="0"
-              style={{
-                width: '50px',
-                textAlign: 'center',
-                marginRight: '10px',
-                padding: '5px',
-              }}
-            />
+  return (
+    <div className="cart-items">
+      {items.lines.edges.map((node) => {
+        const id = node.node.id;
+        const size = node.node.merchandise.title;
+        const name = node.node.merchandise.product.title;
+        const quantity = node.node.quantity;
+        const imageUrl = node.node.merchandise.product.images.edges[0].node.url || '';
 
-            <button className="ui basic icon right floated button" onClick={() => removeFromCart(id)}>
-              <AiOutlineClose />
-            </button>
+        return (
+          <div key={id} className="cart-item">
+            <div className="cart-item__image">
+              <img src={imageUrl} alt={name} />
+            </div>
+            
+            <div className="cart-item__content">
+              <div className="cart-item__header">
+                <h3 className="cart-item__title">
+                  <Link to={`/store/${name}/`}>{name}</Link>
+                </h3>
+                <button 
+                  className="cart-item__remove" 
+                  onClick={() => removeFromCart(id)}
+                  aria-label="Remove item"
+                >
+                  <AiOutlineClose />
+                </button>
+              </div>
+              
+              <div className="cart-item__details">
+                <span className="cart-item__variant">{size}</span>
+                <span className="cart-item__quantity">Quantity: {quantity}</span>
+              </div>
+              
+              <div className="cart-item__controls">
+                <label className="cart-item__quantity-label">
+                  Quantity:
+                  <input
+                    type="number"
+                    value={quantity}
+                    onChange={(e) => handleQuantityChange(id, e)}
+                    min="0"
+                    className="cart-item__quantity-input"
+                  />
+                </label>
+              </div>
+            </div>
           </div>
-        ),
-      }
-    })
-  return <Item.Group divided items={mapCartItemsToItems(items)} />
-}
+        );
+      })}
+    </div>
+  );
+};
