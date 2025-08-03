@@ -12,11 +12,11 @@ const Contact = () => {
             We'd love to hear from you.
           </p>
           <div className="contact__links">
-            <a href="mailto:hello@vee-ra.com" className="contact__link">
+            <a href="mailto:info@veera.co.za" className="contact__link">
               hello@vee-ra.com
             </a>
-            <a href="https://instagram.com/vee_ra" className="contact__link">
-              @vee_ra
+            <a target="_blank" href="https://instagram.com/vee_ra_botanicalblends" className="contact__link">
+              @vee_ra_botanicalblends
             </a>
           </div>
           <div className="contact__cta">
