@@ -1,16 +1,33 @@
 @font-face {
-    font-family: 'Bodoni';
-    src: url("Bodoni.ttf") format("truetype");
- }
- 
- @font-face {
-   font-family: 'Atlane Regular';
-   font-style: normal;
-   font-weight: normal;
-   src: url('Atlane-Regular.otf') format('opentype');
- }
- 
- @font-face {
-     font-family: 'Minion';
-     src: url("Minion-Pro-Cond-Italic.otf") format("opentype");
- }
+    font-family: 'Rozelle';
+    src: url("/fonts/Rozelle-Regular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'Belwe Medium';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/fonts/Belwe-Medium.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Sweet Rosetia Sans';
+    src: url("/fonts/Sweet-Rosetia-Sans-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Utility classes for the new fonts */
+.font-rozelle {
+    font-family: 'Rozelle', sans-serif;
+}
+
+.font-belwe {
+    font-family: 'Belwe Medium', serif;
+}
+
+.font-sweet-rosetia {
+    font-family: 'Sweet Rosetia Sans', sans-serif;
+}

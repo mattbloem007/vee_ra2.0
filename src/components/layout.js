@@ -19,6 +19,29 @@ const Layout = (props) => {
     // Force scroll to top immediately
     scrollToTop();
     
+    // Font loading optimization
+    const loadFonts = async () => {
+      try {
+        if (document.fonts && document.fonts.ready) {
+          await document.fonts.ready;
+        } else {
+          // Fallback for browsers without document.fonts API
+          setTimeout(() => {
+            document.documentElement.classList.add('fonts-loaded');
+          }, 1000);
+        }
+        document.documentElement.classList.add('fonts-loaded');
+      } catch (error) {
+        console.log('Fonts loaded with fallback');
+        // Fallback: add class after a delay
+        setTimeout(() => {
+          document.documentElement.classList.add('fonts-loaded');
+        }, 1000);
+      }
+    };
+    
+    loadFonts();
+    
     return () => {
       document.body.style.overflow = 'unset';
     };

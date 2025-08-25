@@ -3,6 +3,8 @@ import { graphql, Link } from "gatsby";
 import Layout from "../components/layout";
 import { GatsbyImage } from "gatsby-plugin-image";
 import { useStore } from "../context/StoreContext";
+import ProductAccordion from "../components/modern/ProductAccordion";
+import { getProductData } from "../data/products";
 
 const Product = (props) => {
     const data = props.data;
@@ -12,6 +14,28 @@ const Product = (props) => {
     const [addedToCart, setAddedToCart] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const { addToCart } = useStore();
+
+    // Get product data for accordion sections
+    const productId = data.shopifyProduct.handle || data.shopifyProduct.title.toLowerCase().replace(/\s+/g, '-');
+    let productData = getProductData(productId);
+    
+    // If no product data found, try to find by title variations
+    if (!productData) {
+      const title = data.shopifyProduct.title.toLowerCase();
+      if (title.includes('ritual') || title.includes('roots')) {
+        productData = getProductData('rr');
+      } else if (title.includes('mood') || title.includes('magick')) {
+        productData = getProductData('mood-magick');
+      } else if (title.includes('moon') || title.includes('mylk')) {
+        productData = getProductData('moon-mylk');
+      }
+    }
+    
+    // Debug logging
+    console.log('Product handle:', data.shopifyProduct.handle);
+    console.log('Product title:', data.shopifyProduct.title);
+    console.log('Generated product ID:', productId);
+    console.log('Found product data:', productData);
 
     // Get all product images including featured image and media
     const productImages = React.useMemo(() => {
@@ -185,24 +209,32 @@ const Product = (props) => {
                             {/* Variant Selection */}
                             {data.shopifyProduct.variants.length > 1 && (
                                 <div className="product-variants">
-                                    <label className="product-variants__label">Select Size</label>
-                                    <select 
-                                        className="product-variants__select"
-                                        onChange={handleVariantChange}
-                                        value={selectedVariant?.title || ''}
-                                    >
-                                        <option value="">Choose a size</option>
+                                    <label className="product-variants__label">Size</label>
+                                    <div className="product-variants__options">
                                         {data.shopifyProduct.variants.map((variant) => (
-                                            <option 
-                                                key={variant.storefrontId} 
-                                                value={variant.title}
+                                            <button
+                                                key={variant.storefrontId}
+                                                className={`product-variants__option ${selectedVariant?.storefrontId === variant.storefrontId ? 'product-variants__option--selected' : ''} ${variant.inventoryQuantity <= 0 ? 'product-variants__option--disabled' : ''} ${variant.inventoryQuantity <= 3 && variant.inventoryQuantity > 0 ? 'product-variants__option--low-stock' : ''}`}
+                                                onClick={() => setSelectedVariant(variant)}
                                                 disabled={variant.inventoryQuantity <= 0}
+                                                type="button"
                                             >
-                                                {variant.title} - {formatPrice(variant.price)}
-                                                {variant.inventoryQuantity <= 0 ? ' (Out of Stock)' : ''}
-                                            </option>
+                                                <div className="product-variants__option-content">
+                                                    <span className="product-variants__option-title">{variant.title}</span>
+                                                    <span className="product-variants__option-price">{formatPrice(variant.price)}</span>
+                                                </div>
+                                                
+                                                {/* Stock Status Indicators */}
+                                                {variant.inventoryQuantity <= 0 ? (
+                                                    <span className="product-variants__option-out-of-stock">Out of Stock</span>
+                                                ) : variant.inventoryQuantity <= 3 ? (
+                                                    <span className="product-variants__option-low-stock">
+                                                        Low Stock ({variant.inventoryQuantity})
+                                                    </span>
+                                                ) : null}
+                                            </button>
                                         ))}
-                                    </select>
+                                    </div>
                                 </div>
                             )}
 
@@ -217,15 +249,36 @@ const Product = (props) => {
                             {/* Quantity */}
                             <div className="product-quantity">
                                 <label className="product-quantity__label">Quantity</label>
-                                <input
-                                    type="number"
-                                    min="1"
-                                    max={selectedVariant ? selectedVariant.inventoryQuantity : 1}
-                                    value={quantity}
-                                    onChange={handleQuantityChange}
-                                    className="product-quantity__input"
-                                    disabled={selectedVariant && selectedVariant.inventoryQuantity <= 0}
-                                />
+                                <div className="product-quantity__selector">
+                                    <button
+                                        type="button"
+                                        className="product-quantity__btn product-quantity__btn--decrease"
+                                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                                        disabled={quantity <= 1 || (selectedVariant && selectedVariant.inventoryQuantity <= 0)}
+                                        aria-label="Decrease quantity"
+                                    >
+                                        −
+                                    </button>
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        max={selectedVariant ? selectedVariant.inventoryQuantity : 1}
+                                        value={quantity}
+                                        onChange={handleQuantityChange}
+                                        className="product-quantity__input"
+                                        disabled={selectedVariant && selectedVariant.inventoryQuantity <= 0}
+                                        aria-label="Quantity"
+                                    />
+                                    <button
+                                        type="button"
+                                        className="product-quantity__btn product-quantity__btn--increase"
+                                        onClick={() => setQuantity(quantity + 1)}
+                                        disabled={selectedVariant && (quantity >= selectedVariant.inventoryQuantity || selectedVariant.inventoryQuantity <= 0)}
+                                        aria-label="Increase quantity"
+                                    >
+                                        +
+                                    </button>
+                                </div>
                             </div>
 
                             {/* Add to Cart Button */}
@@ -254,6 +307,16 @@ const Product = (props) => {
                                     />
                                 </div>
                             )}
+
+                            {/* Product Accordion Sections */}
+                            {productData && (
+                                <div className="product-sections">
+                                    <ProductAccordion 
+                                        sections={productData.sections} 
+                                        productId={productData.id}
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -266,6 +329,7 @@ export const query = graphql`
     query ProductQuery($id: String!) {
         shopifyProduct(shopifyId: {eq: $id}) {
             title
+            handle
             descriptionHtml
             storefrontId
             id

@@ -13,7 +13,7 @@ const Contact = () => {
           </p>
           <div className="contact__links">
             <a href="mailto:info@veera.co.za" className="contact__link">
-              hello@vee-ra.com
+              info@veera.co.za
             </a>
             <a target="_blank" href="https://instagram.com/vee_ra_botanicalblends" className="contact__link">
               @vee_ra_botanicalblends

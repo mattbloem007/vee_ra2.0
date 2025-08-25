@@ -64,9 +64,9 @@ const Hero = () => {
           <h1 className="hero__title">
             {heroData.title}
           </h1>
-          <p className="hero__subtitle">
+          <h3 className="hero__subtitle">
             {heroData.subtitle}
-          </p>
+          </h3>
           <p className="hero__description">
           {documentToReactComponents(JSON.parse(heroData.description.raw), options)}
           </p>

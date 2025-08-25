@@ -65,7 +65,7 @@ const Header = (props) => {
             },
             file(relativePath: {eq: "images/Final-Logo-PNGs/Gold/Ra-Logo-28.png"}) {
                 childImageSharp {
-                    gatsbyImageData(width: 150)
+                    gatsbyImageData(width: 200)
                 }
             }
         }
@@ -112,11 +112,21 @@ const Header = (props) => {
                                         </li>
 
                                         <li>
-                                            <Link className="menu-hover-link" to="/#about">
-                                                <span className="hover-item">
-                                                    <span data-text="About">About</span>
+                                            <div className="menu-dropdown">
+                                                <span className="menu-hover-link">
+                                                    <span className="hover-item">
+                                                        <span data-text="About">About</span>
+                                                    </span>
                                                 </span>
-                                            </Link>
+                                                <div className="dropdown-menu">
+                                                    <Link to="/about" className="dropdown-item">
+                                                        <span>Our Story</span>
+                                                    </Link>
+                                                    <Link to="/values" className="dropdown-item">
+                                                        <span>Our Values</span>
+                                                    </Link>
+                                                </div>
+                                            </div>
                                         </li>
 
                                         <li>
@@ -131,6 +141,14 @@ const Header = (props) => {
                                             <Link className="menu-hover-link" to="/#news">
                                                 <span className="hover-item">
                                                     <span data-text="News">News</span>
+                                                </span>
+                                            </Link>
+                                        </li>
+
+                                        <li>
+                                            <Link className="menu-hover-link" to="/brew-guides">
+                                                <span className="hover-item">
+                                                    <span data-text="Brew Guides">Brew Guides</span>
                                                 </span>
                                             </Link>
                                         </li>

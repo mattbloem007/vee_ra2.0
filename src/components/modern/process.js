@@ -5,17 +5,17 @@ const Process = () => {
     {
       number: "01",
       title: "Choose Your Blend",
-      description: "Select the blend that resonates with your current needs - energy, calm, or connection."
+      description: "Select from our signature blends: Mood Magick for Energy, Moon Mylk for Relaxation, or Ritual Roots for Grounding."
     },
     {
       number: "02",
       title: "Prepare with Intention",
-      description: "Heat water to 160°F and whisk your blend with intention and presence."
+      description: "Prepare your chosen blend with intention and presence, honoring the ancient wisdom of cacao and medicinal plants."
     },
     {
       number: "03",
       title: "Savor the Moment",
-      description: "Find a quiet space, take deep breaths, and slowly sip your ceremonial cacao."
+      description: "Find a quiet space, take a deep breath, and slowly sip your blend mindfully, allowing its transformative properties to work its magic."
     }
   ];
 
@@ -23,9 +23,9 @@ const Process = () => {
     <section className="process">
       <div className="container">
         <div className="process__header">
-          <h2 className="process__title">Your Daily Ritual</h2>
+          <h2 className="process__title">Your Sacred Ritual</h2>
           <p className="process__subtitle">
-            Transform your morning or evening with our simple three-step process
+            Transform your daily practice with our signature botanical blends through intention and presence
           </p>
         </div>
         <div className="process__steps">

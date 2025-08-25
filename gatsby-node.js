@@ -67,6 +67,7 @@ exports.createPages = ({actions, graphql}) => {
         tagPost: path.resolve('src/template/tag-template.js'),
         authorPage: path.resolve('src/template/archive.js'),
         productPage: path.resolve('src/template/product.js'),
+        brewGuide: path.resolve('src/template/brew-guide.js'),
     }
 
     return graphql(`
@@ -244,6 +245,21 @@ exports.createPages = ({actions, graphql}) => {
                 component: templates.productPage,
                 context: {
                     id: product.node.shopifyId,
+                }
+            })
+        })
+
+        // Create Brew Guide Pages
+        const brewGuides = res.data.allMarkdownRemark.edges.filter(edge => 
+            edge.node.frontmatter.category === 'brew guides'
+        )
+        
+        brewGuides.forEach(({ node }) => {
+            createPage({
+                path: `/brew-guides/${node.fields.slug}`,
+                component: templates.brewGuide,
+                context: {
+                    slug: node.fields.slug,
                 }
             })
         })

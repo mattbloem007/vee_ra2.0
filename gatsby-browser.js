@@ -8,6 +8,9 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 //import 'semantic-ui-css/semantic.min.css'
 
+// Import main styles with custom fonts
+import "./src/scss/style.scss";
+
 // Import Google Fonts
 import '@fontsource/arsenal-sc/400.css';
 import '@fontsource/arsenal-sc/700.css';

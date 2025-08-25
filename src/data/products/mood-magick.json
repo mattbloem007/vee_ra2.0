@@ -1,0 +1,18 @@
+{
+  "id": "mood-magick",
+  "title": "Mood Magick",
+  "sections": {
+    "ingredients": {
+      "title": "Ingredients",
+      "content": "Cacao Paste*, Cacao Powder*, Lion’s Mane*, Reishi*, Ashwagandha*, Ceylon Cinnamon*, Oryx Desert Salt*\n*ORGANIC"
+    },
+    "brew-guide": {
+      "title": "Brew Guide",
+      "content": "Add 1½ - 2 Tbsp (15g) to 200-250ml of warm milk of choice or water. Do not boil. \n Allow time to melt and merge. \n To froth, mix in a blender, plunge up and down vigorously in a French press, or shake in a jar. \n Add sweetener if desired."
+    },
+    "shipping": {
+      "title": "Shipping",
+      "content": "Orders are typically processed within 1-2 business days. Domestic shipping takes 2-5 business days, while international shipping varies by location. All packages are carefully packaged to ensure your Mood Magick arrives in perfect condition."
+    }
+  }
+}

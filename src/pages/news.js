@@ -7,12 +7,35 @@ import SEO from '../components/seo';
 const NewsPage = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('date'); // date, title
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
   const allPosts = data.allContentfulBlogPost.edges.map(edge => edge.node);
+
+  // Extract unique categories from Contentful and posts
+  const categories = useMemo(() => {
+    // Get categories from Contentful
+    const contentfulCategories = data.allContentfulBlogPostCategories?.edges?.map(edge => edge.node.category) || [];
+    
+    // Get categories from existing blog posts (as fallback)
+    const postCategories = new Set(allPosts.map(post => post.category?.category).filter(Boolean));
+    
+    // Combine both sources, removing duplicates
+    const allCategories = [...new Set([...contentfulCategories, ...postCategories])];
+    
+    // Sort categories alphabetically, but keep 'all' first
+    const sortedCategories = allCategories.sort((a, b) => a.localeCompare(b));
+    
+    return ['all', ...sortedCategories];
+  }, [data.allContentfulBlogPostCategories, allPosts]);
 
   // Filter and sort posts
   const filteredPosts = useMemo(() => {
     let filtered = allPosts;
+
+    // Filter by category
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(post => post.category?.category === selectedCategory);
+    }
 
     // Filter by search term
     if (searchTerm) {
@@ -35,7 +58,18 @@ const NewsPage = ({ data }) => {
     });
 
     return filtered;
-  }, [allPosts, searchTerm, sortBy]);
+  }, [allPosts, selectedCategory, searchTerm, sortBy]);
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+    setSearchTerm(''); // Clear search when changing category
+  };
+
+  const clearAllFilters = () => {
+    setSelectedCategory('all');
+    setSearchTerm('');
+    setSortBy('date');
+  };
 
   return (
     <Layout>
@@ -59,31 +93,75 @@ const NewsPage = ({ data }) => {
             </div>
           </header>
 
-          {/* Filters and Search */}
-          <div className="news-filters">
-            <div className="news-filters__search">
-              <input
-                type="text"
-                placeholder="Search articles..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="news-search__input"
-              />
+          {/* Category Filters */}
+          <div className="news-categories">
+            <div className="news-categories__header">
+              <h3 className="news-categories__title">Browse by Category</h3>
+              <div className="news-categories__controls">
+                <div className="news-categories__sort">
+                  <label htmlFor="sort-filter">Sort by:</label>
+                  <select
+                    id="sort-filter"
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="news-filter__select"
+                  >
+                    <option value="date">Date (Newest)</option>
+                    <option value="title">Title (A-Z)</option>
+                  </select>
+                </div>
+                <button 
+                  onClick={clearAllFilters}
+                  className="news-categories__clear"
+                  disabled={selectedCategory === 'all' && !searchTerm}
+                >
+                  Clear All
+                </button>
+              </div>
             </div>
             
-            <div className="news-filters__controls">
-              <div className="news-filters__sort">
-                <label htmlFor="sort-filter">Sort by:</label>
-                <select
-                  id="sort-filter"
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="news-filter__select"
-                >
-                  <option value="date">Date (Newest)</option>
-                  <option value="title">Title (A-Z)</option>
-                </select>
+            {/* Search Field */}
+            <div className="news-categories__search">
+              <div className="search-input-wrapper">
+                <svg className="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M19 19l-5.5-5.5M17 9.5a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Search articles..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="news-search__input"
+                />
+                {searchTerm && (
+                  <button 
+                    onClick={() => setSearchTerm('')}
+                    className="search-clear-btn"
+                    aria-label="Clear search"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M12.854 3.146a.5.5 0 0 1 0 .708L9.207 7.5l3.647 3.646a.5.5 0 0 1-.708.708L8.5 8.207l-3.646 3.647a.5.5 0 0 1-.708-.708L7.793 7.5 4.146 3.854a.5.5 0 0 1 .708-.708L8.5 6.793l3.646-3.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                    </svg>
+                  </button>
+                )}
               </div>
+            </div>
+            
+            <div className="news-categories__grid">
+              {categories.map(category => (
+                <button
+                  key={category}
+                  onClick={() => handleCategoryClick(category)}
+                  className={`news-category-btn ${selectedCategory === category ? 'active' : ''}`}
+                >
+                  {category === 'all' ? 'All Posts' : category}
+                  {selectedCategory === category && (
+                    <svg className="news-category-btn__check" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                    </svg>
+                  )}
+                </button>
+              ))}
             </div>
           </div>
 
@@ -91,6 +169,7 @@ const NewsPage = ({ data }) => {
           <div className="news-results">
             <p className="news-results__count">
               Showing {filteredPosts.length} of {allPosts.length} articles
+              {selectedCategory !== 'all' && ` in "${selectedCategory}"`}
               {searchTerm && ` matching "${searchTerm}"`}
             </p>
           </div>
@@ -108,6 +187,11 @@ const NewsPage = ({ data }) => {
                         className="news-card__img"
                       />
                     </Link>
+                  )}
+                  {post.category?.category && (
+                    <span className="news-card__category">
+                      {post.category.category}
+                    </span>
                   )}
                 </div>
                 
@@ -147,15 +231,18 @@ const NewsPage = ({ data }) => {
           {/* No Results */}
           {filteredPosts.length === 0 && (
             <div className="news-empty">
+              <div className="news-empty__icon">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
               <h3>No articles found</h3>
-              <p>Try adjusting your search terms.</p>
+              <p>Try adjusting your search terms or selecting a different category.</p>
               <button 
-                onClick={() => {
-                  setSearchTerm('');
-                }}
+                onClick={clearAllFilters}
                 className="news-empty__reset"
               >
-                Clear Search
+                Clear All Filters
               </button>
             </div>
           )}
@@ -173,12 +260,22 @@ export const query = graphql`
           title
           slug
           createdAt
+          category {
+            category
+          }
           image {
             gatsbyImageData(width: 400, height: 250)
           }
           body {
             raw
           }
+        }
+      }
+    }
+    allContentfulBlogPostCategories {
+      edges {
+        node {
+          category
         }
       }
     }

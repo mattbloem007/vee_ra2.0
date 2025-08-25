@@ -24,6 +24,11 @@
                 position: relative;
                 z-index: 10;
                 padding: 60px;
+                
+                img {
+                    max-width: 200px;
+                    height: auto;
+                }
             }
             .mainmenu-inner {
                 padding: 0px 60px 0px 60px;
@@ -132,6 +137,23 @@
         display: flex;
         align-items: center;
         margin-bottom: -10px;
+        
+        .logo {
+            max-width: 200px;
+            
+            img {
+                max-width: 200px;
+                height: auto;
+            }
+            
+            @media (max-width: 768px) {
+                max-width: 150px;
+                
+                img {
+                    max-width: 130px;
+                }
+            }
+        }
     }
 
     .header-search {

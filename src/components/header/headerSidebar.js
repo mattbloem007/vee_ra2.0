@@ -18,7 +18,7 @@ const HeaderNoSidebar = () => {
             },
             file(relativePath: {eq: "images/Final-Logo-PNGs/Gold/Ra-Logo-28.png"}) {
                 childImageSharp {
-                    fixed (quality: 100, width: 70, height: 35) {
+                    fixed (quality: 100, width: 100, height: 50) {
                         ...GatsbyImageSharpFixed
                     }
                 }

@@ -32,32 +32,33 @@ const Footer = () => {
         <div className="footer__content">
           <div className="footer__logo">
             <GatsbyImage image={logo} alt="Vee/Ra" />
-            <p className="footer__slogan">Sacred Cacao for Modern Rituals</p>
+            <h6 className="footer__slogan">Sacred Cacao for Modern Rituals</h6>
           </div>
           
           <div className="footer__links">
             <div className="footer__section">
               <h4>Shop</h4>
               <Link to="/store">All Products</Link>
-              {products.map(({ node }) => (
+              {/*products.map(({ node }) => (
                 <Link key={node.shopifyId} to={`/store/${node.title}`}>
                   {node.title.indexOf("-") > 0 ? node.title.slice(0, node.title.indexOf("-")) : node.title}
                 </Link>
-              ))}
+              ))*/}
             </div>
             
             <div className="footer__section">
               <h4>About</h4>
               <Link to="/about">Our Story</Link>
-              <Link to="/about">Ingredients</Link>
-              <Link to="/about">Process</Link>
+              <Link to="/values">Our Values</Link>
+              {/*<Link to="/about">Ingredients</Link>
+              <Link to="/about">Process</Link>*/}
             </div>
             
             <div className="footer__section">
               <h4>Support</h4>
               <Link to="/contact">Contact</Link>
-              <Link to="/shipping">Shipping</Link>
-              <Link to="/returns">Returns</Link>
+              {/*<Link to="/shipping">Shipping</Link>
+              <Link to="/returns">Returns</Link>*/}
             </div>
           </div>
         </div>
@@ -67,7 +68,7 @@ const Footer = () => {
             <a href="https://instagram.com/vee_ra" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
               <FaInstagram />
             </a>
-            <a href="mailto:hello@vee-ra.com" aria-label="Send us an email">
+            <a href="mailto:info@veera.co.za" aria-label="Send us an email">
               <FaEnvelope />
             </a>
           </div>

@@ -7,7 +7,9 @@ yarn.lock
 
 
 # Build directory
-/public
+/public/page-data
+/public/static
+/public/.DS_Store
 .DS_Store
 
 # dotenv environment variable files

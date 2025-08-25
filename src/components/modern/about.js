@@ -24,10 +24,10 @@ const About = () => {
               Crafted with Intention
             </h2>
             <p className="about__text">
-              Our decadent botanical blends combine the finest ceremonial cacao with carefully selected herbs and spices. Each blend is crafted to support your daily rituals, whether you seek energy, calm, or connection.
+              Our premium botanical blends combine the finest cacao with carefully selected herbs and medicinal plants. Each blend is crafted to support your unique wellness journey, whether you seek emotional balance, inner calm, or grounding connection.
             </p>
             <p className="about__text">
-              From our signature Energy blend to our calming Serenity mix, every cup is an invitation to pause, reflect, and nourish your body and soul.
+              From our signature Mood Magick blend to our lunar-inspired Moon Mylk and grounding Ritual Roots, every cup is an invitation to pause, reflect, and nourish your body and soul through mindful herbal practices.
             </p>
             <div className="about__cta">
               <Link to="/about" className="btn btn--secondary">

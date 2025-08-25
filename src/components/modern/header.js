@@ -60,16 +60,34 @@ const Header = () => {
           <nav className={`header__nav ${isMenuOpen ? 'header__nav--open' : ''}`}>
             <div className="header__nav-content">
               <Link to="/" className="header__link" onClick={closeMenu}>Home</Link>
-              <Link to="/store" className="header__link" onClick={closeMenu}>Shop</Link>
+              <Link to="/store" className="header__link" onClick={closeMenu}>Store</Link>
               <Link to="/about" className="header__link" onClick={closeMenu}>About</Link>
               <Link to="/news" className="header__link" onClick={closeMenu}>Learn</Link>
+              <Link to="/brew-guides" className="header__link" onClick={closeMenu} >Brew Guides</Link>
               <Link to="/contact" className="header__link" onClick={closeMenu}>Contact</Link>
             </div>
           </nav>
 
           <div className="header__actions">
             <Link to="/cart" className="header__cart">
-              <span className="header__cart-icon">🛒</span>
+              <span className="header__cart-icon">
+                <svg 
+                  width="24" 
+                  height="24" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="cart-svg-icon"
+                >
+                  <path 
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0a2 2 0 100 4 2 2 0 000-4zm9 0a2 2 0 100 4 2 2 0 000-4z" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
               {cartItemCount > 0 && (
                 <span className="header__cart-count">{cartItemCount}</span>
               )}
