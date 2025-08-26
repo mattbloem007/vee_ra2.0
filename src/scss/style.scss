@@ -37,8 +37,7 @@
 
 ***************************************************************/
 
-
-// Bootstrap Scss
+// Bootstrap Scss - Keep @import to avoid Bootstrap's internal deprecation warnings
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
 
 // Custom Fonts
