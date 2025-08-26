@@ -255,7 +255,7 @@ export const query = graphql`
   query BrewGuidesPageQuery {
     allMarkdownRemark(
       filter: { frontmatter: { category: { eq: "brew guides" } } }
-      sort: { frontmatter: { date: DESC } }
+      sort: { fields: [frontmatter___date], order: DESC }
     ) {
       edges {
         node {

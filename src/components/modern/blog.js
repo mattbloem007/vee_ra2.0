@@ -50,7 +50,7 @@ const Blog = ({ title, date, path, image, excerpt }) => {
 const BlogSection = () => {
   const blogQueryData = useStaticQuery(graphql`
     query BlogListQuery {
-      allContentfulBlogPost(limit: 3, sort: {createdAt: DESC}) {
+      allContentfulBlogPost(limit: 3, sort: {fields: createdAt, order: DESC}) {
         edges {
           node {
             title

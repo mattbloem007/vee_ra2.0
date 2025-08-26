@@ -12,11 +12,14 @@ const Footer = () => {
           gatsbyImageData
         }
       }
-      allShopifyProduct {
+      allShopifyProduct(limit: 3) {
         edges {
           node {
             title
             shopifyId
+            featuredImage {
+              gatsbyImageData
+            }
           }
         }
       }
@@ -39,11 +42,11 @@ const Footer = () => {
             <div className="footer__section">
               <h4>Shop</h4>
               <Link to="/store">All Products</Link>
-              {/*products.map(({ node }) => (
+              {products.map(({ node }) => (
                 <Link key={node.shopifyId} to={`/store/${node.title}`}>
                   {node.title.indexOf("-") > 0 ? node.title.slice(0, node.title.indexOf("-")) : node.title}
                 </Link>
-              ))*/}
+              ))}
             </div>
             
             <div className="footer__section">

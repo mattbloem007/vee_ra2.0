@@ -8,13 +8,16 @@ const Archive = ({data , pageContext}) => {
     const {totalCount} = data.allMarkdownRemark;
     const {author} = pageContext;
     const pageHeader = `${totalCount} Post${(totalCount === 1) ?'':'s'} By <span class="theme-color">${author}</span>`;
+
     return (
         <>
             <div className="rn-post-list-page rn-section-gapBottom pt--90 bg-color-white">
+
                 <div className="container">
                     <div className="col-lg-12">
                         <div className="page-top">
                             <h1 className="title_holder" dangerouslySetInnerHTML={{ __html: pageHeader }}></h1>
+
                             <div className="breadcrumbs-area">
                                 <ul className="breadcrumbs">
                                     <li><a href="/">Home</a></li>
@@ -27,6 +30,7 @@ const Archive = ({data , pageContext}) => {
                     <div className="row row--25">
                         {authorblogs.map(blog => (
                             <div className="col-lg-4 col-md-6 col-12" key={blog.node.fields.slug}>
+
                                 <Post
                                     content={{
                                         ...blog.node.fields,
@@ -70,8 +74,7 @@ query allauthorQuery($author: String!) {
         category
         image {
           childImageSharp {
-            fluid(maxHeight: 300, maxWidth: 500, quality: 100,
-  srcSetBreakpoints: 6) {
+            fluid(maxHeight: 300, maxWidth: 500, quality: 100, srcSetBreakpoints: 6) {
               ...GatsbyImageSharpFluid_withWebp
               presentationWidth
               presentationHeight

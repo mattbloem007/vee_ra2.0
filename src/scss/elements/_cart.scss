@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .cart {
     width: 350px;
     background-color: white;
@@ -61,7 +63,6 @@
         align-self: flex-start;
         background-color: white;
         border: 2px solid $text-primary;
-        padding-left: 1.25rem;
         padding: 0.5rem 0.75rem;
         margin: 0 1.25rem 1.25rem;
         text-transform: uppercase;
@@ -73,7 +74,6 @@
     &.btn-checkout {
         background-color: $text-primary;
         border: 2px solid $text-primary;
-        padding-left: 1.25rem;
         padding: 0.5rem 0.75rem;
         margin: 0 1.25rem 1.25rem;
         text-transform: uppercase;
@@ -82,7 +82,7 @@
         font-size: 0.75rem;
 
         &:hover {
-            background-color: lighten(#292B83, 10);
+            background-color: color.adjust(#292B83, $lightness: 10%);
         }
     }
 }
@@ -538,7 +538,6 @@ i.icon, i.icons {
   @media #{$md-layout} {
     margin-left: 50px;
     margin-right: 50px;
-
   }
   @media #{$sm-layout} {
     margin-left: 50px;
@@ -559,7 +558,6 @@ i.icon, i.icons {
   @media #{$md-layout} {
     justify-content: center;
     float: none;
-
   }
   @media #{$sm-layout} {
     justify-content: center;
@@ -576,10 +574,8 @@ i.icon, i.icons {
   }
   @media #{$md-layout} {
     font-size: 50px;
-
   }
   @media #{$sm-layout} {
     font-size: 50px;
   }
-
 }

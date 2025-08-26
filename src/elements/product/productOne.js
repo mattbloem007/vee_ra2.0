@@ -4,38 +4,38 @@ import Productcard from "./productcard";
 
 
 const ProductOne = () => {
-    const ProductData = useStaticQuery(graphql`
-      query featureItemQuery1 {
-        allShopifyProduct {
-          edges {
-            node {
-              featuredImage {
-                gatsbyImageData
-              }
-              description
-              title
-              variants {
-                price
-                title
-              }
-              priceRangeV2 {
-                maxVariantPrice {
-                  amount
-                  currencyCode
+    const data = useStaticQuery(graphql`
+        query ProductOneQuery {
+            allShopifyProduct {
+                edges {
+                    node {
+                        featuredImage {
+                            gatsbyImageData
+                        }
+                        description
+                        title
+                        variants {
+                            price
+                            title
+                        }
+                        priceRangeV2 {
+                            maxVariantPrice {
+                                amount
+                                currencyCode
+                            }
+                            minVariantPrice {
+                                amount
+                                currencyCode
+                            }
+                        }
+                        shopifyId
+                    }
                 }
-                minVariantPrice {
-                  amount
-                  currencyCode
-                }
-              }
-              shopifyId
             }
-          }
         }
-      }
     `);
 
-    const productData = ProductData.allShopifyProduct.edges
+    const productData = data.allShopifyProduct.edges;
 
 
     return (

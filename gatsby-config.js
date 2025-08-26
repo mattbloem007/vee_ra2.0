@@ -47,27 +47,6 @@ module.exports = {
         path: `${__dirname}/src/assets/images/`,
       },
     },
-    // {
-    //   resolve: "@chec/gatsby-source-chec",
-    //   options: {
-    //     publicKey: process.env.NEXT_PUBLIC_CHEC_PUBLIC_KEY,
-    //     //downloadImageAssets: true,
-    //   },
-    // },
-    // {
-    //   resolve: `gatsby-omni-font-loader`,
-    //   options: {
-    //     enableListener: true,
-    //     preconnect: [`https://fonts.googleapis.com`, `https://fonts.gstatic.com`],
-    //     web: [
-    //       {
-    //         name: `Fira Sans`,
-    //         file: `https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500;800&display=swap`,
-    //       },
-    //     ],
-    //   },
-    // }
-
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -75,22 +54,20 @@ module.exports = {
         path: `${__dirname}/src/data/`,
       },
     },
-
-    {
-      resolve: `gatsby-plugin-google-fonts`,
-      options: {
-          fonts: [
-            `Montserrat ital`,
-            `sans-serif\:300`, `300i`, `400`, `400i`, `500`, `600`, `700`, `900`
-        ],
-        fonts: [
-          `Mulish`,
-          `sans-serif\:300`, `400`, `500`, `600`, `700`
-        ],
-        display: 'swap',
-      },
-    },
-
+    // {
+    //   resolve: `gatsby-plugin-google-fonts`,
+    //   options: {
+    //       fonts: [
+    //         `Montserrat ital`,
+    //         `sans-serif\:300`, `300i`, `400`, `400i`, `500`, `600`, `700`, `900`
+    //       ],
+    //         fonts: [
+    //           `Mulish`,
+    //           `sans-serif\:300`, `400`, `500`, `600`, `700`
+    //         ],
+    //         display: 'swap',
+    //       },
+    //     },
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -103,14 +80,12 @@ module.exports = {
         icon: `src/data/images/Final-Logo-PNGs/Gold/Ra-Logo-28.png`, // This path is relative to the root of the site.
       },
     },
-
-    {
-        resolve: "gatsby-plugin-anchor-links",
-        options: {
-          offset: -100
-        }
-    },
-
+    // {
+    //     resolve: "gatsby-plugin-anchor-links",
+    //     options: {
+    //       offset: -100
+    //     }
+    // },
     {
       resolve: `gatsby-transformer-remark`,
       options: {
@@ -126,12 +101,8 @@ module.exports = {
     },
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
-    `gatsby-plugin-image`,
     `gatsby-plugin-sass`,
     `gatsby-transformer-json`,
-
-
-
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,

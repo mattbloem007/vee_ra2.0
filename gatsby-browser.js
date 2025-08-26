@@ -5,23 +5,11 @@
  */
 
 // You can delete this file if you're not using it
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 //import 'semantic-ui-css/semantic.min.css'
 
 // Import main styles with custom fonts
 import "./src/scss/style.scss";
 
-// Import Google Fonts
-import '@fontsource/arsenal-sc/400.css';
-import '@fontsource/arsenal-sc/700.css';
-import '@fontsource/titillium-web/300.css';
-import '@fontsource/titillium-web/400.css';
-import '@fontsource/titillium-web/600.css';
-import '@fontsource/titillium-web/700.css';
-import '@fontsource/ubuntu/300.css';
-import '@fontsource/ubuntu/400.css';
-import '@fontsource/ubuntu/500.css';
-import '@fontsource/ubuntu/700.css';
 
 import React from "react"
 import { StoreContextProvider } from "./src/context/StoreContext"

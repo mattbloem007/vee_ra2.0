@@ -63,9 +63,6 @@ exports.createPages = ({actions, graphql}) => {
     const templates =  {
         projectDetails: path.resolve('src/template/project-details.js'),
         blogDetails: path.resolve('src/template/blog-details.js'),
-        categoryPost: path.resolve('src/template/category-post.js'),
-        tagPost: path.resolve('src/template/tag-template.js'),
-        authorPage: path.resolve('src/template/archive.js'),
         productPage: path.resolve('src/template/product.js'),
         brewGuide: path.resolve('src/template/brew-guide.js'),
     }
@@ -184,6 +181,7 @@ exports.createPages = ({actions, graphql}) => {
         // let categoryPostCounts = {}
         // categories.forEach( category => {
         //     categoryPostCounts[category] = (categoryPostCounts[category] || 0) + 1
+
         // })
         // categories = _.uniq(categories)
         //
@@ -191,7 +189,7 @@ exports.createPages = ({actions, graphql}) => {
         // categories.forEach(category => {
         //     createPage({
         //         path: `/category/${slugify(category)}`,
-        //         component: templates.categoryPost,
+        //         component: templates.blogDetails,
         //         context: {
         //             category
         //         }
@@ -223,7 +221,7 @@ exports.createPages = ({actions, graphql}) => {
         // let authors = []
         // _.each(posts, edge => {
         //     if(_.get(edge, 'node.fields.authorId')){
-        //         authors = authors.concat(edge.node.fields.authorId)
+        //         authors = _.uniq(authors.concat(edge.node.fields.authorId))
         //     }
         // })
         // authors = _.uniq(authors)

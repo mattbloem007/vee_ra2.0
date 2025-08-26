@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .checkout {
 
     &.wrapper {
@@ -66,9 +68,9 @@
          margin-top: 1.5rem;
          display: block;
 
-          &:hover {
-              background-color: lighten(#292B83, 10);
-          }
+                  &:hover {
+            background-color: color.adjust(#292B83, $lightness: 10%);
+        }
 
           &:disabled {
             cursor: not-allowed;

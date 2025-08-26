@@ -254,7 +254,7 @@ const NewsPage = ({ data }) => {
 
 export const query = graphql`
   query NewsPageQuery {
-    allContentfulBlogPost(sort: {createdAt: DESC}) {
+    allContentfulBlogPost(sort: {fields: createdAt, order: DESC}) {
       edges {
         node {
           title
