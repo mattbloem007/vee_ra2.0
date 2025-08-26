@@ -3,32 +3,112 @@ import Layout from "../components/layout";
 import SEO from "../components/seo";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { useStaticQuery, graphql, Link } from "gatsby";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { BLOCKS, MARKS } from "@contentful/rich-text-types";
 
 const AboutPage = () => {
   const data = useStaticQuery(graphql`
     query AboutPageQuery {
-      why1: file(relativePath: {eq: "images/others/why-1.jpg"}) {
-        childImageSharp {
-          gatsbyImageData(width: 600, height: 400, quality: 90)
+      contentfulAbout {
+        section1 {
+          raw
         }
-      }
-      why2: file(relativePath: {eq: "images/others/why-2.jpg"}) {
-        childImageSharp {
+        section1image {
           gatsbyImageData(width: 600, height: 400, quality: 90)
+          title
         }
-      }
-      productMtn: file(relativePath: {eq: "images/others/product mtn.jpeg"}) {
-        childImageSharp {
-          gatsbyImageData(width: 600, height: 400, quality: 90)
+        section2 {
+          raw
         }
-      }
-      cupsDisplay: file(relativePath: {eq: "images/about/products-in-nature.png"}) {
-        childImageSharp {
+        section2image {
           gatsbyImageData(width: 600, height: 400, quality: 90)
+          title
+        }
+        section3 {
+          raw
+        }
+        section3image {
+          gatsbyImageData(width: 600, height: 400, quality: 90)
+          title
+        }
+        section4 {
+          raw
+        }
+        section4image {
+          gatsbyImageData(width: 600, height: 400, quality: 90)
+          title
         }
       }
     }
   `);
+
+  const aboutData = data.contentfulAbout;
+  
+  // Debug logging
+  console.log('About page data:', aboutData);
+  console.log('Full query data:', data);
+
+  // Rich text rendering options
+  const richTextOptions = {
+    renderMark: {
+      [MARKS.BOLD]: text => <strong>{text}</strong>,
+      [MARKS.ITALIC]: text => <em>{text}</em>,
+    },
+    renderNode: {
+      [BLOCKS.PARAGRAPH]: (node, children) => <p>{children}</p>,
+      [BLOCKS.HEADING_1]: (node, children) => <h1>{children}</h1>,
+      [BLOCKS.HEADING_2]: (node, children) => <h2>{children}</h2>,
+      [BLOCKS.HEADING_3]: (node, children) => <h3>{children}</h3>,
+      [BLOCKS.HEADING_4]: (node, children) => <h4>{children}</h4>,
+      [BLOCKS.HEADING_5]: (node, children) => <h5>{children}</h5>,
+      [BLOCKS.HEADING_6]: (node, children) => <h6>{children}</h6>,
+      [BLOCKS.UL_LIST]: (node, children) => <ul>{children}</ul>,
+      [BLOCKS.OL_LIST]: (node, children) => <ol>{children}</ol>,
+      [BLOCKS.LIST_ITEM]: (node, children) => <li>{children}</li>,
+      [BLOCKS.QUOTE]: (node, children) => <blockquote>{children}</blockquote>,
+      [BLOCKS.EMBEDDED_ASSET]: node => {
+        return (
+          <div className="embedded-asset">
+            <GatsbyImage 
+              image={node.data.target.gatsbyImageData} 
+              alt={node.data.target.title || "Embedded content"} 
+            />
+          </div>
+        );
+      },
+    },
+  };
+
+  // Helper function to render rich text content
+  const renderRichText = (content) => {
+    if (!content || !content.raw) return null;
+    try {
+      return documentToReactComponents(JSON.parse(content.raw), richTextOptions);
+    } catch (error) {
+      console.error('Error rendering rich text:', error);
+      return <p>Content loading...</p>;
+    }
+  };
+
+  // Fallback content if Contentful data is not available
+  const fallbackContent = {
+    section1: {
+      title: "Why Vee/Ra?",
+      content: "In a world of quick fixes and synthetic solutions, Vee/Ra was born from a simple truth: nature provides everything we need for true wellness."
+    },
+    section2: {
+      title: "Our Story", 
+      content: "Vee/Ra began as a personal journey of discovery. Matthew Gabriel, our founder, discovered the transformative power of pure cacao during his own wellness journey."
+    },
+    section3: {
+      title: "Cacao as Our Guide",
+      content: "Cacao is more than just an ingredient—it's our teacher, our guide, and our connection to the wisdom of the plants."
+    },
+    section4: {
+      title: "Where Vee/Ra Lives",
+      content: "Nestled in the breathtaking Cape Point region of South Africa, our home is where the magic happens."
+    }
+  };
 
   // Structured data for about page with cacao focus
   const structuredData = {
@@ -105,112 +185,117 @@ const AboutPage = () => {
             </div>
           </div>
 
-          {/* Why Vee/Ra Section */}
-          <section className="about-section about-section--why">
+          {/* Section 1 */}
+          <section className="about-section about-section--section1">
             <div className="about-section__content">
               <div className="about-section__text">
-                <h2>Why Vee/Ra?</h2>
-                <p>
-                  In a world of quick fixes and synthetic solutions, Vee/Ra was born from a simple truth: 
-                  nature provides everything we need for true wellness. Our name represents the balance of 
-                  masculine and feminine energies, the harmony of opposites that exists in all of nature.
-                </p>
-                <p>
-                  We believe that pure cacao, when sourced with care and prepared with intention, 
-                  can be a powerful ally in your journey toward inner peace, clarity, and connection.
-                </p>
+                {aboutData?.section1 ? (
+                  renderRichText(aboutData.section1)
+                ) : (
+                  <>
+                    <h2>{fallbackContent.section1.title}</h2>
+                    <p>{fallbackContent.section1.content}</p>
+                  </>
+                )}
               </div>
               <div className="about-section__image">
-                {data.why1 && (
+                {aboutData?.section1image ? (
                   <GatsbyImage 
-                    image={getImage(data.why1)} 
-                    alt="Why Vee/Ra - The essence of our brand"
+                    image={getImage(aboutData.section1image)} 
+                    alt={aboutData.section1image.title || "Section 1 image"}
                     className="about-section__img"
                   />
+                ) : (
+                  <div className="about-section__placeholder">
+                    <p>Image loading...</p>
+                  </div>
                 )}
               </div>
             </div>
           </section>
 
-          {/* Our Story Section */}
-          <section className="about-section about-section--story">
+          {/* Section 2 */}
+          <section className="about-section about-section--section2">
             <div className="about-section__content about-section__content--reversed">
               <div className="about-section__text">
-                <h2>Our Story</h2>
-                <p>
-                  Vee/Ra began as a personal journey of discovery. Matthew Gabriel, our founder, 
-                  discovered the transformative power of pure cacao during his own wellness journey. 
-                  What started as a personal ritual became a mission to share this ancient wisdom with others.
-                </p>
-                <p>
-                  From humble beginnings in Cape Point, South Africa, we've grown into a community of 
-                  cacao enthusiasts, wellness practitioners, and seekers of authentic connection. 
-                  Every blend we create carries the intention of our journey and the wisdom of generations past.
-                </p>
+                {aboutData?.section2 ? (
+                  renderRichText(aboutData.section2)
+                ) : (
+                  <>
+                    <h2>{fallbackContent.section2.title}</h2>
+                    <p>{fallbackContent.section2.content}</p>
+                  </>
+                )}
               </div>
               <div className="about-section__image">
-                {data.why2 && (
+                {aboutData?.section2image ? (
                   <GatsbyImage 
-                    image={getImage(data.why2)} 
-                    alt="Our Story - The birth of Vee/Ra"
+                    image={getImage(aboutData.section2image)} 
+                    alt={aboutData.section2image.title || "Section 2 image"}
                     className="about-section__img"
                   />
+                ) : (
+                  <div className="about-section__placeholder">
+                    <p>Image loading...</p>
+                  </div>
                 )}
               </div>
             </div>
           </section>
 
-          {/* Cacao as Guide Section */}
-          <section className="about-section about-section--cacao">
+          {/* Section 3 */}
+          <section className="about-section about-section--section3">
             <div className="about-section__content">
               <div className="about-section__text">
-                <h2>Cacao as Our Guide</h2>
-                <p>
-                  Cacao is more than just an ingredient—it's our teacher, our guide, and our connection 
-                  to the wisdom of the plants. In the essence of Vee/Ra, cacao represents nutritional 
-                  awareness and harmony through ritual.
-                </p>
-                <p>
-                  Cacao has been revered for thousands of years for its ability to 
-                  open the heart, enhance intuition, and promote deep connection. It's not just about 
-                  what cacao does for the body, but how it helps us remember our true nature.
-                </p>
+                {aboutData?.section3 ? (
+                  renderRichText(aboutData.section3)
+                ) : (
+                  <>
+                    <h2>{fallbackContent.section3.title}</h2>
+                    <p>{fallbackContent.section3.content}</p>
+                  </>
+                )}
               </div>
               <div className="about-section__image">
-                {data.productMtn && (
+                {aboutData?.section3image ? (
                   <GatsbyImage 
-                    image={getImage(data.productMtn)} 
-                    alt="Cacao as Guide - The essence of Vee/Ra"
+                    image={getImage(aboutData.section3image)} 
+                    alt={aboutData.section3image.title || "Section 3 image"}
                     className="about-section__img"
                   />
+                ) : (
+                  <div className="about-section__placeholder">
+                    <p>Image loading...</p>
+                  </div>
                 )}
               </div>
             </div>
           </section>
 
-          {/* Production & Location Section */}
-          <section className="about-section about-section--production">
+          {/* Section 4 */}
+          <section className="about-section about-section--section4">
             <div className="about-section__content about-section__content--reversed">
               <div className="about-section__text">
-                <h2>Where Vee/Ra Lives</h2>
-                <p>
-                  Nestled in the breathtaking Cape Point region of South Africa, our home is where 
-                  the magic happens. Surrounded by the raw beauty of nature, we craft our blends 
-                  with the same care and attention that nature shows in creating this landscape.
-                </p>
-                <p>
-                  Our production process is small-batch and intentional. Every blend is crafted by hand, 
-                  with love and respect for the ingredients and the traditions they represent. 
-                  This is where Vee/Ra comes to life.
-                </p>
+                {aboutData?.section4 ? (
+                  renderRichText(aboutData.section4)
+                ) : (
+                  <>
+                    <h2>{fallbackContent.section4.title}</h2>
+                    <p>{fallbackContent.section4.content}</p>
+                  </>
+                )}
               </div>
               <div className="about-section__image">
-                {data.cupsDisplay && (
+                {aboutData?.section4image ? (
                   <GatsbyImage 
-                    image={getImage(data.cupsDisplay)} 
-                    alt="Where Vee/Ra Lives - Our production home"
+                    image={getImage(aboutData.section4image)} 
+                    alt={aboutData.section4image.title || "Section 4 image"}
                     className="about-section__img"
                   />
+                ) : (
+                  <div className="about-section__placeholder">
+                    <p>Image loading...</p>
+                  </div>
                 )}
               </div>
             </div>
@@ -218,7 +303,6 @@ const AboutPage = () => {
 
           {/* Values Section - Moved to dedicated page */}
           <section className="about-section about-section--values">
-            
             <div className="values-cta">
               <p>Discover the full depth of our values and principles</p>
               <Link to="/values" className="btn btn--primary">

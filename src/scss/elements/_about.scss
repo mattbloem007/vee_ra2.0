@@ -95,6 +95,26 @@ About Styles
             }
         }
     }
+    
+    // Placeholder styles for Contentful content loading
+    .about-section__placeholder,
+    .values-section__placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 400px;
+        background-color: #f8f9fa;
+        border: 2px dashed #dee2e6;
+        border-radius: 8px;
+        color: #6c757d;
+        font-style: italic;
+        
+        p {
+            margin: 0;
+            font-size: 16px;
+        }
+    }
+    
     .thumbnail {
         @media #{$md-layout} {
             margin-bottom: 40px;
