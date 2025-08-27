@@ -134,7 +134,7 @@ const AboutPage = () => {
       "Community & Connection"
     ],
     "sameAs": [
-      "https://instagram.com/vee_ra_botanicalblends"
+      "https://instagram.com/veera_cacao"
     ],
     "address": {
       "@type": "PostalAddress",

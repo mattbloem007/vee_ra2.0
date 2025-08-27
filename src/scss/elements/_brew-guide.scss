@@ -1,0 +1,253 @@
+// Brew Guide Styles
+
+.brew-guide-page {
+  padding: 60px 0;
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+}
+
+.brew-guide-header {
+  text-align: center;
+  margin-bottom: 40px;
+  
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 16px;
+  }
+  
+  &__subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+.brew-guide-video {
+  margin-bottom: 40px;
+  
+  .video-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; // 16:9 aspect ratio
+    
+    .brew-guide-video__iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 8px;
+    }
+  }
+  
+  .video-coming-soon {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px dashed #dee2e6;
+    border-radius: 12px;
+    padding: 60px 40px;
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      animation: shimmer 2s infinite;
+    }
+    
+    &__icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      display: block;
+      animation: pulse 2s infinite;
+    }
+    
+    &__title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #495057;
+      margin-bottom: 16px;
+    }
+    
+    &__text {
+      font-size: 1rem;
+      color: #6c757d;
+      line-height: 1.6;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+  }
+}
+
+.brew-guide-description {
+  margin-bottom: 40px;
+  
+  &__title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  &__text {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.7;
+  }
+}
+
+.brew-guide-steps {
+  margin-bottom: 40px;
+  
+  &__title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  &__list {
+    padding-left: 20px;
+    
+    .brew-guide-steps__item {
+      font-size: 1.1rem;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 16px;
+      padding-left: 8px;
+    }
+  }
+}
+
+.brew-guide-navigation {
+  text-align: center;
+  padding-top: 40px;
+  border-top: 1px solid #e9ecef;
+  
+  &__back {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    
+    &:hover {
+      background-color: #5a6268;
+      color: white;
+      text-decoration: none;
+    }
+  }
+}
+
+// Breadcrumb styles
+.breadcrumb {
+  margin-bottom: 30px;
+  padding: 0;
+  background: none;
+  
+  &__link {
+    color: #007bff;
+    text-decoration: none;
+    
+    &:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+  }
+  
+  &__separator {
+    margin: 0 8px;
+    color: #6c757d;
+  }
+  
+  &__current {
+    color: #6c757d;
+    font-weight: 500;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .brew-guide-page {
+    padding: 40px 0;
+  }
+  
+  .brew-guide-header {
+    &__title {
+      font-size: 2rem;
+    }
+    
+    &__subtitle {
+      font-size: 1rem;
+    }
+  }
+  
+  .brew-guide-video {
+    .video-coming-soon {
+      padding: 40px 20px;
+      
+      &__icon {
+        font-size: 3rem;
+      }
+      
+      &__title {
+        font-size: 1.3rem;
+      }
+      
+      &__text {
+        font-size: 0.95rem;
+      }
+    }
+  }
+  
+  .brew-guide-description,
+  .brew-guide-steps {
+    &__title {
+      font-size: 1.5rem;
+    }
+    
+    &__text,
+    .brew-guide-steps__item {
+      font-size: 1rem;
+    }
+  }
+}
+
+// Animations
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}

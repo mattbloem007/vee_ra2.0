@@ -15,8 +15,8 @@ const Contact = () => {
             <a href="mailto:info@veera.co.za" className="contact__link">
               info@veera.co.za
             </a>
-            <a target="_blank" href="https://instagram.com/vee_ra_botanicalblends" className="contact__link">
-              @vee_ra_botanicalblends
+            <a target="_blank" href="https://instagram.com/veera_cacao" className="contact__link">
+              @veera_cacao
             </a>
           </div>
           <div className="contact__cta">

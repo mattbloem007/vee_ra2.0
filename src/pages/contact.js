@@ -20,7 +20,7 @@ const ContactPage = () => {
       "addressRegion": "South Africa"
     },
     "sameAs": [
-      "https://instagram.com/vee_ra_botanicalblends"
+      "https://instagram.com/veera_cacao"
     ],
     "openingHours": "Mo-Fr 09:00-17:00",
     "priceRange": "$$",
@@ -93,11 +93,11 @@ const ContactPage = () => {
                     <h3>Follow Us</h3>
                     <p>
                       <a 
-                        href="https://instagram.com/vee_ra_botanicalblends" 
+                        href="https://instagram.com/veera_cacao" 
                         target="_blank" 
                         rel="noopener noreferrer"
                       >
-                                                @vee_ra_botanicalblends
+                                                @veera_cacao
                        </a>
                     </p>
                     <p>Stay updated with our latest wellness tips and product launches</p>

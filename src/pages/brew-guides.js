@@ -235,9 +235,10 @@ const BrewGuides = ({ data }) => {
                         </div>
                       <Link 
                         to={`/brew-guides/${method.id}`}
-                        className="brewing-method-card__button"
+                        className="brewing-method-card__button brewing-method-card__button--coming-soon"
+                        title="Video guides are coming soon! Check back later for step-by-step video instructions."
                       >
-                        Watch Video Guide
+                        Video Guide Coming Soon
                       </Link>
                     </div>
                   </div>

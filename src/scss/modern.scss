@@ -104,6 +104,14 @@ $font-avenir: 'Avenir', 'SF Pro Display', -apple-system, BlinkMacSystemFont, san
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+  
+  @media (max-width: 768px) {
+    padding: 0 16px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0 12px;
+  }
 }
 
 @mixin button-base {
@@ -341,6 +349,22 @@ p {
 .btn {
   @include button-base;
   
+  @media (max-width: 768px) {
+    padding: 14px 20px;
+    font-size: 15px;
+    min-height: 44px; // Ensure touch target size
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 12px 18px;
+    font-size: 14px;
+    width: 100%; // Full width on very small screens
+    max-width: 280px;
+  }
+  
   &--primary {
     background-color: $primary-color;
     color: white;
@@ -400,6 +424,8 @@ p {
       padding: 0.75rem 0;
       height: 80px;
       position: relative;
+      justify-content: space-between;
+      align-items: center;
     }
   }
   
@@ -407,6 +433,7 @@ p {
     display: flex;
     flex: 0 0 auto;
     max-width: 300px;
+    align-items: center;
     
     .gatsby-image-wrapper {
       width: 100%;
@@ -424,6 +451,7 @@ p {
     
     @media (max-width: 768px) {
       max-width: 180px;
+      align-self: center;
       
       .gatsby-image-wrapper img {
         max-width: 160px;
@@ -444,15 +472,16 @@ p {
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
-      padding: 0;
+      padding: 2rem 0;
       transform: translateX(-100%);
       transition: transform 0.3s ease;
       z-index: 9999;
       box-shadow: 0 0 100px rgba(0, 0, 0, 0.2);
       height: calc(100vh - 80px);
       width: 100%;
+      overflow-y: auto;
       
       &::before {
         content: '';
@@ -483,11 +512,13 @@ p {
       flex-direction: column;
       width: 100%;
       max-width: 300px;
-      padding: 2rem;
+      padding: 1.5rem;
       background: rgba(255, 255, 255, 0.95);
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       gap: 0;
+      max-height: calc(100vh - 160px);
+      overflow-y: auto;
     }
   }
   
@@ -509,10 +540,10 @@ p {
     }
     
     @media (max-width: 768px) {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 600;
       font-family: 'Rozelle', sans-serif;
-      padding: 1.5rem 0;
+      padding: 1rem 0;
       display: block;
       text-align: center;
       border-bottom: 1px solid rgba(0, 0, 0, 0.15);
@@ -524,8 +555,8 @@ p {
         color: $accent-color;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 8px;
-        padding: 1.5rem 1rem;
-        margin: 0 -1rem;
+        padding: 1rem 0.75rem;
+        margin: 0 -0.75rem;
       }
       
       &:last-child {
@@ -541,6 +572,8 @@ p {
     
     @media (max-width: 768px) {
       gap: 0.75rem;
+      align-items: flex-start;
+      justify-content: flex-end;
     }
   }
   
@@ -594,8 +627,8 @@ p {
         font-size: 1.2rem;
         
         .cart-svg-icon {
-          width: 20px;
-          height: 20px;
+          width: 28px;
+          height: 28px;
         }
       }
       
@@ -603,8 +636,25 @@ p {
         width: 16px;
         height: 16px;
         font-size: 10px;
-        top: -6px;
-        right: -6px;
+        top: -8px;
+        right: -8px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      &-icon {
+        .cart-svg-icon {
+          width: 26px;
+          height: 26px;
+        }
+      }
+      
+      &-count {
+        width: 14px;
+        height: 14px;
+        font-size: 9px;
+        top: -7px;
+        right: -7px;
       }
     }
   }
@@ -612,28 +662,106 @@ p {
   &__menu-btn {
     display: none;
     flex-direction: column;
-    justify-content: space-around;
-    width: 30px;
-    height: 25px;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 26px;
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 0;
     z-index: 10001;
+    position: relative;
+    margin: 0;
+    align-self: center;
     
     @media (max-width: 768px) {
       display: flex;
-      width: 25px;
-      height: 20px;
+      width: 28px;
+      height: 24px;
+      align-self: center;
+      margin: 0;
+      
+      span {
+        height: 3px;
+        border-radius: 3px;
+        background: #333;
+        
+        &:first-child {
+          top: 0;
+        }
+        
+        &:nth-child(2) {
+          top: 8px;
+        }
+        
+        &:last-child {
+          top: 16px;
+        }
+      }
+      
+      // Enhanced mobile touch feedback
+      &:active {
+        transform: scale(0.9);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      width: 26px;
+      height: 22px;
+      
+      span {
+        height: 2.5px;
+        border-radius: 2.5px;
+        background: #333;
+        
+        &:first-child {
+          top: 0;
+        }
+        
+        &:nth-child(2) {
+          top: 7px;
+        }
+        
+        &:last-child {
+          top: 14px;
+        }
+      }
     }
     
     span {
       width: 100%;
-      height: 3px;
-      background: $primary-color;
-      border-radius: 2px;
+      height: 4px;
+      background: #333;
+      border-radius: 4px;
       transition: all 0.3s ease;
       transform-origin: center;
+      position: absolute;
+      left: 0;
+      
+      &:first-child {
+        top: 0;
+      }
+      
+      &:nth-child(2) {
+        top: 10px;
+      }
+      
+      &:last-child {
+        top: 20px;
+      }
+    }
+    
+    &:hover {
+      span {
+        background: $accent-color;
+      }
+    }
+    
+    &:active {
+      span {
+        transform: scale(0.95);
+      }
     }
     
     &--open {
@@ -647,7 +775,7 @@ p {
         }
         
         &:last-child {
-          transform: rotate(-45deg) translate(5px, -5px);
+          transform: rotate(-45deg) translate(7px, -7px);
         }
       }
     }
@@ -691,6 +819,15 @@ p {
     padding: 4rem;
     z-index: 2;
     position: relative;
+    
+    @media (max-width: 768px) {
+      padding: 2rem;
+      max-width: 100%;
+    }
+    
+    @media (max-width: 480px) {
+      padding: 1.5rem;
+    }
   }
   
   &__logo {
@@ -713,6 +850,18 @@ p {
     line-height: 1.1;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     text-align: left;
+    
+    @media (max-width: 768px) {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+      text-align: center;
+    }
   }
   
   &__subtitle {
@@ -726,6 +875,20 @@ p {
     text-transform: capitalize;
     letter-spacing: 2px;
     text-align: left;
+    
+    @media (max-width: 768px) {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      letter-spacing: 1.5px;
+      text-align: center;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+      letter-spacing: 1px;
+      text-align: center;
+    }
   }
   
   &__description {
@@ -735,13 +898,34 @@ p {
     margin-bottom: 3rem;
     font-weight: 400;
     line-height: 1.6;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     max-width: 600px;
     text-align: left;
+    
+    @media (max-width: 768px) {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      max-width: 100%;
+      text-align: center;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
   }
   
   &__cta {
     margin-top: 2rem;
+    
+    @media (max-width: 768px) {
+      margin-top: 1.5rem;
+    }
+    
+    @media (max-width: 480px) {
+      margin-top: 1rem;
+    }
     
     &__link {
       font-family: $font-subtitle;
@@ -755,6 +939,16 @@ p {
       transition: all 0.3s ease;
       cursor: pointer;
       display: inline-block;
+      
+      @media (max-width: 768px) {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+      }
+      
+      @media (max-width: 480px) {
+        font-size: 1.25rem;
+        letter-spacing: 1.5px;
+      }
       
       &:visited {
         color: rgba(255, 255, 255, 0.9);
@@ -817,6 +1011,14 @@ p {
 .about {
   padding: 6rem 0;
   
+  @media (max-width: 768px) {
+    padding: 4rem 0;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 3rem 0;
+  }
+  
   &__grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -833,6 +1035,14 @@ p {
     margin-bottom: 1.5rem;
     font-weight: 400;
     letter-spacing: -0.02em;
+    
+    @media (max-width: 768px) {
+      margin-bottom: 1rem;
+    }
+    
+    @media (max-width: 480px) {
+      margin-bottom: 0.75rem;
+    }
   }
   
   &__text {
@@ -840,6 +1050,16 @@ p {
     margin-bottom: 1.5rem;
     font-size: 1rem;
     line-height: 1.8;
+    
+    @media (max-width: 768px) {
+      margin-bottom: 1.25rem;
+      font-size: 0.95rem;
+    }
+    
+    @media (max-width: 480px) {
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
   }
   
   &__image {
@@ -852,6 +1072,14 @@ p {
   
   &__cta {
     margin-top: 2rem;
+    
+    @media (max-width: 768px) {
+      margin-top: 1.5rem;
+    }
+    
+    @media (max-width: 480px) {
+      margin-top: 1rem;
+    }
   }
 }
 
@@ -860,9 +1088,25 @@ p {
   padding: 6rem 0;
   background: #f8f8f8;
   
+  @media (max-width: 768px) {
+    padding: 4rem 0;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 3rem 0;
+  }
+  
   &__header {
     text-align: center;
     margin-bottom: 4rem;
+    
+    @media (max-width: 768px) {
+      margin-bottom: 3rem;
+    }
+    
+    @media (max-width: 480px) {
+      margin-bottom: 2rem;
+    }
   }
   
   &__title {
@@ -964,6 +1208,14 @@ p {
       height: 100%;
       object-fit: cover;
       transition: transform 0.3s ease;
+      
+      @media (max-width: 768px) {
+        max-height: 200px;
+      }
+      
+      @media (max-width: 480px) {
+        max-height: 150px;
+      }
     }
   }
   
@@ -1039,15 +1291,35 @@ p {
 .process {
   padding: 6rem 0;
   
+  @media (max-width: 768px) {
+    padding: 4rem 0;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 3rem 0;
+  }
+  
   &__header {
     text-align: center;
     margin-bottom: 4rem;
+    
+    @media (max-width: 768px) {
+      margin-bottom: 3rem;
+    }
+    
+    @media (max-width: 480px) {
+      margin-bottom: 2rem;
+    }
   }
   
   &__title {
     margin-bottom: 1rem;
     font-weight: 400;
     letter-spacing: -0.02em;
+    
+    @media (max-width: 768px) {
+      margin-bottom: 0.75rem;
+    }
   }
   
   &__subtitle {
@@ -1055,12 +1327,30 @@ p {
     font-size: 1.2rem;
     font-family: $font-accent;
     font-weight: 300;
+    
+    @media (max-width: 768px) {
+      font-size: 1.1rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 1rem;
+    }
   }
   
   &__steps {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
+    
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
   }
 }
 
@@ -1094,9 +1384,25 @@ p {
   padding: 5rem 0;
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   
+  @media (max-width: 768px) {
+    padding: 4rem 0;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 3rem 0;
+  }
+  
   &__header {
     text-align: center;
     margin-bottom: 3rem;
+    
+    @media (max-width: 768px) {
+      margin-bottom: 2rem;
+    }
+    
+    @media (max-width: 480px) {
+      margin-bottom: 1.5rem;
+    }
   }
   
   &__title {
@@ -1104,6 +1410,16 @@ p {
     font-size: 2.5rem;
     margin-bottom: 1rem;
     color: $primary-color;
+    
+    @media (max-width: 768px) {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+    }
     
     .accent {
       color: $accent-color;
@@ -1115,11 +1431,29 @@ p {
     font-size: 1.2rem;
     color: $secondary-color;
     margin-bottom: 2rem;
+    
+    @media (max-width: 768px) {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
   }
   
   &__cta {
     text-align: center;
     margin-top: 3rem;
+    
+    @media (max-width: 768px) {
+      margin-top: 2rem;
+    }
+    
+    @media (max-width: 480px) {
+      margin-top: 1.5rem;
+    }
   }
   
   &__link {
@@ -1132,6 +1466,19 @@ p {
     border: 2px solid $accent-color;
     border-radius: 8px;
     transition: all 0.3s ease;
+    
+    @media (max-width: 768px) {
+      padding: 0.875rem 1.75rem;
+      font-size: 0.95rem;
+    }
+    
+    @media (max-width: 480px) {
+      padding: 0.75rem 1.5rem;
+      font-size: 0.9rem;
+      width: 100%;
+      max-width: 250px;
+      text-align: center;
+    }
     
     &:hover {
       background: $accent-color;
@@ -2473,10 +2820,28 @@ p {
   background: #f8f8f8;
   text-align: center;
   
+  @media (max-width: 768px) {
+    padding: 4rem 0;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 3rem 0;
+  }
+  
   &__title {
     margin-bottom: 1rem;
     font-weight: 400;
     letter-spacing: -0.02em;
+    
+    @media (max-width: 768px) {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+    }
   }
   
   &__text {
@@ -2487,10 +2852,31 @@ p {
     margin-right: auto;
     font-size: 1.1rem;
     line-height: 1.7;
+    
+    @media (max-width: 768px) {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      max-width: 100%;
+      padding: 0 1rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 0.95rem;
+      margin-bottom: 1.25rem;
+      padding: 0 0.5rem;
+    }
   }
   
   &__links {
     margin-bottom: 2rem;
+    
+    @media (max-width: 768px) {
+      margin-bottom: 1.5rem;
+    }
+    
+    @media (max-width: 480px) {
+      margin-bottom: 1.25rem;
+    }
     
     a {
       color: $text-color;
@@ -2498,9 +2884,31 @@ p {
       margin: 0 1rem;
       font-size: 1.1rem;
       
+      @media (max-width: 768px) {
+        margin: 0 0.75rem;
+        font-size: 1rem;
+      }
+      
+      @media (max-width: 480px) {
+        margin: 0 0.5rem;
+        font-size: 0.95rem;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      
       &:hover {
         color: $accent-color;
       }
+    }
+  }
+  
+  &__cta {
+    @media (max-width: 768px) {
+      margin-top: 1rem;
+    }
+    
+    @media (max-width: 480px) {
+      margin-top: 0.75rem;
     }
   }
 }
@@ -3143,12 +3551,30 @@ p {
     overflow: hidden;
     padding: 0.5rem;
     
+    @media (max-width: 768px) {
+      padding: 0.4rem;
+    }
+    
+    @media (max-width: 480px) {
+      padding: 0.3rem;
+    }
+    
     .product-card__img {
       width: 70%;
       height: 100%;
       object-fit: contain;
       filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
       transition: transform 0.3s ease;
+      
+      @media (max-width: 768px) {
+        width: 80%;
+        max-height: 180px;
+      }
+      
+      @media (max-width: 480px) {
+        width: 85%;
+        max-height: 140px;
+      }
     }
   }
   
@@ -3271,6 +3697,16 @@ p {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 }
 
 .brewing-method-card {
@@ -3288,6 +3724,16 @@ p {
     border-color: $accent-color;
   }
   
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+  
   &__icon {
     width: 120px;
     height: 120px;
@@ -3299,11 +3745,35 @@ p {
     justify-content: center;
     padding: 1.5rem;
     
+    @media (max-width: 768px) {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 1rem;
+      padding: 1.25rem;
+    }
+    
+    @media (max-width: 480px) {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 0.75rem;
+      padding: 1rem;
+    }
+    
     .brewing-method-card__img {
       max-width: 100%;
       height: auto;
       object-fit: contain;
       filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      
+      @media (max-width: 768px) {
+        max-width: 80px;
+        max-height: 80px;
+      }
+      
+      @media (max-width: 480px) {
+        max-width: 60px;
+        max-height: 60px;
+      }
     }
   }
   
@@ -3313,6 +3783,16 @@ p {
     color: $primary-color;
     margin-bottom: 1rem;
     font-weight: 600;
+    
+    @media (max-width: 768px) {
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
   }
   
   &__description {
@@ -3321,6 +3801,18 @@ p {
     line-height: 1.6;
     margin-bottom: 1.5rem;
     font-family: 'Sweet Rosetia Sans', sans-serif;
+    
+    @media (max-width: 768px) {
+      font-size: 0.95rem;
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
   }
 
   &__steps {
@@ -3365,10 +3857,40 @@ p {
     font-family: 'Belwe Medium', serif;
     transition: all 0.3s ease;
     
+    @media (max-width: 768px) {
+      padding: 0.6rem 1.25rem;
+      font-size: 0.95rem;
+    }
+    
+    @media (max-width: 480px) {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+    }
+    
     &:hover {
       background: color.adjust($accent-color, $lightness: -10%);
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba($accent-color, 0.3);
+    }
+    
+    // Coming Soon button state
+    &__button--coming-soon {
+      background: #6c757d !important;
+      cursor: not-allowed;
+      opacity: 0.8;
+      position: relative;
+      
+      &::before {
+        content: "⏳";
+        margin-right: 8px;
+        font-size: 0.9em;
+      }
+      
+      &:hover {
+        background: #6c757d !important;
+        transform: none !important;
+        box-shadow: none !important;
+      }
     }
   }
 }
@@ -3419,6 +3941,14 @@ p {
     justify-content: center;
     padding: 2rem;
     
+    @media (max-width: 768px) {
+      padding: 1.5rem;
+    }
+    
+    @media (max-width: 480px) {
+      padding: 1rem;
+    }
+    
     .brew-guide-card__img {
       width: 100%;
       max-width: 200px;
@@ -3426,6 +3956,16 @@ p {
       object-fit: contain;
       transition: transform 0.3s ease;
       filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+      
+      @media (max-width: 768px) {
+        max-width: 150px;
+        max-height: 150px;
+      }
+      
+      @media (max-width: 480px) {
+        max-width: 120px;
+        max-height: 120px;
+      }
     }
     
     &:hover .brew-guide-card__img {
@@ -4048,6 +4588,16 @@ p {
   font-size: 1.1rem;
   max-width: 600px;
   margin: 0 auto;
+  
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    max-width: 500px;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+    max-width: 400px;
+  }
 }
 
 .store-grid {
@@ -5578,5 +6128,331 @@ p {
   
   .value-category {
     padding: 1.5rem;
+    
+    h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+// Additional Mobile Optimizations
+@media (max-width: 768px) {
+  // Ensure proper touch targets
+  button, 
+  .btn,
+  a[role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  // Improve form elements on mobile
+  input, 
+  textarea, 
+  select {
+    font-size: 16px; // Prevents zoom on iOS
+    padding: 12px 16px;
+  }
+  
+  // Better spacing for mobile lists
+  ul, ol {
+    padding-left: 1.5rem;
+  }
+  
+  // Improve mobile navigation
+  .header__content {
+    padding: 0.75rem 0;
+  }
+  
+  // Better mobile grid layouts
+  .grid {
+    gap: 1rem;
+  }
+  
+  // Improve mobile typography
+  h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    line-height: 1.3;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+    line-height: 1.4;
+  }
+  
+  p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  // Center text alignment on mobile for better feel
+  p, 
+  .text,
+  .description,
+  .subtitle,
+  .content,
+  .body-text {
+    text-align: center;
+  }
+  
+  // Center headings on mobile (except for specific cases)
+  h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+  }
+  
+  // Center list items on mobile
+  ul, ol {
+    text-align: center;
+    
+    li {
+      text-align: center;
+    }
+  }
+  
+  // Center form elements on mobile
+  .form-group,
+  .input-group,
+  .form-control {
+    text-align: center;
+  }
+  
+  // Keep form inputs left-aligned for better UX
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="url"],
+  textarea,
+  select {
+    text-align: left;
+  }
+  
+  // Keep form labels centered but inputs left-aligned
+  label {
+    text-align: center;
+  }
+  
+  // Center card content on mobile
+  .card,
+  .card__content,
+  .card__body {
+    text-align: center;
+  }
+  
+  // Center navigation items on mobile
+  .nav,
+  .nav-item,
+  .nav-link {
+    text-align: center;
+  }
+  
+  // Center footer content on mobile
+  .footer,
+  .footer__content,
+  .footer__section {
+    text-align: center;
+  }
+  
+  // Center product information on mobile
+  .product-info,
+  .product-description,
+  .product-details {
+    text-align: center;
+  }
+  
+  // Center service information on mobile
+  .service-info,
+  .service-description,
+  .service-details {
+    text-align: center;
+  }
+  
+  // Center about content on mobile
+  .about__text,
+  .about__description,
+  .about__content {
+    text-align: center;
+  }
+  
+  // Center blog content on mobile
+  .blog-content,
+  .blog-description,
+  .blog-excerpt {
+    text-align: center;
+  }
+  
+  // Center process steps on mobile
+  .process-step,
+  .process-step__description,
+  .step-description {
+    text-align: center;
+  }
+  
+  // Center values content on mobile
+  .value-category,
+  .value-description,
+  .values-list li {
+    text-align: center;
+  }
+  
+  // Center specific component text on mobile
+  .hero__description,
+  .hero__subtitle,
+  .about__text,
+  .contact__text,
+  .products__description,
+  .process__subtitle,
+  .blog-section__subtitle {
+    text-align: center;
+  }
+  
+  // Center product cards on mobile
+  .product-card,
+  .product-card__content,
+  .product-card__description {
+    text-align: center;
+  }
+  
+  // Center brewing method cards on mobile
+  .brewing-method-card,
+  .brewing-method-card__content,
+  .brewing-method-card__description {
+    text-align: center;
+  }
+  
+  // Center service cards on mobile
+  .service-card,
+  .service-card__content,
+  .service-card__description {
+    text-align: center;
+  }
+  
+  // Center testimonial content on mobile
+  .testimonial,
+  .testimonial__content,
+  .testimonial__text {
+    text-align: center;
+  }
+  
+  // Center FAQ content on mobile
+  .faq-item,
+  .faq-question,
+  .faq-answer {
+    text-align: center;
+  }
+  
+  // Center brew guides content on mobile
+  .brew-guides-page,
+  .brew-guides-header,
+  .products-selection,
+  .brewing-methods-section {
+    text-align: center;
+  }
+  
+  // Center brew guide cards on mobile
+  .brew-guide-page,
+  .brew-guide-header,
+  .brew-guide-description,
+  .brew-guide-steps {
+    text-align: center;
+  }
+  
+  // Center store content on mobile
+  .store-page,
+  .store-header,
+  .product-grid,
+  .product-details {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  // Extra small device optimizations
+  .container {
+    padding: 0 12px;
+  }
+  
+  // Ensure buttons are full width on very small screens
+  .btn {
+    width: 100%;
+    max-width: 280px;
+  }
+  
+  // Better spacing for mobile
+  .section {
+    padding: 2rem 0;
+  }
+  
+  // Improve mobile form layout
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  // Better mobile card layouts
+  .card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  // Improve mobile navigation
+  .nav-item {
+    padding: 0.5rem 0;
+  }
+  
+  // Better mobile footer
+  .footer {
+    padding: 2rem 0 1rem;
+    
+    &__content {
+      gap: 1.5rem;
+    }
+  }
+  
+  // Ensure all text is centered on very small screens
+  body,
+  .page-content,
+  .main-content {
+    text-align: center;
+  }
+  
+  // Center all headings and text elements
+  h1, h2, h3, h4, h5, h6,
+  p, span, div, li, a {
+    text-align: center;
+  }
+  
+  // Center form inputs and labels
+  input, textarea, select, label {
+    text-align: center;
+  }
+  
+  // Center navigation and menu items
+  .nav, .menu, .header-nav {
+    text-align: center;
+  }
+}
+
+// Touch-friendly improvements
+@media (hover: none) and (pointer: coarse) {
+  // Improve touch interactions
+  .btn:hover,
+  .card:hover,
+  .nav-link:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  // Better touch feedback
+  .btn:active,
+  .card:active,
+  .nav-link:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
   }
 }

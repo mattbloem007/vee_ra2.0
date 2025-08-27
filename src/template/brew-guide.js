@@ -43,7 +43,8 @@ const BrewGuideTemplate = ({ data, pageContext }) => {
 
           {/* Video Section */}
           <div className="brew-guide-video">
-            <div className="video-container">
+            {/* Video coming soon - iframe commented out for future use */}
+            {/* <div className="video-container">
               <iframe
                 src={brewGuide.videoUrl}
                 title={`${brewGuide.title} Video Guide`}
@@ -52,6 +53,15 @@ const BrewGuideTemplate = ({ data, pageContext }) => {
                 allowFullScreen
                 className="brew-guide-video__iframe"
               ></iframe>
+            </div> */}
+            
+            <div className="video-coming-soon">
+              <div className="video-coming-soon__icon">🎥</div>
+              <h3 className="video-coming-soon__title">Video Guide Coming Soon</h3>
+              <p className="video-coming-soon__text">
+                We're working hard to bring you detailed video guides for this brewing method. 
+                Check back soon for step-by-step video instructions!
+              </p>
             </div>
           </div>
 

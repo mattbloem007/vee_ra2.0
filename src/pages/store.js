@@ -87,7 +87,7 @@ const StorePage = () => {
       ]
     },
     "sameAs": [
-      "https://instagram.com/vee_ra_botanicalblends"
+      "https://instagram.com/veera_cacao"
     ],
     "additionalProperty": [
       {
@@ -123,7 +123,7 @@ const StorePage = () => {
         <div className="container">
           <div className="store-header">
             <h1>Vee/Ra Wellness Store</h1>
-            <p className="subtitle">
+            <p className="store-subtitle">
               Discover our carefully curated collections of premium cacao blends and nutritional journeys. 
               Each product is crafted with intention for wellness, ritual, and inner harmony.
             </p>
