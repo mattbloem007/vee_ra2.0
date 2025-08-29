@@ -13,6 +13,16 @@ const Header = () => {
 
   const data = useStaticQuery(graphql`
     query HeaderQuery {
+      contentfulLogo {
+        image {
+          gatsbyImageData(
+            width: 300
+            placeholder: BLURRED
+            formats: [AUTO, WEBP, AVIF]
+            quality: 90
+          )
+        }
+      }
       file(relativePath: {eq: "images/Final-Logo-PNGs/Gold/Ra-Logo-29.png"}) {
         childImageSharp {
           gatsbyImageData
@@ -21,7 +31,8 @@ const Header = () => {
     }
   `);
 
-  const logo = data.file.childImageSharp.gatsbyImageData;
+  // Use Contentful logo if available, otherwise fall back to local file
+  const logo = data?.contentfulLogo?.image?.gatsbyImageData || data?.file?.childImageSharp?.gatsbyImageData;
   const cartItemCount = cartData ? cartData.lines.edges.length : 0;
 
   useEffect(() => {
@@ -54,7 +65,15 @@ const Header = () => {
       <div className="container">
         <div className="header__content">
           <Link to="/" className="header__logo">
-            <GatsbyImage image={logo} alt="Vee/Ra" />
+            {logo ? (
+              <GatsbyImage image={logo} alt="Vee/Ra" />
+            ) : (
+              <img 
+                src="/static/images/Final-Logo-PNGs/Gold/Ra-Logo-29.png" 
+                alt="Vee/Ra" 
+                style={{ maxWidth: '300px', height: 'auto' }}
+              />
+            )}
           </Link>
 
           <nav className={`header__nav ${isMenuOpen ? 'header__nav--open' : ''}`}>

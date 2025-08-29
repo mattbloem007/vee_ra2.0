@@ -8,7 +8,7 @@
     src: url('../assets/fonts/Rozelle-Regular.otf') format('opentype');
     font-weight: 400;
     font-style: normal;
-    font-display: block;
+    font-display: swap;
 }
 
 @font-face {
@@ -16,7 +16,7 @@
     src: url('../assets/fonts/Belwe-Medium.otf') format('opentype');
     font-weight: 500;
     font-style: normal;
-    font-display: block;
+    font-display: swap;
 }
 
 @font-face {
@@ -24,7 +24,15 @@
     src: url('../assets/fonts/Sweet-Rosetia-Sans-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
-    font-display: block;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Atlane';
+    src: url('../scss/fonts/Atlane OTF.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
 }
 
 // Avenir Font Family
@@ -33,7 +41,7 @@
     src: url('../assets/fonts/Avenir-Family/AvenirLTStd-Roman.otf') format('opentype');
     font-weight: 400;
     font-style: normal;
-    font-display: block;
+    font-display: swap;
 }
 
 @font-face {
@@ -41,7 +49,7 @@
     src: url('../assets/fonts/Avenir-Family/AvenirLTStd-Book.otf') format('opentype');
     font-weight: 500;
     font-style: normal;
-    font-display: block;
+    font-display: swap;
 }
 
 @font-face {
@@ -49,15 +57,14 @@
     src: url('../assets/fonts/Avenir-Family/AvenirLTStd-Medium.otf') format('opentype');
     font-weight: 600;
     font-style: normal;
-    font-display: block;
+    font-display: swap;
 }
 
 @font-face {
-    font-family: 'Avenir';
     src: url('../assets/fonts/Avenir-Family/AvenirLTStd-Heavy.otf') format('opentype');
     font-weight: 700;
     font-style: normal;
-    font-display: block;
+    font-display: swap;
 }
 
 @font-face {
@@ -65,7 +72,7 @@
     src: url('../assets/fonts/Avenir-Family/AvenirLTStd-Black.otf') format('opentype');
     font-weight: 900;
     font-style: normal;
-    font-display: block;
+    font-display: swap;
 }
 
 @font-face {
@@ -73,7 +80,7 @@
     src: url('../assets/fonts/Avenir-Family/AvenirLTStd-Oblique.otf') format('opentype');
     font-weight: 400;
     font-style: italic;
-    font-display: block;
+    font-display: swap;
 }
 
 @font-face {
@@ -81,7 +88,7 @@
     src: url('../assets/fonts/Avenir-Family/AvenirLTStd-MediumOblique.otf') format('opentype');
     font-weight: 600;
     font-style: italic;
-    font-display: block;
+    font-display: swap;
 }
 
 // Variables
@@ -418,11 +425,11 @@ p {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 0;
+    padding: 1rem 0; // Restored to original
     
     @media (max-width: 768px) {
-      padding: 0.75rem 0;
-      height: 80px;
+      padding: 0.75rem 0; // Restored to original
+      height: 80px; // Restored to original
       position: relative;
       justify-content: space-between;
       align-items: center;
@@ -802,6 +809,9 @@ p {
   text-align: left;
   position: relative;
   
+  /* Override global font variables for hero title */
+  --hero-title-font: 'Atlane', 'Rozelle', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  
   &__overlay {
     position: absolute;
     top: 0;
@@ -841,7 +851,6 @@ p {
   }
   
   &__title {
-    font-family: $font-display;
     font-size: 4rem;
     margin-bottom: 1.5rem;
     color: white;
@@ -850,6 +859,9 @@ p {
     line-height: 1.1;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     text-align: left;
+    
+    /* Override global font for hero title only */
+    font-family: var(--hero-title-font) !important;
     
     @media (max-width: 768px) {
       font-size: 3rem;
@@ -866,7 +878,7 @@ p {
   
   &__subtitle {
     font-family: $font-subtitle;
-    font-size: 1.2rem;
+    font-size: 1.2rem !important;
     color: $accent-color;
     margin-bottom: 1.5rem;
     font-weight: 600;
@@ -929,33 +941,42 @@ p {
     
     &__link {
       font-family: $font-subtitle;
-      font-size: 2rem;
-      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.25rem;
+      color: white;
       text-decoration: none;
       font-weight: 600;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       text-transform: uppercase;
       position: relative;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       cursor: pointer;
       display: inline-block;
+      padding: 0.875rem 2.5rem;
+      background: linear-gradient(135deg, $accent-color 0%, darken($accent-color, 15%) 100%);
+      border: none;
+      border-radius: 30px;
+      box-shadow: 0 4px 15px rgba($accent-color, 0.3);
+      overflow: hidden;
       
       @media (max-width: 768px) {
-        font-size: 1.5rem;
-        letter-spacing: 2px;
+        font-size: 1.125rem;
+        letter-spacing: 1.5px;
+        padding: 0.75rem 2rem;
       }
       
       @media (max-width: 480px) {
-        font-size: 1.25rem;
-        letter-spacing: 1.5px;
+        font-size: 1rem;
+        letter-spacing: 1px;
+        padding: 0.625rem 1.5rem;
       }
       
       &:visited {
-        color: rgba(255, 255, 255, 0.9);
+        color: white;
       }
       
       &:active {
-        color: rgba(255, 255, 255, 0.9);
+        color: white;
+        transform: translateY(1px);
       }
       
       &::after {
@@ -965,9 +986,11 @@ p {
         left: 0;
         width: 100%;
         height: 3px;
-        background: linear-gradient(90deg, $accent-color 0%, rgba(255, 255, 255, 0.8) 50%, $accent-color 100%);
-        transition: all 0.3s ease;
+        background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0.8) 50%, white 100%);
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         border-radius: 2px;
+        opacity: 0;
+        transform: translateY(10px);
       }
       
       &::before {
@@ -977,34 +1000,50 @@ p {
         left: 10%;
         width: 80%;
         height: 1px;
-        background: rgba(255, 255, 255, 0.3);
-        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.6);
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        opacity: 0;
+        transform: translateY(10px);
       }
       
       &:hover {
         color: white;
         text-decoration: none;
         letter-spacing: 4px;
+        background: linear-gradient(135deg, lighten($accent-color, 10%) 0%, $accent-color 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba($accent-color, 0.5), 0 4px 15px rgba(0, 0, 0, 0.2);
         
         &::after {
-          background: linear-gradient(90deg, white 0%, $accent-color 50%, white 100%);
+          opacity: 1;
+          transform: translateY(0);
+          background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0.9) 50%, white 100%);
           width: 110%;
           height: 4px;
         }
         
         &::before {
-          background: rgba(255, 255, 255, 0.6);
+          opacity: 1;
+          transform: translateY(0);
+          background: rgba(255, 255, 255, 0.8);
           width: 90%;
         }
       }
       
       &:focus {
-        color: rgba(255, 255, 255, 0.9);
+        color: white;
         text-decoration: none;
         outline: none;
+        box-shadow: 0 0 0 3px rgba($accent-color, 0.5), 0 4px 15px rgba($accent-color, 0.3);
       }
     }
   }
+}
+
+/* Force Atlane font for hero title - highest specificity */
+.hero .hero__title,
+.hero__title {
+  font-family: 'Atlane', 'Rozelle', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif !important;
 }
 
 // About Section

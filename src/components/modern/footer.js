@@ -7,12 +7,12 @@ import { FaInstagram, FaEnvelope } from "react-icons/fa";
 const Footer = () => {
   const data = useStaticQuery(graphql`
     query FooterQuery {
-      file(relativePath: {eq: "images/Final-Logo-PNGs/Gold/Ra-Logo-29.png"}) {
-        childImageSharp {
+      contentfulFooter {
+        logo {
           gatsbyImageData
         }
       }
-      allShopifyProduct(limit: 3) {
+      allShopifyProduct {
         edges {
           node {
             title
@@ -26,27 +26,68 @@ const Footer = () => {
     }
   `);
 
-  const logo = data.file.childImageSharp.gatsbyImageData;
+  const logo = data.contentfulFooter?.logo?.gatsbyImageData;
+  const slogan = "Ancient Wisdom for Modern Wellness";
   const products = data.allShopifyProduct.edges;
-
+  console.log(products);
   return (
     <footer className="footer">
       <div className="container">
         <div className="footer__content">
           <div className="footer__logo">
-            <GatsbyImage image={logo} alt="Vee/Ra" />
-            <h6 className="footer__slogan">Sacred Cacao for Modern Rituals</h6>
+            {logo ? (
+              <GatsbyImage image={logo} alt="Vee/Ra" />
+            ) : (
+              <h3 style={{ color: 'white', fontSize: '2rem', fontWeight: 'bold' }}>Vee/Ra</h3>
+            )}
+            <h6 className="footer__slogan">
+              {slogan || " "}
+            </h6>
           </div>
           
           <div className="footer__links">
             <div className="footer__section">
               <h4>Shop</h4>
               <Link to="/store">All Products</Link>
-              {products.map(({ node }) => (
-                <Link key={node.shopifyId} to={`/store/${node.title}`}>
-                  {node.title.indexOf("-") > 0 ? node.title.slice(0, node.title.indexOf("-")) : node.title}
-                </Link>
-              ))}
+              {(() => {
+                // Sort products to ensure specific order: Mood Magick, Moon Mylk, Ritual Roots, then others
+                const sortedProducts = [...products].sort((a, b) => {
+                  const titleA = a.node.title.toLowerCase();
+                  const titleB = b.node.title.toLowerCase();
+                  
+                  // Priority order
+                  if (titleA.includes('mood magick')) return -1;
+                  if (titleB.includes('mood magick')) return 1;
+                  if (titleA.includes('moon mylk')) return -1;
+                  if (titleB.includes('moon mylk')) return 1;
+                  if (titleA.includes('ritual roots')) return -1;
+                  if (titleB.includes('ritual roots')) return 1;
+                  
+                  return 0;
+                });
+                
+                // Limit to 3 products after sorting
+                const limitedProducts = sortedProducts.slice(0, 3);
+                
+                return limitedProducts.map(({ node }) => {
+                  const slugify = (text) => {
+                    return text
+                      .toString()
+                      .toLowerCase()
+                      .replace(/\s+/g, '-')
+                      .replace(/[^\w-]+/g, '')
+                      .replace(/--+/g, '-')
+                      .replace(/^-+/, '')
+                      .replace(/-+$/, '');
+                  };
+                  
+                  return (
+                    <Link key={node.shopifyId} to={`/store/${slugify(node.title)}`}>
+                      {node.title.indexOf("-") > 0 ? node.title.slice(0, node.title.indexOf("-")) : node.title}
+                    </Link>
+                  );
+                });
+              })()}
             </div>
             
             <div className="footer__section">
