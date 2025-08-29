@@ -3,6 +3,27 @@ import { useStaticQuery, graphql, Link } from 'gatsby';
 import { GatsbyImage } from "gatsby-plugin-image";
 
 const ProductsHome = () => {
+  // Function to extract title and subtitle from product title
+  const extractTitleAndSubtitle = (fullTitle) => {
+    if (!fullTitle) return { title: '', subtitle: '' };
+    
+    // Split by dash and trim whitespace
+    const parts = fullTitle.split('-').map(part => part.trim());
+    
+    if (parts.length >= 2) {
+      return {
+        title: parts[0],
+        subtitle: parts.slice(1).join(' - ')
+      };
+    }
+    
+    // If no dash, return the full title as title with no subtitle
+    return {
+      title: fullTitle,
+      subtitle: ''
+    };
+  };
+
   const data = useStaticQuery(graphql`
     query ProductsHomeQuery {
       allShopifyProduct {
@@ -85,29 +106,29 @@ const ProductsHome = () => {
           </p>
         </div>
         <div className="products__grid">
-          {displayProducts.map(({ node }) => (
-            <div key={node.shopifyId} className="product-card">
-              <Link to={`/store/${node.title}`} className="product-card__link">
-                <div className="product-card__image">
-                  <GatsbyImage 
-                    image={node.featuredImage.gatsbyImageData}
-                    alt={node.title}
-                    className="product-card__img"
-                  />
-                </div>
-                <div className="product-card__content">
-                  <h3 className="product-card__name">{node.title}</h3>
-                  <p className="product-card__description">
-                    {node.description && node.description.length > 80 
-                      ? `${node.description.substring(0, 80)}...` 
-                      : node.description
-                    }
-                  </p>
-                  <div className="product-card__price">{formatPrice(node.priceRangeV2)}</div>
-                </div>
-              </Link>
-            </div>
-          ))}
+          {displayProducts.map(({ node }) => {
+            const { title, subtitle } = extractTitleAndSubtitle(node.title);
+            return (
+              <div key={node.shopifyId} className="product-card">
+                <Link to={`/store/${node.title}`} className="product-card__link">
+                  <div className="product-card__image">
+                    <GatsbyImage 
+                      image={node.featuredImage.gatsbyImageData}
+                      alt={node.title}
+                      className="product-card__img"
+                    />
+                  </div>
+                                     <div className="product-card__content">
+                     <h3 className="product-card__name">{title}</h3>
+                     {subtitle && (
+                       <p className="product-card__subtitle">{subtitle}</p>
+                     )}
+                     <div className="product-card__price">{formatPrice(node.priceRangeV2)}</div>
+                   </div>
+                </Link>
+              </div>
+            );
+          })}
         </div>
         <div className="products__cta">
           <Link to="/store" className="btn btn--primary">

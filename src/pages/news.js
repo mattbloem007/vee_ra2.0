@@ -79,16 +79,10 @@ const NewsPage = ({ data }) => {
         <div className="container">
           {/* Header */}
           <header className="news-header">
-            <nav className="breadcrumb">
-              <Link to="/" className="breadcrumb__link">Home</Link>
-              <span className="breadcrumb__separator">/</span>
-              <span className="breadcrumb__current">News</span>
-            </nav>
-            
             <div className="news-header__content">
               <h1 className="news-header__title">News & Insights</h1>
               <p className="news-header__subtitle">
-                Discover wisdom, rituals, and insights for your sacred journey
+                Discover wisdom, rituals, and insights for your sacred journey.
               </p>
             </div>
           </header>

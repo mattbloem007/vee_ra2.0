@@ -99,6 +99,11 @@ const Footer = () => {
             </div>
             
             <div className="footer__section">
+              <h4>Learn</h4>
+              <Link to="/news">News & Articles</Link>
+            </div>
+            
+            <div className="footer__section">
               <h4>Support</h4>
               <Link to="/contact">Contact</Link>
               {/*<Link to="/shipping">Shipping</Link>
@@ -118,7 +123,7 @@ const Footer = () => {
           </div>
           
           <div className="footer__legal">
-            <span>&copy; 2024 Vee/Ra. All rights reserved.</span>
+            <span>&copy; 2024 Vee/Ra. All Rights Reserved.</span>
           </div>
         </div>
       </div>

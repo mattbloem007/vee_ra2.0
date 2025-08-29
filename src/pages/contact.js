@@ -100,7 +100,7 @@ const ContactPage = () => {
                                                 @veera_cacao
                        </a>
                     </p>
-                    <p>Stay updated with our latest wellness tips and product launches</p>
+                    <p>Stay updated with our journey and the latest wellness tips</p>
                   </div>
                 </div>
                 
@@ -114,7 +114,6 @@ const ContactPage = () => {
                   <div className="contact-method__content">
                     <h3>Location</h3>
                     <p>Cape Point, South Africa</p>
-                    <p>We're based in the beautiful Cape Point region</p>
                   </div>
                 </div>
               </div>

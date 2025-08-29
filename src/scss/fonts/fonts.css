@@ -27,6 +27,30 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'Avenir';
+    src: url("/fonts/Avenir-Family/AvenirLTStd-Book.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Avenir';
+    src: url("/fonts/Avenir-Family/AvenirLTStd-Medium.otf") format("opentype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Avenir';
+    src: url("/fonts/Avenir-Family/AvenirLTStd-Heavy.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* Utility classes for the new fonts */
 .font-rozelle {
     font-family: 'Rozelle', sans-serif;
@@ -42,4 +66,8 @@
 
 .font-atlane {
     font-family: 'Atlane', sans-serif;
+}
+
+.font-avenir {
+    font-family: 'Avenir', sans-serif;
 }

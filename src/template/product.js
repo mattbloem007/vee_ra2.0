@@ -15,6 +15,40 @@ const Product = (props) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const { addToCart } = useStore();
 
+    // Function to extract title and subtitle from product title
+    const extractTitleAndSubtitle = (fullTitle) => {
+      if (!fullTitle) return { title: '', subtitle: '' };
+      
+      // Split by dash and trim whitespace
+      const parts = fullTitle.split('-').map(part => part.trim());
+      
+      if (parts.length >= 2) {
+        return {
+          title: parts[0],
+          subtitle: parts.slice(1).join(' - ')
+        };
+      }
+      
+      // If no dash, return the full title as title with no subtitle
+      return {
+        title: fullTitle,
+        subtitle: ''
+      };
+    };
+
+    // Function to get product slogan based on product title
+    const getProductSlogan = (productTitle) => {
+      const title = productTitle.toLowerCase();
+      if (title.includes('mood') || title.includes('magick')) {
+        return 'Nourishing. Uplifting. Blissful.';
+      } else if (title.includes('moon') || title.includes('mylk')) {
+        return 'Soothing. Calming. Dreamy.';
+      } else if (title.includes('ritual') || title.includes('roots')) {
+        return 'Adaptogenic. Revitalising. Centering.';
+      }
+      return '';
+    };
+
     // Get product data for accordion sections
     const productId = data.shopifyProduct.handle || data.shopifyProduct.title.toLowerCase().replace(/\s+/g, '-');
     let productData = getProductData(productId);
@@ -198,11 +232,26 @@ const Product = (props) => {
 
                         {/* Product Details */}
                         <div className="product-details">
-                            <h1 className="product-title">{data.shopifyProduct.title}</h1>
+                            {(() => {
+                  const { title, subtitle } = extractTitleAndSubtitle(data.shopifyProduct.title);
+                  const slogan = getProductSlogan(data.shopifyProduct.title);
+                  return (
+                    <>
+                      <h1 className="product-details__title">{title}</h1>
+                      {slogan && (
+                        <p className="product-details__slogan">{slogan}</p>
+                      )}
+                      {subtitle && (
+                        <p className="product-details__subtitle">{subtitle}</p>
+                      )}
+                    </>
+                  );
+                })()}
                             
                             {selectedVariant && (
                                 <div className="product-price">
-                                    {formatPrice(selectedVariant.price * quantity)}
+                                    <span className="product-price__label">Price: </span>
+                                    <span className="product-price__amount">{formatPrice(selectedVariant.price * quantity)}</span>
                                 </div>
                             )}
 

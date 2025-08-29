@@ -305,9 +305,14 @@ const AboutPage = () => {
           <section className="about-section about-section--values">
             <div className="values-cta">
               <p>Discover the full depth of our values and principles</p>
-              <Link to="/values" className="btn btn--primary">
-                Explore Our Values
-              </Link>
+              <div className="values-cta__buttons">
+                <Link to="/news/what-does-veera-mean/" className="btn btn--secondary">
+                  What Does The Name Mean?
+                </Link>
+                <Link to="/values" className="btn btn--primary">
+                  Explore Our Values
+                </Link>
+              </div>
             </div>
           </section>
         </div>

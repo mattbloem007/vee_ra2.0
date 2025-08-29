@@ -122,10 +122,13 @@ const StorePage = () => {
       <div className="store-page">
         <div className="container">
           <div className="store-header">
-            <h1>Vee/Ra Wellness Store</h1>
+            <h1>Vee/Ra Store</h1>
             <p className="store-subtitle">
-              Discover our carefully curated collections of premium cacao blends and nutritional journeys. 
-              Each product is crafted with intention for wellness, ritual, and inner harmony.
+              Discover our carefully curated collections of premium cacao blends, coffee alternatives and nutritional journeys. 
+              <br/>Each product is crafted with intention for wellness, ritual, and inner harmony.
+              <br />
+              <br/>
+              Mix, match, and make it yours — combine any three of our blends for unique flavour twists!
             </p>
           </div>
           

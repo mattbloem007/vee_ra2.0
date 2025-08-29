@@ -23,19 +23,19 @@ const BrewGuides = ({ data }) => {
       id: 'mood-magick',
       name: 'Mood Magick',
       image: moodMagickImage,
-      description: 'Our signature blend for mood enhancement and vitality'
+      subtitle: 'Energising Cacao Elixir'
     },
     {
       id: 'moon-mylk',
       name: 'Moon Mylk',
       image: moonMylkImage,
-      description: 'Calming elixir supporting creativity and relaxation'
+      subtitle: 'Relaxing Turmeric Latte'
     },
     {
       id: 'rr',
       name: 'Ritual Roots',
       image: ritualRootsImage,
-      description: 'Grounding and energizing blend for balance, focus, and groundedness'
+      subtitle: 'Grounding Coffee Alternative'
     }
   ];
 
@@ -155,7 +155,7 @@ const BrewGuides = ({ data }) => {
           <div className="brew-guides-header">
             <h1 className="brew-guides-header__title">Brew Guides</h1>
             <p className="brew-guides-header__subtitle">
-              Master the art of brewing your Vee/Ra botanical blends with our expert guides
+              Master the art of brewing your Vee/Ra botanical blends with our expert guides.
             </p>
           </div>
 
@@ -181,7 +181,7 @@ const BrewGuides = ({ data }) => {
                   </div>
                   <div className="product-card__content">
                     <h3 className="product-card__title">{product.name}</h3>
-                    <p className="product-card__description">{product.description}</p>
+                    <p className="product-card__subtitle">{product.subtitle}</p>
                     <div className="product-card__cta">
                       <span className="product-card__cta-text">
                         {selectedProduct?.id === product.id ? 'Selected' : 'Select Blend'}

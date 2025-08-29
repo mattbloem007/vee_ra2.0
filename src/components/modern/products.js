@@ -3,6 +3,27 @@ import { useStaticQuery, graphql, Link } from 'gatsby';
 import { GatsbyImage } from "gatsby-plugin-image";
 
 const Products = () => {
+  // Function to extract title and subtitle from product title
+  const extractTitleAndSubtitle = (fullTitle) => {
+    if (!fullTitle) return { title: '', subtitle: '' };
+    
+    // Split by dash and trim whitespace
+    const parts = fullTitle.split('-').map(part => part.trim());
+    
+    if (parts.length >= 2) {
+      return {
+        title: parts[0],
+        subtitle: parts.slice(1).join(' - ')
+      };
+    }
+    
+    // If no dash, return the full title as title with no subtitle
+    return {
+      title: fullTitle,
+      subtitle: ''
+    };
+  };
+
   const data = useStaticQuery(graphql`
     query ProductsQuery {
       allShopifyProduct {
@@ -108,14 +129,18 @@ const Products = () => {
                     />
                   </div>
                   <div className="product-card__content">
-                    <h3 className="product-card__name">{node.title}</h3>
-                    <p className="product-card__description">
-                      {node.description && node.description.length > 80 
-                        ? `${node.description.substring(0, 80)}...` 
-                        : node.description
-                      }
-                    </p>
-                    <div className="product-card__price">{formatPrice(node.priceRangeV2)}</div>
+                    {(() => {
+                      const { title, subtitle } = extractTitleAndSubtitle(node.title);
+                      return (
+                        <>
+                          <h3 className="product-card__name">{title}</h3>
+                          {subtitle && (
+                            <p className="product-card__subtitle">{subtitle}</p>
+                          )}
+                          <div className="product-card__price">{formatPrice(node.priceRangeV2)}</div>
+                        </>
+                      );
+                    })()}
                   </div>
                 </Link>
               </div>
@@ -143,14 +168,18 @@ const Products = () => {
                     />
                   </div>
                   <div className="product-card__content">
-                    <h3 className="product-card__name">{node.title}</h3>
-                    <p className="product-card__description">
-                      {node.description && node.description.length > 80 
-                        ? `${node.description.substring(0, 80)}...` 
-                        : node.description
-                      }
-                    </p>
-                    <div className="product-card__price">{formatPrice(node.priceRangeV2)}</div>
+                    {(() => {
+                      const { title, subtitle } = extractTitleAndSubtitle(node.title);
+                      return (
+                        <>
+                          <h3 className="product-card__name">{title}</h3>
+                          {subtitle && (
+                            <p className="product-card__subtitle">{subtitle}</p>
+                          )}
+                          <div className="product-card__price">{formatPrice(node.priceRangeV2)}</div>
+                        </>
+                      );
+                    })()}
                   </div>
                 </Link>
               </div>
