@@ -15,6 +15,22 @@ const Product = (props) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const { addToCart } = useStore();
 
+    // Scroll to top when product page loads
+    useEffect(() => {
+        // Immediate scroll to top
+        window.scrollTo(0, 0);
+        
+        // Also scroll after a brief delay to ensure it works
+        setTimeout(() => {
+            window.scrollTo(0, 0);
+        }, 100);
+        
+        // And after a longer delay to catch any late rendering
+        setTimeout(() => {
+            window.scrollTo(0, 0);
+        }, 500);
+    }, []);
+
     // Function to extract title and subtitle from product title
     const extractTitleAndSubtitle = (fullTitle) => {
       if (!fullTitle) return { title: '', subtitle: '' };
@@ -74,25 +90,34 @@ const Product = (props) => {
     // Get all product images including featured image and media
     const productImages = React.useMemo(() => {
         const images = [];
+        const seenImages = new Set(); // Track seen images to avoid duplicates
         
         // Add featured image if it exists
         if (data.shopifyProduct.featuredImage) {
+            const featuredImageSrc = data.shopifyProduct.featuredImage.gatsbyImageData.images.fallback.src;
             images.push({
                 id: 'featured',
                 image: data.shopifyProduct.featuredImage.gatsbyImageData,
                 alt: data.shopifyProduct.title
             });
+            seenImages.add(featuredImageSrc);
         }
         
-        // Add media images if they exist
+        // Add media images if they exist (avoiding duplicates)
         if (data.shopifyProduct.media && data.shopifyProduct.media.length > 0) {
             data.shopifyProduct.media.forEach((mediaItem, index) => {
                 if (mediaItem.preview && mediaItem.preview.image) {
-                    images.push({
-                        id: `media-${index}`,
-                        image: mediaItem.preview.image.gatsbyImageData,
-                        alt: `${data.shopifyProduct.title} - Image ${index + 1}`
-                    });
+                    const mediaImageSrc = mediaItem.preview.image.gatsbyImageData.images.fallback.src;
+                    
+                    // Only add if we haven't seen this image before
+                    if (!seenImages.has(mediaImageSrc)) {
+                        images.push({
+                            id: `media-${index}`,
+                            image: mediaItem.preview.image.gatsbyImageData,
+                            alt: `${data.shopifyProduct.title} - Image ${index + 1}`
+                        });
+                        seenImages.add(mediaImageSrc);
+                    }
                 }
             });
         }
@@ -119,15 +144,25 @@ const Product = (props) => {
     };
 
     const handleAddToCart = async () => {
-        if (!selectedVariant) return;
+        if (!selectedVariant) {
+            console.error("No variant selected");
+            return;
+        }
 
+        console.log("Adding to cart:", {
+            storefrontId: selectedVariant.storefrontId,
+            quantity: quantity,
+            variant: selectedVariant
+        });
         setIsAddingToCart(true);
         try {
             await addToCart(selectedVariant.storefrontId, quantity);
             setAddedToCart(true);
             setTimeout(() => setAddedToCart(false), 3000);
+            console.log("Successfully added to cart");
         } catch (error) {
             console.error("Failed to add item to cart:", error);
+            // You might want to show an error message to the user here
         } finally {
             setIsAddingToCart(false);
         }
@@ -135,6 +170,36 @@ const Product = (props) => {
 
     const formatPrice = (price) => {
         return `R${parseFloat(price).toFixed(2)}`;
+    };
+
+    const formatTitleWithCapitalizedLetters = (title) => {
+        if (!title) return '';
+        
+        // For Mood Magick, capitalize the last two letters
+        if (title.toLowerCase().includes('mood magick')) {
+            if (title.length >= 2) {
+                const mainPart = title.slice(0, -2);
+                const lastTwoLetters = title.slice(-2).toUpperCase();
+                return (
+                    <>
+                        {mainPart}<span className="title-capitalized">{lastTwoLetters}</span>
+                    </>
+                );
+            }
+        }
+        
+        // For other products, capitalize the last letter
+        if (title.length >= 1) {
+            const mainPart = title.slice(0, -1);
+            const lastLetter = title.slice(-1).toUpperCase();
+            return (
+                <>
+                    {mainPart}<span className="title-capitalized">{lastLetter}</span>
+                </>
+            );
+        }
+        
+        return title;
     };
 
     const nextImage = () => {
@@ -161,7 +226,7 @@ const Product = (props) => {
                     <nav className="breadcrumb">
                         <Link to="/" className="breadcrumb__link">Home</Link>
                         <span className="breadcrumb__separator">/</span>
-                        <Link to="/store" className="breadcrumb__link">Shop</Link>
+                        <Link to="/store" className="breadcrumb__link">Store</Link>
                         <span className="breadcrumb__separator">/</span>
                         <span className="breadcrumb__current">{data.shopifyProduct.title}</span>
                     </nav>
@@ -237,12 +302,12 @@ const Product = (props) => {
                   const slogan = getProductSlogan(data.shopifyProduct.title);
                   return (
                     <>
-                      <h1 className="product-details__title">{title}</h1>
-                      {slogan && (
-                        <p className="product-details__slogan">{slogan}</p>
-                      )}
+                      <h1 className="product-details__title">{formatTitleWithCapitalizedLetters(title)}</h1>
                       {subtitle && (
                         <p className="product-details__subtitle">{subtitle}</p>
+                      )}
+                      {slogan && (
+                        <p className="product-details__slogan">{slogan}</p>
                       )}
                     </>
                   );
@@ -306,7 +371,7 @@ const Product = (props) => {
                                         disabled={quantity <= 1 || (selectedVariant && selectedVariant.inventoryQuantity <= 0)}
                                         aria-label="Decrease quantity"
                                     >
-                                        −
+                                        -
                                     </button>
                                     <input
                                         type="number"

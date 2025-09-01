@@ -38,6 +38,13 @@ const AboutPage = () => {
           gatsbyImageData(width: 600, height: 400, quality: 90)
           title
         }
+        section5 {
+          raw
+        }
+        section5image2 {
+          gatsbyImageData(width: 300, height: 300, quality: 90)
+          title
+        }
       }
     }
   `);
@@ -107,6 +114,10 @@ const AboutPage = () => {
     section4: {
       title: "Where Vee/Ra Lives",
       content: "Nestled in the breathtaking Cape Point region of South Africa, our home is where the magic happens."
+    },
+    section5: {
+      title: "Meet Our Team",
+      content: "Our passionate team of cacao enthusiasts and wellness practitioners are dedicated to bringing you the finest ceremonial cacao experiences."
     }
   };
 
@@ -180,7 +191,7 @@ const AboutPage = () => {
               <h1 className="about-hero__title">WE ARE DEVOTED TO CACAO</h1>
               <p className="about-hero__subtitle">
                 Premium cacao blends crafted with intention,<br />
-                honouring ancient wisdom for modern wellness
+                honouring ancient wisdom for modern wellness.
               </p>
             </div>
           </div>
@@ -295,6 +306,53 @@ const AboutPage = () => {
                 ) : (
                   <div className="about-section__placeholder">
                     <p>Image loading...</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+
+          {/* Section 5 - Team Members */}
+          <section className="about-section about-section--section5">
+            <div className="about-section__content">
+              <div className="about-section__text">
+                {aboutData?.section5 ? (
+                  renderRichText(aboutData.section5)
+                ) : (
+                  <>
+                    <h2>{fallbackContent.section5.title}</h2>
+                    <p>{fallbackContent.section5.content}</p>
+                  </>
+                )}
+              </div>
+              <div className="about-section__team">
+                {aboutData?.section5image2 ? (
+                  <div className="team-members">
+                    {Array.isArray(aboutData.section5image2) ? (
+                      aboutData.section5image2.map((member, index) => (
+                        <div key={index} className="team-member">
+                          <GatsbyImage 
+                            image={getImage(member)} 
+                            alt={member.title || `Team member ${index + 1}`}
+                            className="team-member__image"
+                          />
+                          <h5 className="team-member__name">{member.title || `Team Member ${index + 1}`}</h5>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="team-member">
+                        <GatsbyImage 
+                          image={getImage(aboutData.section5image2)} 
+                          alt={aboutData.section5image2.title || "Team member"}
+                          className="team-member__image"
+                        />
+                        <h5 className="team-member__name">{aboutData.section5image2.title || "Team Member"}</h5>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="about-section__placeholder">
+                    <p>Team photos loading...</p>
                   </div>
                 )}
               </div>

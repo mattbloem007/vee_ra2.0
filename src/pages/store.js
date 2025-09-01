@@ -138,10 +138,10 @@ const StorePage = () => {
             <div className="cacao-info">
               <h2>About Our Cacao</h2>
               <p>
-                Our cacao is sourced carefully. We only use fairtrade and organic cacao that is 
-                crafted with intention for spiritual and wellness practices. Each 
-                blend contains premium cacao combined with carefully 
-                selected botanicals for enhanced benefits.
+              Our cacao is sourced carefully. We only use organic cacao where possible 
+              that is fairtrade, crafted with intention for spiritual and wellness 
+              practices. Our Mood Magick and Moon Mylk contains premium cacao combined 
+              with carefully selected botanicals for enhanced benefits.
               </p>
             </div>
             
@@ -159,15 +159,16 @@ const StorePage = () => {
               <h2>Shipping & Returns</h2>
               <p>
                 We ship within South Africa. 
-                International shipping available.
+                For returns, please contact us on info@veera.co.za.
               </p>
             </div>
             
             <div className="quality-assurance">
               <h2>Quality Assurance</h2>
               <p>
-                All our products are crafted with organic where possible, and ethically sourced ingredients. 
-                Each batch is tested for purity, potency, and quality standards.
+              All our products are crafted with organic ingredients (where possible) 
+              that are ethically sourced. Each batch is tested for purity, potency, and 
+              quality standards.
               </p>
             </div>
           </div>

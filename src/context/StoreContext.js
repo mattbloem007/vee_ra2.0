@@ -487,7 +487,7 @@ const createCheckoutUrl = async () => {
         createCheckoutUrl
       }}
     >
-      {children}
+      <Layout>{children}</Layout>
     </StoreContext.Provider>
   );
 }

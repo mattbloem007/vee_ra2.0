@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link, graphql } from 'gatsby';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
+import { useBrewGuide } from '../context/BrewGuideContext';
 
 // Import product images
 import moodMagickImage from '../assets/images/products/mood-magick-thumbnail.png';
@@ -15,7 +16,7 @@ import frenchPressIcon from '../assets/images/brew-methods/moon-mylk-deep-gold/f
 import jarShakingIcon from '../assets/images/brew-methods/moon-mylk-deep-gold/jar-method-deep-gold.png';
 
 const BrewGuides = ({ data }) => {
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const { selectedProduct, selectProduct, clearSelection, restoreLastVisited, restoreScrollPosition } = useBrewGuide();
   
   // Product data
   const products = [
@@ -43,9 +44,15 @@ const BrewGuides = ({ data }) => {
   const getBrewMethodIcon = (methodId) => {
     const iconMap = {
       'blender-method': blenderIcon,
+      'blender-method-mood-magick': blenderIcon,
+      'blender-method-moon-mylk': blenderIcon,
       'froth-action-method': frothActionIcon,
+      'froth-action-method-mood-magick': frothActionIcon,
+      'froth-action-method-moon-mylk': frothActionIcon,
       'french-press-method': frenchPressIcon,
       'jar-shaking-method': jarShakingIcon,
+      'jar-shaking-method-mood-magick': jarShakingIcon,
+      'jar-shaking-method-moon-mylk': jarShakingIcon,
       'moka-pot-method': frenchPressIcon // Use French press icon as fallback
     };
     return iconMap[methodId] || blenderIcon; // Default to blender icon
@@ -79,12 +86,37 @@ const BrewGuides = ({ data }) => {
 
   // Get brewing methods for a specific product
   const getBrewingMethodsForProduct = (productId) => {
-    const methods = Object.values(brewingMethods).filter(method => 
-      method.products.includes(productId)
-    );
+    let methods = [];
     
-    // Sort methods in specific order: Blender, Froth Action, Jar Shaking
-    const methodOrder = ['blender-method', 'froth-action-method', 'jar-shaking-method'];
+    // For Mood Magick and Moon Mylk, use product-specific brew guides
+    if (productId === 'mood-magick' || productId === 'moon-mylk') {
+      // Look for product-specific brew guides first
+      const productSpecificMethods = Object.values(brewingMethods).filter(method => 
+        method.id.includes(`-${productId}`) && method.products.includes(productId)
+      );
+      
+      // If we have product-specific methods, use those
+      if (productSpecificMethods.length > 0) {
+        methods = productSpecificMethods;
+      } else {
+        // Fallback to general methods that include this product
+        methods = Object.values(brewingMethods).filter(method => 
+          method.products.includes(productId)
+        );
+      }
+    } else {
+      // For other products (like Ritual Roots), use general methods
+      methods = Object.values(brewingMethods).filter(method => 
+        method.products.includes(productId)
+      );
+    }
+    
+    // Sort methods in specific order: Blender, Froth Action, French Press, Jar Shaking
+    const methodOrder = [
+      'blender-method', 'blender-method-mood-magick', 'blender-method-moon-mylk',
+      'froth-action-method', 'froth-action-method-mood-magick', 'froth-action-method-moon-mylk',
+      'french-press-method', 'jar-shaking-method', 'jar-shaking-method-mood-magick', 'jar-shaking-method-moon-mylk'
+    ];
     
     return methods.sort((a, b) => {
       const aIndex = methodOrder.indexOf(a.id);
@@ -105,45 +137,87 @@ const BrewGuides = ({ data }) => {
   };
 
   const handleProductSelect = (product) => {
-    setSelectedProduct(product);
+    selectProduct(product);
     
-    // Smooth scroll to brewing methods section after a brief delay
-    setTimeout(() => {
-      const brewingSection = document.querySelector('.brewing-methods-section');
-      if (brewingSection) {
-        // Get viewport dimensions
-        const isMobile = window.innerWidth <= 768;
-        const isSmallMobile = window.innerWidth <= 480;
-        
-        // Calculate scroll position based on device
-        let scrollOptions = { behavior: 'smooth' };
-        
-        if (isSmallMobile) {
-          // For very small mobile devices, scroll to top of section
-          scrollOptions.block = 'start';
-        } else if (isMobile) {
-          // For mobile devices, scroll to near top with some offset
-          scrollOptions.block = 'start';
-          // Add additional offset for mobile navigation if needed
-          setTimeout(() => {
-            window.scrollBy({
-              top: -20, // Small offset to account for mobile nav
-              behavior: 'smooth'
-            });
-          }, 100);
-        } else {
-          // For desktop, center the section
-          scrollOptions.block = 'center';
-        }
-        
-        brewingSection.scrollIntoView(scrollOptions);
-      }
-    }, 300); // Small delay to allow animation to start
+    // The scrolling will be handled by the useEffect below when selectedProduct changes
   };
 
   const handleBackToProducts = () => {
-    setSelectedProduct(null);
+    clearSelection();
   };
+
+  // Restore last visited product when component mounts or when coming back from video guide
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const searchParams = new URLSearchParams(window.location.search);
+      const shouldRestore = searchParams.get('restore') === 'true';
+      
+
+      
+      if (shouldRestore && !selectedProduct) {
+        // If we're coming back from a video guide and should restore, do it
+        const restored = restoreLastVisited();
+        
+        // If restoration was successful, scroll to the brewing methods section
+        if (restored) {
+          // Use a delay to ensure the DOM has updated with the restored product
+          setTimeout(() => {
+            const brewingSection = document.querySelector('.brewing-methods-section');
+            if (brewingSection) {
+              // Calculate the exact position to scroll to (top of section with offset)
+              const sectionTop = brewingSection.offsetTop;
+              const offset = 80; // Adjust this value to control how much space above the section
+              const targetPosition = Math.max(0, sectionTop - offset);
+              
+              // Use window.scrollTo for precise positioning
+              window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+              });
+            }
+          }, 300);
+        }
+        
+        // Clean up the URL by removing the query parameter
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, '', newUrl);
+      } else if (!selectedProduct) {
+        // Otherwise, just restore if no product is selected
+        restoreLastVisited();
+      }
+    }
+  }, [selectedProduct, restoreLastVisited]);
+
+  // Handle scrolling when a product is selected
+  useEffect(() => {
+    if (selectedProduct) {
+      // Simple approach: wait for DOM to render, then scroll
+      setTimeout(() => {
+        const brewingSection = document.querySelector('.brewing-methods-section');
+        if (brewingSection) {
+          // Calculate the exact position to scroll to (top of section with offset)
+          const sectionTop = brewingSection.offsetTop;
+          const offset = 120; // Adjust this value to control how much space above the section
+          const targetPosition = Math.max(0, sectionTop - offset);
+          
+          // Since the page isn't scrollable, let's try a different approach
+          try {
+            // Add padding to the brewing section to create stable offset
+            brewingSection.style.paddingTop = `${offset}px`;
+            
+            // Now scroll the section into view
+            brewingSection.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'start'
+            });
+            
+          } catch (error) {
+            console.error('BrewGuides: Error with scrollIntoView approach:', error);
+          }
+        }
+      }, 300);
+    }
+  }, [selectedProduct]);
 
   return (
     <Layout>

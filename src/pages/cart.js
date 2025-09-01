@@ -9,11 +9,12 @@ import { useLocation } from "@reach/router";
 
 const CartPage = () => {
   const { fetchCartDetails, cartData, removeFromCart, createCheckoutUrl, updateCart } = useStore();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // Manage loading state
   const [items, setItems] = useState([])
   const [completed, setCompleted] = useState(false)
   const [cartId, setCartId] = useState({})
   const location = useLocation();
+
 
   // Fetch cart details on mount
   useEffect(() => {
@@ -21,13 +22,19 @@ const CartPage = () => {
       const cartId = localStorage.getItem("cartId");
       if (cartId && (!cartData || cartData.id !== cartId)) {
         try {
-          await fetchCartDetails(cartId);
+          await fetchCartDetails(cartId); // Ensure the latest cart data
         } catch (error) {
           console.error("Error fetching cart:", error);
         }
       }
       setCartId(cartId)
-      setLoading(false);
+      setLoading(false); // Set loading to false once cart is initialized
+      // localStorage.setItem("checkoutCompleted", "true"); // Save to localStorage if needed
+      // localStorage.removeItem("cartId");
+      // // Optionally reset state (cartId and cart data) in context
+      // setCartId(null);
+
+
     };
 
     initializeCart();
@@ -37,59 +44,78 @@ const CartPage = () => {
     const params = new URLSearchParams(location.search);
     if (params.get("checkout") === "success") {
       setCompleted(true);
-      localStorage.setItem("checkoutCompleted", "true");
+      localStorage.setItem("checkoutCompleted", "true"); // Save to localStorage if needed
       localStorage.removeItem("cartId");
+      // Optionally reset state (cartId and cart data) in context
       setCartId(null);
     }
   }, [location.search]);
 
   const handleCheckout = async () => {
+    // Prevent checkout if cart is empty
+    if (isCartEmpty) {
+      return;
+    }
+    
     const checkoutUrl = await createCheckoutUrl();
     if (checkoutUrl) {
-      window.location.href = checkoutUrl;
+      window.location.href = checkoutUrl; // Redirect user to Shopify checkout
+      //setCompleted(true)
     }
   };
 
-  return (
-    <Layout>
-      <SEO title="Cart - Vee/Ra Decadent Botanical Blends" description="Your shopping cart" />
-      
-      <div className="cart-page">
-        <div className="container">
-          {/* Breadcrumb */}
-          <nav className="breadcrumb">
-            <Link to="/" className="breadcrumb__link">Home</Link>
-            <span className="breadcrumb__separator">/</span>
-            <span className="breadcrumb__current">Cart</span>
-          </nav>
+  console.log("DATA", cartData)
 
-          {/* Cart Header */}
-          <header className="cart-header">
-            <h1 className="cart-title">Your Cart</h1>
-          </header>
+  // Determine if cart is empty
+  const isCartEmpty = !cartData || !cartData.lines || cartData.lines.edges.length === 0;
 
-          {/* Cart Content */}
-          <div className="cart-content">
-            <CartItemList
-              completed={completed}
-              items={cartData}
-              loading={loading}
-              cartId={cartId}
-              removeFromCart={item => removeFromCart(item)}
-              updateCart={updateCart}
-            />
-            
-            {!loading && !completed && (
-              <CartSummary
-                estimatedCost={cartData?.estimatedCost || { subtotalAmount: { amount: 0 } }}
-                handleCheckout={handleCheckout}
-              />
-            )}
-          </div>
-        </div>
+  if (cartData) {
+    const { lines, estimatedCost } = cartData;
+    console.log("estimatedCost", estimatedCost)
+    return (
+      <div className="rn-portfolio-area pt--200 pb--150 bg-color-white portfolio-style-1 cart-container">
+      <SEO title="Cart" />
+        <CartItemList
+          completed={completed}
+          items={cartData}
+          loading={loading}
+          cartId={cartId}
+          removeFromCart={item => removeFromCart(item)}
+          updateCart={updateCart}
+        />
+        {!loading && !completed && (
+          <CartSummary
+            estimatedCost={estimatedCost}
+            handleCheckout={handleCheckout}
+            isCartEmpty={isCartEmpty}
+          />
+        )}
       </div>
-    </Layout>
-  );
+    );
+  }
+  else {
+    return (
+      <div className="rn-portfolio-area pt--200 pb--150 bg-color-white portfolio-style-1 cart-container">
+      <SEO title="Cart" />
+        <CartItemList
+          completed={completed}
+          items={cartData}
+          loading={loading}
+          cartId={cartId}
+          removeFromCart={item => removeFromCart(item)}
+          updateCart={updateCart}
+        />
+        {!loading && !completed && (
+          <CartSummary
+            estimatedCost={0}
+            handleCheckout={handleCheckout}
+            isCartEmpty={true}
+          />
+        )}
+      </div>
+    );
+  }
+
 };
 
 export default CartPage;

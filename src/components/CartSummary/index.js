@@ -2,7 +2,8 @@ import React from 'react'
 
 export default ({
   handleCheckout,
-  estimatedCost
+  estimatedCost,
+  isCartEmpty = false
 }) => (
   <div className="cart-summary">
     <div className="cart-summary__content">
@@ -13,7 +14,11 @@ export default ({
         </span>
       </div>
       
-      <button className="btn btn--primary cart-summary__checkout" onClick={handleCheckout}>
+      <button 
+        className={`btn btn--primary cart-summary__checkout ${isCartEmpty ? 'btn--disabled' : ''}`} 
+        onClick={handleCheckout}
+        disabled={isCartEmpty}
+      >
         Proceed to Checkout
       </button>
     </div>

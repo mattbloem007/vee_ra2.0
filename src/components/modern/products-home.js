@@ -131,7 +131,7 @@ const ProductsHome = () => {
           })}
         </div>
         <div className="products__cta">
-          <Link to="/store" className="btn btn--primary">
+          <Link to="/store" className="products__link">
             View All Products
           </Link>
         </div>

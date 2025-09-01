@@ -8,8 +8,8 @@ const Contact = () => {
         <div className="contact__content">
           <h2 className="contact__title">Connect With Us</h2>
           <p className="contact__text">
-            Have questions about our blends or want to share your ritual experience? 
-            We'd love to hear from you.
+            Have questions about our blends or need wellness guidance? 
+            We're here to help you on your health journey.
           </p>
           <div className="contact__links">
             <a href="mailto:info@veera.co.za" className="contact__link">
@@ -20,7 +20,7 @@ const Contact = () => {
             </a>
           </div>
           <div className="contact__cta">
-            <Link to="/contact" className="btn btn--primary">
+            <Link to="/contact" className="contact__link">
               Get in Touch
             </Link>
           </div>

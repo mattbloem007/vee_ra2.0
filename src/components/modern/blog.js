@@ -6,10 +6,20 @@ const Blog = ({ title, date, path, image, excerpt }) => {
   return (
     <article className="blog-card">
       <div className="blog-card__image">
-        {image && (
-          <Link to={`/blog/${path}`}>
-            <GatsbyImage image={image} alt={title} className="blog-card__img" />
+        {image ? (
+          <Link to={`/news/${path}`}>
+            <GatsbyImage 
+              image={image} 
+              alt={title} 
+              className="blog-card__img"
+              loading="lazy"
+              placeholder="blurred"
+            />
           </Link>
+        ) : (
+          <div className="blog-card__image-placeholder">
+            <p>No image available</p>
+          </div>
         )}
       </div>
       
@@ -57,7 +67,13 @@ const BlogSection = () => {
             slug
             createdAt
             image {
-              gatsbyImageData(width: 400, height: 250)
+              gatsbyImageData(
+                width: 400
+                height: 250
+                placeholder: BLURRED
+                formats: [AUTO, WEBP]
+                quality: 85
+              )
             }
             body {
               raw
@@ -86,7 +102,7 @@ const BlogSection = () => {
           {blogs.map(blog => (
             <div className="blog-grid__item" key={blog.node.slug}>
               <Blog
-                image={blog.node.image.gatsbyImageData}
+                image={blog.node.image?.gatsbyImageData}
                 title={blog.node.title}
                 path={blog.node.slug}
                 date={blog.node.createdAt}

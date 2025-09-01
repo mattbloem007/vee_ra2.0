@@ -7,11 +7,11 @@ videoUrl: "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE"
 description: "The French press method extracts rich flavors and creates beautiful froth for a concentrated, full-bodied experience. This method is ideal for those who appreciate the depth and complexity of their botanical blends."
 icon: "../assets/images/brew-methods/moon-mylk-deep-gold/french-press-method-deep-gold.png"
 steps:
-  - "Add your Vee/Ra blend (1 heaped Tbsp (10g) of Ritual Roots) to a French press"
-  - "Pour hot water 250ml over the blend"
-  - "Let steep for 3-10 minutes, depending on desired strength (the longer the better!)"
+  - "Add 1 heaped Tbsp (10g) of Ritual Roots to a French press"
+  - "Add 200-250ml of boiled water 250ml over the blend"
+  - "Let steep for 5-10 minutes, depending on desired strength (the longer the better!)"
   - "Gently press the plunger down"
-  - "Pour and enjoy the rich, flavorful brew"
+  - "Pour into your favourite cup enjoy the rich, flavourful brew"
   - "One serving can be brewed up to 3 times."
   - "Give the used grinds to your plants - they love it!"
 products:
@@ -48,7 +48,7 @@ Use a spoon to gently stir the mixture, ensuring all the blend is fully dissolve
 Let the mixture steep for 3-5 minutes, then slowly press down the plunger to create that signature froth.
 
 ### Step 6: Pour and Enjoy
-Pour into your favorite cup, taking care to preserve the beautiful froth on top.
+Pour into your favourite cup, taking care to preserve the beautiful froth on top.
 
 ## Pro Tips
 

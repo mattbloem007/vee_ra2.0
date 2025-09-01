@@ -7,6 +7,7 @@
 // You can delete this file if you're not using it
 import React from "react"
 import { StoreContextProvider } from "./src/context/StoreContext"
+import { BrewGuideProvider } from "./src/context/BrewGuideContext"
 
 export function onRenderBody({ setHeadComponents}) {
  setHeadComponents([
@@ -27,7 +28,11 @@ export function onRenderBody({ setHeadComponents}) {
   ])
 }
 export const wrapRootElement = ({ element }) => (
-  <StoreContextProvider>{element}</StoreContextProvider>
+  <StoreContextProvider>
+    <BrewGuideProvider>
+      {element}
+    </BrewGuideProvider>
+  </StoreContextProvider>
 )
 
 // import "react-responsive-carousel/lib/styles/carousel.min.css";

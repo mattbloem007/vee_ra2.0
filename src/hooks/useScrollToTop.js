@@ -6,12 +6,20 @@ export const useScrollToTop = () => {
 
   useEffect(() => {
     // Immediately scroll to top on route change
-    window.scrollTo(0, 0);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'auto'
+    });
     
     // Also ensure scroll position is reset after a brief moment
     // to handle any delayed rendering
     const timeoutId = setTimeout(() => {
-      window.scrollTo(0, 0);
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'auto'
+      });
     }, 50);
 
     return () => clearTimeout(timeoutId);

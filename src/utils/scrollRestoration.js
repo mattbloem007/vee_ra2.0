@@ -1,20 +1,12 @@
 // Scroll restoration utility
 export const scrollToTop = () => {
-  // Multiple methods to ensure scroll to top works
   if (typeof window !== 'undefined') {
-    // Method 1: Direct scroll
-    window.scrollTo(0, 0);
-    
-    // Method 2: Scroll to top with smooth behavior
+    // Simple and reliable scroll to top
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'auto' // Use 'auto' instead of 'smooth' for immediate effect
+      behavior: 'auto'
     });
-    
-    // Method 3: Set scroll position directly
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
   }
 };
 

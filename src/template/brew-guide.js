@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { graphql, Link } from 'gatsby';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
+import { useBrewGuide } from '../context/BrewGuideContext';
 
 const BrewGuideTemplate = ({ data, pageContext }) => {
   const { markdownRemark: post } = data;
   const { frontmatter, html } = post;
+  const { setLastVisitedFromVideoGuide } = useBrewGuide();
 
   // Get the brew guide data from the markdown frontmatter
   const brewGuide = {
@@ -14,6 +16,38 @@ const BrewGuideTemplate = ({ data, pageContext }) => {
     description: frontmatter.description || 'Detailed brewing instructions for this method will be added soon.',
     steps: frontmatter.steps || []
   };
+
+  // Determine which product this brew guide belongs to and set it as last visited
+  useEffect(() => {
+    if (frontmatter.products && frontmatter.products.length > 0) {
+      // Map product IDs to product data
+      const productMap = {
+        'mood-magick': {
+          id: 'mood-magick',
+          name: 'Mood Magick',
+          subtitle: 'Energising Cacao Elixir'
+        },
+        'moon-mylk': {
+          id: 'moon-mylk',
+          name: 'Moon Mylk',
+          subtitle: 'Relaxing Turmeric Latte'
+        },
+        'rr': {
+          id: 'rr',
+          name: 'Ritual Roots',
+          subtitle: 'Grounding Coffee Alternative'
+        }
+      };
+      
+      // Find the first product that matches this brew guide
+      const productId = frontmatter.products[0];
+      const product = productMap[productId];
+      
+      if (product) {
+        setLastVisitedFromVideoGuide(product);
+      }
+    }
+  }, [frontmatter.products, setLastVisitedFromVideoGuide]);
 
   return (
     <Layout>
@@ -37,7 +71,7 @@ const BrewGuideTemplate = ({ data, pageContext }) => {
           <header className="brew-guide-header">
             <h1 className="brew-guide-header__title">{brewGuide.title}</h1>
             <p className="brew-guide-header__subtitle">
-              Master the art of brewing with this expert method
+              Master the art of brewing with this expert method.
             </p>
           </header>
 
@@ -89,7 +123,7 @@ const BrewGuideTemplate = ({ data, pageContext }) => {
 
           {/* Navigation */}
           <div className="brew-guide-navigation">
-            <Link to="/brew-guides" className="brew-guide-navigation__back">
+            <Link to="/brew-guides?restore=true" className="brew-guide-navigation__back">
               ← Back to All Brew Guides
             </Link>
           </div>

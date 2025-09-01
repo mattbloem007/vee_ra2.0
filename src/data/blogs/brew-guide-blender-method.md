@@ -10,7 +10,7 @@ steps:
   - "Add your Vee/Ra blend to a high-speed blender (1½ - 2 Tbsp (15g) for Mood Magick OR 1 heaped Tbsp (12.5g) for Moon Mylk)"
   - "Pour in hot water/milk (not boiling)"
   - "Blend on high for 30-60 seconds until frothy"
-  - "Pour into your favorite cup and enjoy"
+  - "Pour into your favourite cup and enjoy"
 products:
   - "mood-magick"
   - "moon-mylk"
@@ -18,11 +18,11 @@ products:
 
 # Blender Method - Perfect Smooth Vee/Ra
 
-The blender method is our most popular brewing technique for creating smooth, frothy Vee/Ra botanical blends. This method creates a luxurious texture that's perfect for both hot and cold preparations.
+The blender method creates a smooth, frothy texture that enhances the absorption of the beneficial compounds in your Mood Magick and Moon Mylk. This method is perfect for those who prefer a creamy, well-mixed beverage with excellent bioavailability.
 
 ## What You'll Need
 
-- Your favorite Vee/Ra blend (Ritual Roots, Moon Mylk, or Mood Magick)
+- Your favourite Vee/Ra blend (Ritual Roots, Moon Mylk, or Mood Magick)
 - High-speed blender (Vitamix, Blendtec, or similar)
 - Hot water (just off the boil)
 - Optional: Plant milk, honey, or other additions
@@ -39,7 +39,7 @@ Pour 8-12 ounces of hot water (just off the boil) over your blend. The hot water
 Start on low speed and gradually increase to high. Blend for 30-60 seconds until you achieve a smooth, frothy consistency.
 
 ### Step 4: Enjoy Your Ritual
-Pour into your favorite cup and take a moment to appreciate the beautiful froth and aroma before sipping.
+Pour into your favourite cup and take a moment to appreciate the beautiful froth and aroma before sipping.
 
 ## Pro Tips
 

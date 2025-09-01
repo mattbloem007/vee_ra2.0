@@ -50,7 +50,7 @@ export default ({items, removeFromCart, loading, completed, cartId, updateCart})
         </div>
         <h2>Your cart is empty</h2>
         <p>You will need to add some items to the cart before you can checkout.</p>
-        <Link to="/store" className="btn btn--primary">
+        <Link to="/store" className="cart-empty__continue-shopping">
           Continue Shopping
         </Link>
       </div>
@@ -87,20 +87,41 @@ export default ({items, removeFromCart, loading, completed, cartId, updateCart})
               
               <div className="cart-item__details">
                 <span className="cart-item__variant">{size}</span>
-                <span className="cart-item__quantity">Quantity: {quantity}</span>
               </div>
               
               <div className="cart-item__controls">
-                <label className="cart-item__quantity-label">
-                  Quantity:
-                  <input
-                    type="number"
-                    value={quantity}
-                    onChange={(e) => handleQuantityChange(id, e)}
-                    min="0"
-                    className="cart-item__quantity-input"
-                  />
-                </label>
+                <div className="cart-item__quantity">
+                  <div className="cart-item__quantity__row">
+                    <label className="cart-item__quantity__label">Quantity</label>
+                    <div className="cart-item__quantity__selector">
+                      <button
+                        type="button"
+                        className="cart-item__quantity__btn cart-item__quantity__btn--decrease"
+                        onClick={() => handleQuantityChange(id, { target: { value: Math.max(1, quantity - 1) } })}
+                        disabled={quantity <= 1}
+                        aria-label="Decrease quantity"
+                      >
+                        -
+                      </button>
+                      <input
+                        type="number"
+                        min="1"
+                        value={quantity}
+                        onChange={(e) => handleQuantityChange(id, e)}
+                        className="cart-item__quantity__input"
+                        aria-label="Quantity"
+                      />
+                      <button
+                        type="button"
+                        className="cart-item__quantity__btn cart-item__quantity__btn--increase"
+                        onClick={() => handleQuantityChange(id, { target: { value: quantity + 1 } })}
+                        aria-label="Increase quantity"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

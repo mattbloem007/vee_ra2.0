@@ -5,7 +5,7 @@ const Process = () => {
     {
       number: "01",
       title: "Choose Your Blend",
-      description: "Select from our signature blends: Mood Magick for Energy, Moon Mylk for Relaxation, or Ritual Roots for Grounding."
+      description: "Select from our signature blends: Mood Magick for energy, Moon Mylk for relaxation, or Ritual Roots for grounding."
     },
     {
       number: "02",
@@ -14,8 +14,8 @@ const Process = () => {
     },
     {
       number: "03",
-      title: "Savor the Moment",
-      description: "Find a quiet space, take a deep breath, and slowly sip your blend mindfully, allowing its transformative properties to work its magic."
+      title: "Savour the Moment",
+      description: "Find a quiet space, take a deep breath and slowly sip your blend mindfully, allowing its transformative properties to work its magic."
     }
   ];
 
@@ -25,7 +25,7 @@ const Process = () => {
         <div className="process__header">
           <h2 className="process__title">Your Sacred Ritual</h2>
           <p className="process__subtitle">
-            Transform your daily practice with our signature botanical blends through intention and presence
+            Transform your daily practice with our signature botanical blends through intention and presence.
           </p>
         </div>
         <div className="process__steps">

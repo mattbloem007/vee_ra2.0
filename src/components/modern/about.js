@@ -100,7 +100,7 @@ const About = () => {
               {documentToReactComponents(JSON.parse(aboutData.description.raw), options)}
             </div>
             <div className="about__cta">
-              <Link to="/about" className="btn btn--secondary">
+              <Link to="/about" className="about__link">
                 {aboutData.cta}
               </Link>
             </div>

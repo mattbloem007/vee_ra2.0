@@ -1,37 +1,36 @@
 ---
-title: "Froth Action Method"
+title: "Froth Action Method - Moon Mylk"
+slug: "froth-action-method-moon-mylk"
 date: "2024-08-22"
 category: "brew guides"
-slug: "froth-action-method"
 videoUrl: "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE"
-description: "The froth action method creates beautiful, rich froth that enhances the mood-lifting properties of your Vee/Ra blend. This technique produces a luxurious, café-style beverage perfect for special moments and rituals."
-icon: "../assets/images/brew-methods/moon-mylk-deep-gold/froth-action-method-deep-gold.png"
+description: "The froth action method creates beautiful, rich froth that enhances the lunar properties of your Moon Mylk blend. This technique produces a luxurious, café-style beverage perfect for evening rituals and lunar ceremonies."
+icon: "../assets/images/brew-methods/moon-mylk/froth-action-method-moon-mylk.png"
 steps:
-  - "Place your Vee/Ra blend (1½ - 2 Tbsp (15g) for Mood Magick OR 1 heaped Tbsp (12.5g) for Moon Mylk) in a French press"
-  - "Add hot milk into the french press"
+  - "Add 1 heaped Tbsp (12.5g) of Moon Mylk to a French press or milk frothing plunger"
+  - "Add 200-250ml of hot milk of choice and stir until incorporated. At this stage the cacao butter will float on top"
   - "Create froth by moving the plunger up and down vigorously"
-  - "Pour into a cup and enjoy"
+  - "Pour into your favourite cup and enjoy"
 products:
-  - "mood-magick"
   - "moon-mylk"
 ---
 
-# Froth Action Method
+# Froth Action Method - Moon Mylk
 
-The froth action method creates beautiful, rich froth that enhances the mood-lifting properties of your Mood Magick and Moon Mylk. This technique produces a luxurious, café-style beverage perfect for special moments and rituals.
+The froth action method creates beautiful, rich froth that enhances the lunar properties of your Moon Mylk blend. This technique produces a luxurious, café-style beverage perfect for evening rituals and lunar ceremonies.
 
 ## What You'll Need
 
 - French press or milk frother
 - Hot water (180°F/82°C)
-- Your favourite Vee/Ra blend
+- Moon Mylk blend (1 heaped Tbsp / 12.5g)
 - Timer
 - Your favourite cup
 
 ## Step-by-Step Instructions
 
-1. **Place your Vee/Ra blend in a French press or frother**
-   - Use 1-2 tablespoons of your blend per cup
+1. **Place your Moon Mylk blend in a French press or frother**
+   - Use 1 heaped Tbsp (12.5g) of Moon Mylk per cup
    - Ensure the blend is evenly distributed
 
 2. **Add hot water and steep**
@@ -51,8 +50,8 @@ The froth action method creates beautiful, rich froth that enhances the mood-lif
 
 ## Perfect For
 
-- **Mood Magick**: Enhances mood-lifting properties
 - **Moon Mylk**: Perfect for lunar rituals and intention setting
+- **Evening rituals**: Wind down with a frothy, calming beverage
 - **Special moments**: When you want a luxurious, café-style experience
 
 ## Tips

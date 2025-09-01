@@ -77,7 +77,7 @@ const ContactPage = () => {
                   <div className="contact-method__content">
                     <h3>Email Us</h3>
                     <p><a href="mailto:info@veera.co.za">info@veera.co.za</a></p>
-                    <p>We typically respond within 24 hours</p>
+                    <p>We typically respond within 24 hours.</p>
                   </div>
                 </div>
                 
@@ -100,7 +100,7 @@ const ContactPage = () => {
                                                 @veera_cacao
                        </a>
                     </p>
-                    <p>Stay updated with our journey and the latest wellness tips</p>
+                    <p>Stay updated with our journey and the latest wellness tips.</p>
                   </div>
                 </div>
                 

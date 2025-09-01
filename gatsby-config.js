@@ -54,6 +54,13 @@ module.exports = {
         path: `${__dirname}/src/data/`,
       },
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `fonts`,
+        path: `${__dirname}/src/assets/fonts/`,
+      },
+    },
     // {
     //   resolve: `gatsby-plugin-google-fonts`,
     //   options: {

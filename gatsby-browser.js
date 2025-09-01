@@ -13,10 +13,20 @@ import "./src/scss/style.scss";
 
 import React from "react"
 import { StoreContextProvider } from "./src/context/StoreContext"
+import { BrewGuideProvider } from "./src/context/BrewGuideContext"
+import ScrollToTop from "./src/components/ScrollToTop"
 
 // Disable Gatsby's scroll restoration
 export const shouldUpdateScroll = () => {
   return false;
+};
+
+// Force scroll to top when client-side JavaScript loads
+export const onClientEntry = () => {
+  // Disable browser's scroll restoration
+  if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+    window.history.scrollRestoration = 'manual';
+  }
 };
 
 // Scroll to top on route change
@@ -25,7 +35,18 @@ export const onRouteUpdate = () => {
 };
 
 export const wrapRootElement = ({ element }) => (
-  <StoreContextProvider>{element}</StoreContextProvider>
+  <StoreContextProvider>
+    <BrewGuideProvider>
+      {element}
+    </BrewGuideProvider>
+  </StoreContextProvider>
+)
+
+export const wrapPageElement = ({ element }) => (
+  <>
+    <ScrollToTop />
+    {element}
+  </>
 )
 
 // import "react-responsive-carousel/lib/styles/carousel.min.css";
