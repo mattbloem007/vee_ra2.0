@@ -113,18 +113,18 @@ const ContactPage = () => {
                   </div>
                   <div className="contact-method__content">
                     <h3>Location</h3>
-                    <p>Cape Point, South Africa</p>
+                    <p>226 Red Hill Road, Cape Point, South Africa</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           
-          {/* Map Section */}
+          {/* Map Section 
           <div className="contact-map-section">
             <h2>Find Us</h2>
             <GoogleMap />
-          </div>
+          </div>*/}
         </div>
       </div>
     </Layout>
