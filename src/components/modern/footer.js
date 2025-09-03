@@ -101,6 +101,7 @@ const Footer = () => {
             <div className="footer__section">
               <h4>Learn</h4>
               <Link to="/news">News & Articles</Link>
+              <Link to="/brew-guides">Brew Guides</Link>
             </div>
             
             <div className="footer__section">
@@ -114,7 +115,7 @@ const Footer = () => {
         
         <div className="footer__bottom">
           <div className="footer__social">
-            <a href="https://instagram.com/vee_ra" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
+            <a href="https://instagram.com/veera_cacao" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
               <FaInstagram />
             </a>
             <a href="mailto:info@veera.co.za" aria-label="Send us an email">

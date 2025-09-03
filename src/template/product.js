@@ -368,12 +368,12 @@ const Product = (props) => {
                   );
                 })()}
                             
-                            {selectedVariant && (
+                            {/*selectedVariant && (
                                 <div className="product-price">
                                     <span className="product-price__label">Price: </span>
                                     <span className="product-price__amount">{formatPrice(selectedVariant.price * quantity)}</span>
                                 </div>
-                            )}
+                            )**/}
 
                             {/* Variant Selection */}
                             {data.shopifyProduct.variants.length > 1 && (

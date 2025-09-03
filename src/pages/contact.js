@@ -113,7 +113,7 @@ const ContactPage = () => {
                   </div>
                   <div className="contact-method__content">
                     <h3>Location</h3>
-                    <p>226 Red Hill Road, Cape Point, South Africa</p>
+                    <p>Cottage 4, Winford Farm, 226 Red Hill Road, Cape Point, South Africa</p>
                   </div>
                 </div>
               </div>
