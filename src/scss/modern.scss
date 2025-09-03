@@ -1064,7 +1064,7 @@ p {
     height: 250px;
     border-radius: 50%;
     background: white;
-    padding: 20px;
+    padding: 0;
     box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3), 0 10px 40px rgba(212, 175, 55, 0.4);
     display: flex;
     align-items: center;
@@ -1078,7 +1078,7 @@ p {
     @media (max-width: 768px) {
       width: 180px;
       height: 180px;
-      padding: 15px;
+      padding: 0;
       position: relative;
       top: auto;
       left: auto;
@@ -1093,7 +1093,7 @@ p {
     @media (max-width: 480px) {
       width: 160px;
       height: 160px;
-      padding: 12px;
+      padding: 0;
       margin: 0 auto 0.25rem auto;
     }
     
