@@ -811,7 +811,15 @@ p {
   text-align: left;
   position: relative;
   background: $background-color;
-  padding: 3rem 0;
+  padding: 3rem 0 1rem 0;
+  
+  @media (max-width: 768px) {
+    padding: 3rem 0 1rem 0;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 2rem 0 1rem 0;
+  }
   
   /* Override global font variables for hero title */
   --hero-title-font: 'Atlane', 'Rozelle', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -886,7 +894,7 @@ p {
   
   &__subtitle {
     font-family: $font-subtitle;
-    font-size: 1.2rem !important;
+    font-size: 1.2rem;
     color: $accent-color;
     margin-bottom: 1.5rem;
     font-weight: 600;
@@ -911,8 +919,8 @@ p {
   }
   
   &__description {
-    font-family: $font-body;
-    font-size: 1.1rem;
+    font-family: $font-body !important;
+    font-size: 1.1rem !important;
     color: $text-color;
     margin-bottom: 3rem;
     font-weight: 400;
@@ -921,14 +929,14 @@ p {
     text-align: left;
     
     @media (max-width: 768px) {
-      font-size: 1rem;
+      font-size: 1rem !important;
       margin-bottom: 2rem;
       max-width: 100%;
       text-align: center;
     }
     
     @media (max-width: 480px) {
-      font-size: 0.95rem;
+      font-size: 0.95rem !important;
       margin-bottom: 1.5rem;
       text-align: center;
     }
@@ -1194,7 +1202,7 @@ p {
 
 // About Section
 .about {
-  padding: 6rem 0;
+  padding: 4rem 0;
   
   @media (max-width: 768px) {
     padding: 4rem 0;

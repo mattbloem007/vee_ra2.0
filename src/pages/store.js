@@ -167,7 +167,7 @@ const StorePage = () => {
             <div className="quality-assurance">
               <h2>Quality Assurance</h2>
               <p>
-              All our products are crafted with organic ingredients - where possible -  
+              All our products are crafted with organic ingredients — where possible —  
               that are ethically sourced. Each batch is tested for purity, potency, and 
               quality standards.
               </p>
