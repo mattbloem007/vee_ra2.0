@@ -146,13 +146,11 @@ const BrewGuides = ({ data }) => {
     clearSelection();
   };
 
-  // Restore last visited product when component mounts or when coming back from video guide
+  // Restore last visited product only when coming back from video guide
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const searchParams = new URLSearchParams(window.location.search);
       const shouldRestore = searchParams.get('restore') === 'true';
-      
-
       
       if (shouldRestore && !selectedProduct) {
         // If we're coming back from a video guide and should restore, do it
@@ -181,12 +179,40 @@ const BrewGuides = ({ data }) => {
         // Clean up the URL by removing the query parameter
         const newUrl = window.location.pathname;
         window.history.replaceState({}, '', newUrl);
-      } else if (!selectedProduct) {
-        // Otherwise, just restore if no product is selected
-        restoreLastVisited();
+      } else if (!shouldRestore && !selectedProduct) {
+        // If we're NOT coming from a video guide and no product is selected, 
+        // clear any existing selection but don't clear localStorage yet
+        clearSelection();
       }
     }
-  }, [selectedProduct, restoreLastVisited]);
+  }, [selectedProduct, restoreLastVisited, clearSelection]);
+
+  // Track navigation source and clear localStorage appropriately
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const searchParams = new URLSearchParams(window.location.search);
+      const shouldRestore = searchParams.get('restore') === 'true';
+      
+      // If we're not coming from a video guide, mark that we should clear localStorage on next navigation
+      if (!shouldRestore) {
+        // Set a flag to clear localStorage when user navigates away
+        window.brewGuideShouldClearOnExit = true;
+      } else {
+        // If we're restoring, don't clear localStorage
+        window.brewGuideShouldClearOnExit = false;
+      }
+    }
+  }, []);
+
+  // Clear localStorage when component unmounts (user navigates away)
+  useEffect(() => {
+    return () => {
+      if (typeof window !== 'undefined' && window.brewGuideShouldClearOnExit) {
+        localStorage.removeItem('brewGuideSelectedProduct');
+        localStorage.removeItem('brewGuideLastVisited');
+      }
+    };
+  }, []);
 
   // Handle scrolling when a product is selected
   useEffect(() => {

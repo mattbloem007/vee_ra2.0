@@ -10,6 +10,8 @@ const Product = (props) => {
     const data = props.data;
     const [selectedVariant, setSelectedVariant] = useState(null);
     const [quantity, setQuantity] = useState(1);
+    // Multi-variant functionality - commented out for now
+    // const [variantQuantities, setVariantQuantities] = useState({});
     const [isAddingToCart, setIsAddingToCart] = useState(false);
     const [addedToCart, setAddedToCart] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -142,6 +144,59 @@ const Product = (props) => {
             setQuantity(newQuantity);
         }
     };
+
+    // Multi-variant functionality - commented out for now
+    /*
+    // Handle variant quantity changes
+    const handleVariantQuantityChange = (variantId, newQuantity) => {
+        if (newQuantity <= 0) {
+            // Remove variant from selection if quantity is 0
+            setVariantQuantities(prev => {
+                const updated = { ...prev };
+                delete updated[variantId];
+                return updated;
+            });
+        } else {
+            // Update variant quantity
+            setVariantQuantities(prev => ({
+                ...prev,
+                [variantId]: newQuantity
+            }));
+        }
+    };
+
+    // Handle variant selection (clicking on variant)
+    const handleVariantClick = (variant) => {
+        const currentQuantity = variantQuantities[variant.storefrontId] || 0;
+        const newQuantity = currentQuantity + 1;
+        
+        // Check if we exceed inventory
+        if (newQuantity <= variant.inventoryQuantity) {
+            handleVariantQuantityChange(variant.storefrontId, newQuantity);
+        }
+    };
+
+    // Get total price for all selected variants
+    const getTotalPrice = () => {
+        return Object.entries(variantQuantities).reduce((total, [variantId, quantity]) => {
+            const variant = data.shopifyProduct.variants.find(v => v.storefrontId === variantId);
+            if (variant) {
+                return total + (parseFloat(variant.price) * quantity);
+            }
+            return total;
+        }, 0);
+    };
+
+    // Get total quantity of all selected variants
+    const getTotalQuantity = () => {
+        return Object.values(variantQuantities).reduce((total, quantity) => total + quantity, 0);
+    };
+
+    // Check if any variants are selected
+    const hasSelectedVariants = () => {
+        return Object.keys(variantQuantities).length > 0;
+    };
+    */
 
     const handleAddToCart = async () => {
         if (!selectedVariant) {

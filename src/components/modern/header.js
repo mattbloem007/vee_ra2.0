@@ -33,7 +33,9 @@ const Header = () => {
 
   // Use Contentful logo if available, otherwise fall back to local file
   const logo = data?.contentfulLogo?.image?.gatsbyImageData || data?.file?.childImageSharp?.gatsbyImageData;
-  const cartItemCount = cartData ? cartData.lines.edges.length : 0;
+  const cartItemCount = cartData ? cartData.lines.edges.reduce((total, edge) => {
+    return total + edge.node.quantity;
+  }, 0) : 0;
 
   useEffect(() => {
     const handleScroll = () => {

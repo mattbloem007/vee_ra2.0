@@ -13,6 +13,13 @@
 .brew-guide-header {
   text-align: center;
   margin-bottom: 40px;
+  position: relative;
+  
+  &__top {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 2rem;
+  }
   
   &__title {
     font-size: 2.5rem;
@@ -26,6 +33,38 @@
     color: #666;
     max-width: 600px;
     margin: 0 auto;
+  }
+}
+
+.brew-guide-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  background: #2c1810;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-family: 'Sweet Rosetia Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(44, 24, 16, 0.2);
+  
+  &:hover {
+    background: #8B4513;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(44, 24, 16, 0.3);
+  }
+  
+  svg {
+    transition: transform 0.3s ease;
+  }
+  
+  &:hover svg {
+    transform: translateX(-3px);
   }
 }
 
@@ -191,12 +230,26 @@
   }
   
   .brew-guide-header {
+    &__top {
+      margin-bottom: 1.5rem;
+    }
+    
     &__title {
       font-size: 2rem;
     }
     
     &__subtitle {
       font-size: 1rem;
+    }
+  }
+  
+  .brew-guide-back-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+    
+    svg {
+      width: 16px;
+      height: 16px;
     }
   }
   

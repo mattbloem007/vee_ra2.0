@@ -27,7 +27,7 @@ const Footer = () => {
   `);
 
   const logo = data.contentfulFooter?.logo?.gatsbyImageData;
-  const slogan = "Ancient Wisdom for Modern Wellness";
+  const slogan = " ";
   const products = data.allShopifyProduct.edges;
   console.log(products);
   return (
@@ -123,7 +123,7 @@ const Footer = () => {
           </div>
           
           <div className="footer__legal">
-            <span>&copy; 2024 Vee/Ra. All Rights Reserved.</span>
+            <span>&copy; 2025 Vee/Ra. All Rights Reserved.</span>
           </div>
         </div>
       </div>

@@ -35,31 +35,34 @@ const Hero = () => {
           raw
         }
         bgImage {
-          gatsbyImageData
+          gatsbyImageData(
+            width: 500
+            height: 400
+            placeholder: BLURRED
+            formats: [AUTO, WEBP]
+            quality: 85
+          )
         }
-      }
-      file(relativePath: {eq: "images/Final-Logo-PNGs/Gold/Ra-Logo-29.png"}) {
-        childImageSharp {
-          gatsbyImageData(width: 400)
+        logo {
+          gatsbyImageData(
+            width: 200
+            height: 200
+            placeholder: BLURRED
+            formats: [AUTO, WEBP]
+            quality: 90
+          )
         }
       }
     }
   `);
 
   const heroData = data.contentfulHero;
-  const logo = data.file.childImageSharp.gatsbyImageData;
+  const logo = heroData.logo?.gatsbyImageData;
+  const heroImage = heroData.bgImage?.gatsbyImageData;
 
   return (
-    <section 
-      className="hero" 
-      style={{
-        backgroundImage: `url(${heroData.bgImage.gatsbyImageData.images.fallback.src})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }}
-    >
-      <div className="hero__overlay">
+    <section className="hero">
+      <div className="hero__container">
         <div className="hero__content">
           <h1 className="hero__title">
             {heroData.title}
@@ -74,6 +77,32 @@ const Hero = () => {
             <Link to="/store" className="hero__cta__link">
               {heroData.cta}
             </Link>
+          </div>
+        </div>
+        
+        <div className="hero__logo-stamp">
+          <GatsbyImage 
+            image={logo} 
+            alt="Vee/Ra Logo" 
+            className="hero__logo-stamp__image"
+          />
+        </div>
+        
+        <div className="hero__visual">
+          <div className="hero__image">
+            {heroImage ? (
+              <GatsbyImage 
+                image={heroImage} 
+                alt="Hero Image" 
+                className="hero__image__content"
+              />
+            ) : (
+              <div className="hero__image-placeholder">
+                <div className="hero__image-placeholder__content">
+                  <span className="hero__image-placeholder__text">Photo Placeholder</span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

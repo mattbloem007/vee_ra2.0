@@ -31,7 +31,10 @@ const Header = (props) => {
     }, [fetchCartDetails, cartData]);
 
     if (cartData) {
-      count = cartData.lines.edges.length
+      // Calculate total quantity of all items in cart
+      count = cartData.lines.edges.reduce((total, edge) => {
+        return total + edge.node.quantity;
+      }, 0);
     }
 
     const countMarkup = (

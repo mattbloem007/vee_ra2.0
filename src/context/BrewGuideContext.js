@@ -67,6 +67,8 @@ export const BrewGuideProvider = ({ children }) => {
 
   const clearSelection = () => {
     setSelectedProduct(null);
+    // Also clear the last visited product to prevent unwanted restoration
+    setLastVisitedProduct(null);
   };
 
   const restoreLastVisited = () => {
