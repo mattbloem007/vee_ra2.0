@@ -938,10 +938,12 @@ p {
     
     @media (max-width: 768px) {
       margin-top: 1.5rem;
+      text-align: center;
     }
     
     @media (max-width: 480px) {
       margin-top: 1rem;
+      text-align: center;
     }
     
     &__link {
@@ -1082,6 +1084,7 @@ p {
       left: auto;
       transform: none;
       order: -1;
+      margin: 0 auto 2rem auto;
     }
     
     &__image {
