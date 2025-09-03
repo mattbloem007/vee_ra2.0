@@ -840,12 +840,12 @@ p {
     position: relative;
     
     @media (max-width: 768px) {
-      padding: 2rem;
+      padding: 0.5rem 2rem 2rem 2rem;
       max-width: 100%;
     }
     
     @media (max-width: 480px) {
-      padding: 1.5rem;
+      padding: 0.25rem 1.5rem 1.5rem 1.5rem;
     }
   }
   
@@ -949,7 +949,7 @@ p {
     
     &__link {
       font-family: $font-subtitle;
-      font-size: 1.25rem;
+      font-size: 1.125rem;
       color: white;
       text-decoration: none;
       font-weight: 600;
@@ -967,13 +967,13 @@ p {
       overflow: hidden;
       
       @media (max-width: 768px) {
-        font-size: 1.125rem;
+        font-size: 0.95rem;
         letter-spacing: 1.5px;
         padding: 0.75rem 2rem;
       }
       
       @media (max-width: 480px) {
-        font-size: 1rem;
+        font-size: 0.8rem;
         letter-spacing: 1px;
         padding: 0.625rem 1.5rem;
       }
@@ -1085,7 +1085,17 @@ p {
       left: auto;
       transform: none;
       order: -1;
-      margin: 0 auto 2rem auto;
+      margin: 0 auto 0.5rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    @media (max-width: 480px) {
+      width: 160px;
+      height: 160px;
+      padding: 12px;
+      margin: 0 auto 0.25rem auto;
     }
     
     &__image {
@@ -5500,7 +5510,7 @@ p {
     padding-top: 80px; /* Account for fixed header */
     
     &__content {
-      padding: 2rem 1rem;
+      padding: 0.5rem 1rem 2rem 1rem;
       max-width: 100%;
     }
     
@@ -5526,7 +5536,7 @@ p {
       margin-top: 1.5rem;
       
       &__link {
-        font-size: 1.5rem;
+        font-size: 0.95rem;
         letter-spacing: 2px;
       }
     }

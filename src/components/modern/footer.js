@@ -124,6 +124,8 @@ const Footer = () => {
           
           <div className="footer__legal">
             <span>&copy; 2025 Vee/Ra. All Rights Reserved.</span>
+            <br />
+            <span>Cottage 4, Winford Farm, 226 Red Hill Road, Cape Point, 7975</span>
           </div>
         </div>
       </div>
