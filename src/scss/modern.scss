@@ -535,6 +535,7 @@ p {
     text-decoration: none;
     font-size: 18px;
     font-family: 'Rozelle', sans-serif;
+    font-weight: 700;
     letter-spacing: 1px;
     transition: color 0.3s ease;
     
@@ -549,7 +550,7 @@ p {
     
     @media (max-width: 768px) {
       font-size: 22px;
-      font-weight: 600;
+      font-weight: 700;
       font-family: 'Rozelle', sans-serif;
       padding: 1rem 0;
       display: block;
