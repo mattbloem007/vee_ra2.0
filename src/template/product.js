@@ -378,7 +378,7 @@ const Product = (props) => {
                             {/* Variant Selection */}
                             {data.shopifyProduct.variants.length > 1 && (
                                 <div className="product-variants">
-                                    <label className="product-variants__label">Size</label>
+                                    {/**<label className="product-variants__label">Size</label>*/}
                                     <div className="product-variants__options">
                                         {data.shopifyProduct.variants.map((variant) => (
                                             <button

@@ -320,7 +320,7 @@ const AboutPage = () => {
                   renderRichText(aboutData.section5)
                 ) : (
                   <>
-                    <h2>{fallbackContent.section5.title}</h2>
+                    <h1>{fallbackContent.section5.title}</h1>
                     <p>{fallbackContent.section5.content}</p>
                   </>
                 )}

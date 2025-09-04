@@ -8,7 +8,7 @@ description: "The froth action method creates beautiful, rich froth that enhance
 icon: "../assets/images/brew-methods/moon-mylk/froth-action-method-moon-mylk.png"
 steps:
   - "Add 1 heaped Tbsp (12.5g) of Moon Mylk to a French press or milk frothing plunger"
-  - "Add 200-250ml of hot milk of choice and stir until incorporated. At this stage the cacao butter will float on top"
+  - "Add 200-250ml of hot milk of choice (not boiling) and stir until incorporated. At this stage the cacao butter will float on top"
   - "Create froth by moving the plunger up and down vigorously"
   - "Pour into your favourite cup and enjoy"
 products:

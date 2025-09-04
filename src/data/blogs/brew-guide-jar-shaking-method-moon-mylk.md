@@ -8,7 +8,7 @@ description: "The jar shaking method offers quick and effective preparation for 
 icon: "../assets/images/brew-methods/moon-mylk/jar-method-moon-mylk.png"
 steps:
   - "Add 1 heaped Tbsp (12.5g) of Moon Mylk to a jar or sealable flask"
-  - "Add 200-250ml of hot milk of choice (just before boil)"
+  - "Add 200-250ml of hot milk of choice (not boiling)"
   - "Secure the lid tightly and shake vigorously for 15-30 seconds"
   - "Open carefully, pour into your favourite cup and enjoy"
 products:
