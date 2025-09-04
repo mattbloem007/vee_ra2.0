@@ -108,7 +108,7 @@ const BrewGuideTemplate = ({ data, pageContext }) => {
           </div>
 
           {/* Description Section */}
-          <div className="brew-guide-description">
+          <div className="brew-guide-description brew-guide-content">
             <h2 className="brew-guide-description__title">About This Method</h2>
             <p className="brew-guide-description__text">
               {brewGuide.description}
@@ -117,7 +117,7 @@ const BrewGuideTemplate = ({ data, pageContext }) => {
 
           {/* Steps Section */}
           {brewGuide.steps.length > 0 && (
-            <div className="brew-guide-steps">
+            <div className="brew-guide-steps brew-guide-content">
               <h2 className="brew-guide-steps__title">Step-by-Step Instructions</h2>
               <ol className="brew-guide-steps__list">
                 {brewGuide.steps.map((step, index) => (

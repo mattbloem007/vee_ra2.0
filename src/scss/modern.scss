@@ -7425,3 +7425,16 @@ html body .product-details .product-details__title,
 .force-avenir {
   font-family: 'Avenir', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif !important;
 }
+
+// Fix for fraction symbols on mobile devices
+// Ensure proper font fallback for special characters
+.blog-content, .markdown-content, p, li {
+  font-family: 'Sweet Rosetia Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-variant-numeric: normal;
+  font-feature-settings: "frac" 0;
+}
+
+// Specific fix for brew guide content
+.brew-guide-content {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
