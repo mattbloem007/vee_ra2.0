@@ -190,7 +190,7 @@ const AboutPage = () => {
             <div className="about-hero__content">
               <h1 className="about-hero__title">WE ARE DEVOTED TO CACAO</h1>
               <p className="about-hero__subtitle">
-                Premium cacao blends crafted with intention,<br />
+                Premium cacao blends and coffee alternatives crafted with intention,<br />
                 honouring ancient wisdom for modern wellness.
               </p>
             </div>

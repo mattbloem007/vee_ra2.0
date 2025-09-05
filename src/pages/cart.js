@@ -5,6 +5,7 @@ import { Link } from "gatsby";
 import { useStore } from "../context/StoreContext";
 import CartItemList from '../components/CartItemList'
 import CartSummary from '../components/CartSummary'
+import Header from '../components/modern/header'
 import { useLocation } from "@reach/router";
 
 const CartPage = () => {
@@ -73,21 +74,23 @@ const CartPage = () => {
     const { lines, estimatedCost } = cartData;
     console.log("estimatedCost", estimatedCost)
     return (
-      <div className="rn-portfolio-area pt--200 pb--150 bg-color-white portfolio-style-1 cart-container">
+      <Layout>
         <SEO title="Cart" />
+        <Header />
         
-        {/* Cart Header with Back Button */}
-        <div className="cart-header">
-          <div className="cart-header__container">
-            <Link to="/store" className="cart-back-btn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span>Back to Store</span>
-            </Link>
-            <h1 className="cart-header__title">Shopping Cart</h1>
+        <div className="rn-portfolio-area pt--200 pb--150 bg-color-white portfolio-style-1 cart-container">
+          {/* Cart Header with Back Button and Navigation */}
+          <div className="cart-header">
+            <div className="cart-header__container">
+              <Link to="/store" className="cart-back-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <span>Back to Store</span>
+              </Link>
+              <h1 className="cart-header__title">Shopping Cart</h1>
+            </div>
           </div>
-        </div>
 
         <CartItemList
           completed={completed}
@@ -104,43 +107,47 @@ const CartPage = () => {
             isCartEmpty={isCartEmpty}
           />
         )}
-      </div>
+        </div>
+      </Layout>
     );
   }
   else {
     return (
-      <div className="rn-portfolio-area pt--200 pb--150 bg-color-white portfolio-style-1 cart-container">
+      <Layout>
         <SEO title="Cart" />
+        <Header />
         
-        {/* Cart Header with Back Button */}
-        <div className="cart-header">
-          <div className="cart-header__container">
-            <Link to="/store" className="cart-back-btn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span>Back to Store</span>
-            </Link>
-            <h1 className="cart-header__title">Shopping Cart</h1>
+        <div className="rn-portfolio-area pt--200 pb--150 bg-color-white portfolio-style-1 cart-container">
+          {/* Cart Header with Back Button and Navigation */}
+          <div className="cart-header">
+            <div className="cart-header__container">
+              <Link to="/store" className="cart-back-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <span>Back to Store</span>
+              </Link>
+              <h1 className="cart-header__title">Shopping Cart</h1>
+            </div>
           </div>
-        </div>
 
-        <CartItemList
-          completed={completed}
-          items={cartData}
-          loading={loading}
-          cartId={cartId}
-          removeFromCart={item => removeFromCart(item)}
-          updateCart={updateCart}
-        />
-        {!loading && !completed && (
-          <CartSummary
-            estimatedCost={0}
-            handleCheckout={handleCheckout}
-            isCartEmpty={true}
+          <CartItemList
+            completed={completed}
+            items={cartData}
+            loading={loading}
+            cartId={cartId}
+            removeFromCart={item => removeFromCart(item)}
+            updateCart={updateCart}
           />
-        )}
-      </div>
+          {!loading && !completed && (
+            <CartSummary
+              estimatedCost={0}
+              handleCheckout={handleCheckout}
+              isCartEmpty={true}
+            />
+          )}
+        </div>
+      </Layout>
     );
   }
 

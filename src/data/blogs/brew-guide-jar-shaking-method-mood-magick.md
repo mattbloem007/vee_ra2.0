@@ -7,7 +7,7 @@ videoUrl: "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE"
 description: "The jar shaking method offers quick and effective preparation for those seeking a simple yet potent Mood Magick experience. This technique is perfect for on-the-go brewing and creates a well-mixed, consistent beverage."
 icon: "../assets/images/brew-methods/mood-magick/jar-method-mood-magick.png"
 steps:
-  - "Add 1½-2 Tbsp (15g) of Mood Magick to a jar or sealable flask"
+  - "Add 1½ - 2 Tbsp (15g) of Mood Magick to a jar or sealable flask"
   - "Add 200-250ml of hot milk of choice (not boiling)"
   - "Secure the lid tightly and shake vigorously for 15-30 seconds"
   - "Open carefully, pour into your favourite cup and enjoy"

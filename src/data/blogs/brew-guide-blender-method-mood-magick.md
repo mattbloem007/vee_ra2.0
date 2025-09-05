@@ -7,7 +7,7 @@ videoUrl: "https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE"
 description: "The blender method creates a smooth, frothy texture that enhances the absorption of beneficial compounds in your Mood Magick blend. This method is perfect for those who prefer a creamy, well-mixed beverage with excellent bioavailability."
 icon: "../assets/images/brew-methods/mood-magick/blender-method-mood-magick.png"
 steps:
-  - "Add 1½-2 Tbsp (15g) of Mood Magick to a high-speed blender"
+  - "Add 1½ - 2 Tbsp (15g) of Mood Magick to a high-speed blender"
   - "Add 200-250ml of hot milk of choice and/or water (not boiling)"
   - "Blend on high for 15-30 seconds until frothy"
   - "Pour into your favourite cup and enjoy"

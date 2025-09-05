@@ -8,7 +8,7 @@ description: "The froth action method creates beautiful, rich froth that enhance
 icon: "../assets/images/brew-methods/mood-magick/froth-action-method-mood-magick.png"
 steps:
   - "Add 1½ - 2 Tbsp (15g) of Mood Magick to a French press or milk frothing plunger"
-  - "Add 200-250ml of hot milk of choice and/or water (not boiling) in small amounts at first, stirring with a spoon until a paste forms and stir until incorporated. Then add the rest"
+  - "Add 200-250ml of hot milk of choice and/or water (not boiling) in small amounts at first, stirring with a spoon until a paste forms. Then add the rest  and stir until incorporated."
   - "Create froth by moving the plunger up and down vigorously"
   - "Pour into your favourite cup and enjoy"
 products:
