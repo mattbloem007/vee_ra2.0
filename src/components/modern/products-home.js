@@ -102,7 +102,7 @@ const ProductsHome = () => {
         <div className="products__header">
           <h2 className="products__title">Botanical Blends</h2>
           <p className="products__subtitle">
-            Our signature cacao and/or botanical blends crafted for wellness and ritual
+            Our signature cacao and coffee alternatives crafted for wellness and ritual
           </p>
         </div>
         <div className="products__grid">

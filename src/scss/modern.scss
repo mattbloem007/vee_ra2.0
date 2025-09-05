@@ -1343,6 +1343,14 @@ p {
     font-size: 1.2rem;
     font-family: $font-accent;
     font-weight: 300;
+
+    @media (max-width: 768px) {
+      font-size: 0.95rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 0.8rem;
+    }
   }
   
   &__grid {
