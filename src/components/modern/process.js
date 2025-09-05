@@ -15,7 +15,7 @@ const Process = () => {
     {
       number: "03",
       title: "Savour the Moment",
-      description: "Find a quiet space, take a deep breath and slowly sip your blend mindfully, allowing its transformative properties to work its magic."
+      description: "Find a quiet space, take a deep breath and slowly sip your blend mindfully, allowing its transformative properties to work their magic."
     }
   ];
 
