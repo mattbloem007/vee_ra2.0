@@ -68,7 +68,7 @@ const IndexPage = () => {
         title="Premium Cacao Blends & Coffee Alternatives | Vee/Ra Botanical Wellness"
         description="Discover premium ceremonial cacao blends and coffee alternative herbal wellness products. Expertly crafted cacao ceremonies, ceremonial grade cacao, and natural coffee substitutes for health and inner harmony."
         keywords="ceremonial cacao, ceremonial grade cacao, cacao ceremonies, cacao blend, ceremonial cacao blend, cacao wellness, cacao ritual, sacred cacao, medicinal cacao, coffee alternative, herbal coffee substitute, caffeine free coffee, coffee sensitive, botanical wellness, health supplements, longevity"
-        image="/images/logo/Veera-logo.png"
+        image="/static/og-image.png"
         canonical="https://veera.co.za"
         structuredData={structuredData}
       />

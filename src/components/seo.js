@@ -35,7 +35,7 @@ function SEO({
   )
 
   const metaDescription = description || site.siteMetadata.description
-  const metaImage = image || null
+  const metaImage = image ? (image.startsWith('http') ? image : `${site.siteMetadata.siteUrl}${image}`) : null
   const canonicalUrl = canonical || site.siteMetadata.siteUrl
 
   // Default structured data for organization
