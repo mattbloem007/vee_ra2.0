@@ -16,16 +16,21 @@ const Header = () => {
       contentfulLogo {
         image {
           gatsbyImageData(
-            width: 300
-            placeholder: BLURRED
+            width: 400
+            placeholder: NONE
             formats: [AUTO, WEBP, AVIF]
-            quality: 90
+            quality: 100
           )
         }
       }
       file(relativePath: {eq: "images/Final-Logo-PNGs/Gold/Ra-Logo-29.png"}) {
         childImageSharp {
-          gatsbyImageData
+          gatsbyImageData(
+            width: 400
+            placeholder: NONE
+            formats: [AUTO, WEBP, AVIF]
+            quality: 100
+          )
         }
       }
     }
@@ -73,7 +78,12 @@ const Header = () => {
               <img 
                 src="/static/images/Final-Logo-PNGs/Gold/Ra-Logo-29.png" 
                 alt="Vee/Ra" 
-                style={{ maxWidth: '300px', height: 'auto' }}
+                style={{ 
+                  maxWidth: '300px', 
+                  height: 'auto',
+                  width: 'auto',
+                  objectFit: 'contain'
+                }}
               />
             )}
           </Link>
