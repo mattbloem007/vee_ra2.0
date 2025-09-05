@@ -10,7 +10,7 @@ const Process = () => {
     {
       number: "02",
       title: "Prepare with Intention",
-      description: "Prepare your chosen blend with intention and presence, honoring the ancient wisdom of cacao and medicinal plants."
+      description: "Prepare your chosen blend with intention and presence, honouring the ancient wisdom of cacao and medicinal plants."
     },
     {
       number: "03",

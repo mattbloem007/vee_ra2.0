@@ -94,7 +94,7 @@ const BlogSection = () => {
             News & Insights
           </h2>
           <p className="blog-section__subtitle">
-            Discover wisdom, rituals, and insights for your sacred journey
+            Discover wisdom, rituals, and insights for your journey.
           </p>
         </div>
         

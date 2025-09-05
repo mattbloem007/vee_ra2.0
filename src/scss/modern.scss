@@ -811,14 +811,14 @@ p {
   text-align: left;
   position: relative;
   background: $background-color;
-  padding: 3rem 0 1rem 0;
+  padding: 1rem 0 1rem 0;
   
   @media (max-width: 768px) {
-    padding: 3rem 0 1rem 0;
+    padding: 1rem 0 1rem 0;
   }
   
   @media (max-width: 480px) {
-    padding: 2rem 0 1rem 0;
+    padding: 1rem 0 1rem 0;
   }
   
   /* Override global font variables for hero title */
@@ -1078,7 +1078,7 @@ p {
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 1%;
+    top: 0;
     left: 50%;
     transform: translate(-50%, -50%) translateX(20px);
     z-index: 10;
@@ -1202,14 +1202,14 @@ p {
 
 // About Section
 .about {
-  padding: 4rem 0;
+  padding: 2rem 0;
   
   @media (max-width: 768px) {
-    padding: 4rem 0;
+    padding: 2rem 0;
   }
   
   @media (max-width: 480px) {
-    padding: 3rem 0;
+    padding: 2rem 0;
   }
   
   &__grid {
