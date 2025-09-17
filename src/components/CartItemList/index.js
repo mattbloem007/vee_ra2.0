@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'gatsby'
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
+import { slugify } from '../../utils/utilityFunctions';
 
 export default ({items, removeFromCart, loading, completed, cartId, updateCart}) => {
 
@@ -74,7 +75,7 @@ export default ({items, removeFromCart, loading, completed, cartId, updateCart})
             <div className="cart-item__content">
               <div className="cart-item__header">
                 <h3 className="cart-item__title">
-                  <Link to={`/store/${name}/`}>{name}</Link>
+                  <Link to={`/store/${slugify(name)}/`}>{name}</Link>
                 </h3>
                 <button 
                   className="cart-item__remove" 

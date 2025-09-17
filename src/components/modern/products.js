@@ -1,6 +1,7 @@
 import React from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
 import { GatsbyImage } from "gatsby-plugin-image";
+import { slugify } from '../../utils/utilityFunctions';
 
 const Products = () => {
   // Function to extract title and subtitle from product title
@@ -120,7 +121,7 @@ const Products = () => {
           <div className="products__grid">
             {(premixBlends.length > 0 ? premixBlends : fallbackBlends).map(({ node }) => (
               <div key={node.shopifyId} className="product-card">
-                <Link to={`/store/${node.title}`} className="product-card__link">
+                <Link to={`/store/${slugify(node.title)}`} className="product-card__link">
                   <div className="product-card__image">
                     <GatsbyImage 
                       image={node.featuredImage.gatsbyImageData}
@@ -159,7 +160,7 @@ const Products = () => {
           <div className="products__grid">
             {(nutritionalJourneys.length > 0 ? nutritionalJourneys : fallbackJourneys).map(({ node }) => (
               <div key={node.shopifyId} className="product-card">
-                <Link to={`/store/${node.title}`} className="product-card__link">
+                <Link to={`/store/${slugify(node.title)}`} className="product-card__link">
                   <div className="product-card__image">
                     <GatsbyImage 
                       image={node.featuredImage.gatsbyImageData}

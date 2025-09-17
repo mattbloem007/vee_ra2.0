@@ -239,7 +239,7 @@ exports.createPages = ({actions, graphql}) => {
         products.forEach(product => {
 
             createPage({
-                path: `/store/${product.node.title}`,
+                path: `/store/${slugify(product.node.title)}`,
                 component: templates.productPage,
                 context: {
                     id: product.node.shopifyId,

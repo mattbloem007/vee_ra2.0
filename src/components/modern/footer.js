@@ -3,6 +3,7 @@ import { Link } from 'gatsby';
 import { useStaticQuery, graphql } from 'gatsby';
 import { GatsbyImage } from "gatsby-plugin-image";
 import { FaInstagram, FaEnvelope } from "react-icons/fa";
+import { slugify } from '../../utils/utilityFunctions';
 
 const Footer = () => {
   const data = useStaticQuery(graphql`
@@ -70,17 +71,6 @@ const Footer = () => {
                 const limitedProducts = sortedProducts.slice(0, 3);
                 
                 return limitedProducts.map(({ node }) => {
-                  const slugify = (text) => {
-                    return text
-                      .toString()
-                      .toLowerCase()
-                      .replace(/\s+/g, '-')
-                      .replace(/[^\w-]+/g, '')
-                      .replace(/--+/g, '-')
-                      .replace(/^-+/, '')
-                      .replace(/-+$/, '');
-                  };
-                  
                   return (
                     <Link key={node.shopifyId} to={`/store/${slugify(node.title)}`}>
                       {node.title.indexOf("-") > 0 ? node.title.slice(0, node.title.indexOf("-")) : node.title}

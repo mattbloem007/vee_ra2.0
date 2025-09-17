@@ -1,6 +1,7 @@
 import React from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
 import { GatsbyImage } from "gatsby-plugin-image";
+import { slugify } from '../../utils/utilityFunctions';
 
 const ProductsHome = () => {
   // Function to extract title and subtitle from product title
@@ -110,7 +111,7 @@ const ProductsHome = () => {
             const { title, subtitle } = extractTitleAndSubtitle(node.title);
             return (
               <div key={node.shopifyId} className="product-card">
-                <Link to={`/store/${node.title}`} className="product-card__link">
+                <Link to={`/store/${slugify(node.title)}`} className="product-card__link">
                   <div className="product-card__image">
                     <GatsbyImage 
                       image={node.featuredImage.gatsbyImageData}

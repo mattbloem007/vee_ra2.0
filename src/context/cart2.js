@@ -6,6 +6,7 @@ import Layout from "../components/layout";
 import SEO from "../components/seo";
 import { Link } from "gatsby";
 import { useStore } from "../context/StoreContext";
+import { slugify } from '../utils/utilityFunctions';
 
 const CartPage = () => {
   const { fetchCartDetails, cartData, removeFromCart, createCheckoutUrl, updateCart } = useStore();
@@ -77,7 +78,7 @@ const CartPage = () => {
       </div>
       <div>
         <Link
-          to={`/store/${item.merchandise.id}`}
+          to={`/store/${slugify(item.merchandise.product.title)}`}
           sx={{ fontSize: 3, m: 0, fontWeight: 700 }}
         >
           {item.title}
