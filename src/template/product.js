@@ -495,7 +495,7 @@ const Product = (props) => {
                                     <div className="notify-modal__content">
                                         <button className="notify-modal__close" onClick={() => { if (notifyStatus.state !== 'loading') setIsNotifyOpen(false); }} aria-label="Close">×</button>
                                         {/*<h3 className="notify-modal__title">Notify me when in stock</h3>*/}
-                                        <p className="notify-modal__text">Please leave your email and we'll notify you when this product is back in stock again.</p>
+                                        <p className="notify-modal__text">Please leave your email and we'll notify you when this product is back in stock.</p>
                                         {notifyVariant && (
                                             <p className="notify-modal__variant">Product: {notifyVariant.title}</p>
                                         )}
