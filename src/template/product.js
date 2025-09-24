@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { graphql, Link } from "gatsby";
 import Layout from "../components/layout";
 import { GatsbyImage } from "gatsby-plugin-image";
@@ -16,6 +16,10 @@ const Product = (props) => {
     const [addedToCart, setAddedToCart] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const { addToCart } = useStore();
+    const [isNotifyOpen, setIsNotifyOpen] = useState(false);
+    const [notifyVariant, setNotifyVariant] = useState(null);
+    const [notifyEmail, setNotifyEmail] = useState('');
+    const [notifyStatus, setNotifyStatus] = useState({ state: 'idle', message: '' });
 
     // Scroll to top when product page loads
     useEffect(() => {
@@ -90,7 +94,7 @@ const Product = (props) => {
     console.log('Found product data:', productData);
 
     // Get all product images including featured image and media
-    const productImages = React.useMemo(() => {
+    const productImages = useMemo(() => {
         const images = [];
         const seenImages = new Set(); // Track seen images to avoid duplicates
         
@@ -381,27 +385,45 @@ const Product = (props) => {
                                     {/**<label className="product-variants__label">Size</label>*/}
                                     <div className="product-variants__options">
                                         {data.shopifyProduct.variants.map((variant) => (
-                                            <button
-                                                key={variant.storefrontId}
-                                                className={`product-variants__option ${selectedVariant?.storefrontId === variant.storefrontId ? 'product-variants__option--selected' : ''} ${variant.inventoryQuantity <= 0 ? 'product-variants__option--disabled' : ''} ${variant.inventoryQuantity <= 3 && variant.inventoryQuantity > 0 ? 'product-variants__option--low-stock' : ''}`}
-                                                onClick={() => setSelectedVariant(variant)}
-                                                disabled={variant.inventoryQuantity <= 0}
-                                                type="button"
-                                            >
-                                                <div className="product-variants__option-content">
-                                                    <span className="product-variants__option-title">{variant.title}</span>
-                                                    <span className="product-variants__option-price">{formatPrice(variant.price)}</span>
+                                            variant.inventoryQuantity <= 0 ? (
+                                                <div
+                                                    key={variant.storefrontId}
+                                                    className={`product-variants__option product-variants__option--disabled ${selectedVariant?.storefrontId === variant.storefrontId ? 'product-variants__option--selected' : ''}`}
+                                                >
+                                                    <div className="product-variants__option-content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', width: '100%' }}>
+                                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                            <span className="product-variants__option-title">{variant.title}</span>
+                                                            <span className="product-variants__option-price">{formatPrice(variant.price)}</span>
+                                                        </div>
+                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0, whiteSpace: 'nowrap' }}>
+                                                            <span className="product-variants__option-out-of-stock">Out of Stock</span>
+                                                            <button
+                                                                type="button"
+                                                                className="notify-button"
+                                                                onClick={() => { setNotifyVariant(variant); setIsNotifyOpen(true); }}
+                                                                aria-label={`Notify me when ${variant.title} is back in stock`}
+                                                            >
+                                                                Notify me
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                
-                                                {/* Stock Status Indicators */}
-                                                {variant.inventoryQuantity <= 0 ? (
-                                                    <span className="product-variants__option-out-of-stock">Out of Stock</span>
-                                                ) : variant.inventoryQuantity <= 3 ? (
-                                                    <span className="product-variants__option-low-stock">
-                                                        Low Stock ({variant.inventoryQuantity})
-                                                    </span>
-                                                ) : null}
-                                            </button>
+                                            ) : (
+                                                <button
+                                                    key={variant.storefrontId}
+                                                    className={`product-variants__option ${selectedVariant?.storefrontId === variant.storefrontId ? 'product-variants__option--selected' : ''} ${variant.inventoryQuantity <= 3 ? 'product-variants__option--low-stock' : ''}`}
+                                                    onClick={() => setSelectedVariant(variant)}
+                                                    type="button"
+                                                >
+                                                    <div className="product-variants__option-content">
+                                                        <span className="product-variants__option-title">{variant.title}</span>
+                                                        <span className="product-variants__option-price">{formatPrice(variant.price)}</span>
+                                                    </div>
+                                                    {variant.inventoryQuantity <= 3 ? (
+                                                        <span className="product-variants__option-low-stock">Low Stock ({variant.inventoryQuantity})</span>
+                                                    ) : null}
+                                                </button>
+                                            )
                                         ))}
                                     </div>
                                 </div>
@@ -463,6 +485,71 @@ const Product = (props) => {
                             {addedToCart && (
                                 <div className="product-added-message">
                                     ✓ Added to cart
+                                </div>
+                            )}
+
+                            {/* Notify Modal */}
+                            {isNotifyOpen && (
+                                <div className="notify-modal" role="dialog" aria-modal="true">
+                                    <div className="notify-modal__backdrop" onClick={() => { if (notifyStatus.state !== 'loading') setIsNotifyOpen(false); }} />
+                                    <div className="notify-modal__content">
+                                        <button className="notify-modal__close" onClick={() => { if (notifyStatus.state !== 'loading') setIsNotifyOpen(false); }} aria-label="Close">×</button>
+                                        {/*<h3 className="notify-modal__title">Notify me when in stock</h3>*/}
+                                        <p className="notify-modal__text">Please leave your email and we'll notify you when this product is back in stock again.</p>
+                                        {notifyVariant && (
+                                            <p className="notify-modal__variant">Product: {notifyVariant.title}</p>
+                                        )}
+                                        <form className="notify-modal__form" onSubmit={async (e) => {
+                                            e.preventDefault();
+                                            if (!notifyEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(notifyEmail)) {
+                                                setNotifyStatus({ state: 'error', message: 'Please enter a valid email.' });
+                                                return;
+                                            }
+                                            setNotifyStatus({ state: 'loading', message: '' });
+                                            try {
+                                                const res = await fetch('/api/notify-instock', {
+                                                    method: 'POST',
+                                                    headers: { 'Content-Type': 'application/json' },
+                                                    body: JSON.stringify({
+                                                        email: notifyEmail,
+                                                        productTitle: data.shopifyProduct.title,
+                                                        productHandle: data.shopifyProduct.handle,
+                                                        variantTitle: notifyVariant?.title || selectedVariant?.title || '',
+                                                    })
+                                                });
+                                                if (!res.ok) {
+                                                    const err = await res.json().catch(() => ({}));
+                                                    throw new Error(err.error || 'Failed to save');
+                                                }
+                                                setNotifyStatus({ state: 'success', message: 'Done!' });
+                                                setNotifyEmail('');
+                                                setTimeout(() => {
+                                                    setIsNotifyOpen(false)
+                                                }, 3000);   
+                                            } catch (err) {
+                                                setNotifyStatus({ state: 'error', message: err.message || 'Something went wrong.' });
+                                            }
+                                        }}>
+                                            <input
+                                                type="email"
+                                                className="notify-modal__input"
+                                                placeholder="your@email.com"
+                                                value={notifyEmail}
+                                                onChange={(e) => setNotifyEmail(e.target.value)}
+                                                disabled={notifyStatus.state === 'loading'}
+                                                required
+                                            />
+                                            <button type="submit" className="notify-modal__save" disabled={notifyStatus.state === 'loading'}>
+                                                {notifyStatus.state === 'loading' ? 'Loading…' : 'Notify Me'}
+                                            </button>
+                                        </form>
+                                        {notifyStatus.state === 'error' && (
+                                            <p className="notify-modal__error">{notifyStatus.message}</p>
+                                        )}
+                                        {notifyStatus.state === 'success' && (
+                                            <p className="notify-modal__success">{notifyStatus.message}</p>
+                                        )}
+                                    </div>
                                 </div>
                             )}
 
