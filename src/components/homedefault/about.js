@@ -1,7 +1,8 @@
 import React from 'react'
 import {useStaticQuery, graphql} from 'gatsby';
 import Img from "gatsby-image";
-import { Controller, Scene } from 'react-scrollmagic';
+import { ScrollTrigger } from 'react-gsap';
+import { Tween } from 'react-gsap';
 
 const About = ( ) => {
     const aboutQueryData = useStaticQuery(graphql`
@@ -41,13 +42,13 @@ const About = ( ) => {
                     <div className="col-lg-5">
                         <div className="thumbnail">
                             <div className="trigger" id="trigger2" />
-                            <Controller>
-                                <Scene classToggle="animated" triggerElement="#trigger2" triggerHook="onCenter">
+                            <ScrollTrigger trigger="#trigger2" start="top center" toggleClass="animated">
+                                <Tween from={{ opacity: 0, y: 50 }} to={{ opacity: 1, y: 0 }} duration={0.8} ease="power2.out">
                                     <div className="rn_surface story-image">
                                         <Img className="about-images" fixed={PortfolioImages} />
                                     </div>
-                                </Scene>
-                            </Controller>
+                                </Tween>
+                            </ScrollTrigger>
                         </div>
                     </div>
                     <div className="col-lg-7">

@@ -1,6 +1,7 @@
 import React from 'react'
 import {useStaticQuery, graphql} from 'gatsby';
-import { Controller, Scene } from 'react-scrollmagic';
+import { ScrollTrigger } from 'react-gsap';
+import { Tween } from 'react-gsap';
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { BLOCKS, MARKS } from "@contentful/rich-text-types"
 import {GatsbyImage} from 'gatsby-plugin-image'
@@ -77,14 +78,14 @@ const WhyVeera = ( ) => {
                 </div>
                     <div className="col-lg-5">
                         <div className="thumbnail">
-                            <div className="trigger" id="trigger2" />
-                            <Controller>
-                                <Scene classToggle="animated" triggerElement="#trigger2" triggerHook="onCenter">
-                                    <div className="rn_surface story-image" style={{display: "flex", justifyContent: "center"}}>
-                                        <GatsbyImage className="about-images" image={veera.image.fixed} alt={veera.title} />
-                                    </div>
-                                </Scene>
-                            </Controller>
+              <div className="trigger" id="trigger2" />
+              <ScrollTrigger trigger="#trigger2" start="top center" toggleClass="animated">
+                <Tween from={{ opacity: 0, y: 50 }} to={{ opacity: 1, y: 0 }} duration={0.8} ease="power2.out">
+                  <div className="rn_surface story-image" style={{display: "flex", justifyContent: "center"}}>
+                    <GatsbyImage className="about-images" image={veera.image.fixed} alt={veera.title} />
+                  </div>
+                </Tween>
+              </ScrollTrigger>
                         </div>
                     </div>
                 </div>

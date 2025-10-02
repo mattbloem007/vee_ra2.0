@@ -1,7 +1,8 @@
 import React from 'react';
 import {useStaticQuery, graphql} from 'gatsby';
 import Img from "gatsby-image";
-import { Controller, Scene } from 'react-scrollmagic';
+import { ScrollTrigger } from 'react-gsap';
+import { Tween } from 'react-gsap';
 
 const Banner = () => {
     const banenrQueryData = useStaticQuery (graphql`
@@ -54,15 +55,14 @@ const Banner = () => {
             {/* End Single Slider  */}
             <div className="thumbnail">
                 <div className="trigger" id="trigger" />
-                <Controller>
-                    <Scene classToggle="animated" triggerElement="#trigger" triggerHook="onCenter">
+                <ScrollTrigger trigger="#trigger" start="top center" toggleClass="animated">
+                    <Tween from={{ opacity: 0, y: 50 }} to={{ opacity: 1, y: 0 }} duration={0.8} ease="power2.out">
                         <div className="thumbnail-inner rn_surface story-image">
                             <Img className="portfolio-images" fixed={PortfolioImages} />
                         </div>
-                    </Scene>
-                </Controller>
+                    </Tween>
+                </ScrollTrigger>
             </div>
-
         </div>
     )
 }
