@@ -2,6 +2,8 @@ import React from 'react';
 import { graphql, Link } from "gatsby";
 import { GatsbyImage } from 'gatsby-plugin-image';
 import Layout from "../components/layout";
+import FaqSchema from "../components/FaqSchema";
+import BlogPostingSchema from "../components/BlogPostingSchema";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, MARKS } from "@contentful/rich-text-types";
 
@@ -28,9 +30,11 @@ const BlogDetails = ({ data, pageContext }) => {
   const post = data.contentfulBlogPost;
 
   console.log(("POST", post))
-  
+
   return (
     <Layout>
+      <BlogPostingSchema post={post} siteUrl={`www.veera.co.za/news/${post.slug}`} />
+      <FaqSchema faqs={post.faqs} />
       <article className="blog-post">
         <div className="container">
           {/* Breadcrumb */}
@@ -46,8 +50,8 @@ const BlogDetails = ({ data, pageContext }) => {
             {/* Featured Image */}
             {post.image && (
               <div className="blog-image">
-                <GatsbyImage 
-                  image={post.image.gatsbyImageData} 
+                <GatsbyImage
+                  image={post.image.gatsbyImageData}
                   alt={post.title}
                   className="blog-image__main"
                 />
@@ -77,6 +81,20 @@ const BlogDetails = ({ data, pageContext }) => {
               )}
             </div>
 
+            {post.faqs && post.faqs.length > 0 && (
+            <section>
+              <h2>Frequently Asked Questions</h2>
+              {post.faqs.map((faq, index) => (
+                <div key={index}>
+                  <h3>{faq.question}</h3>
+                  <p>
+                    {documentToReactComponents(JSON.parse(faq.answer.raw), options)}
+                  </p>
+                </div>
+              ))}
+            </section>
+          )}
+
             {/* category */}
             {/*post.category && post.category.length > 0 && (
               <div className="blog-tags">
@@ -101,6 +119,11 @@ export const query = graphql`
 query blogDetailsQuery ($slug: String!) {
     contentfulBlogPost (slug: { eq: $slug }) {
       title
+      excerpt {
+        raw
+      }
+      datePublished
+      dateModified
       slug
       createdAt
       image {
@@ -109,6 +132,16 @@ query blogDetailsQuery ($slug: String!) {
       }
       body {
         raw
+      }
+      faqs {
+        question
+        answer {
+          raw
+        }
+      }
+      author {
+        name
+        bio
       }
     }
   }
