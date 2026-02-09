@@ -2,8 +2,11 @@ import React from 'react';
 import { graphql, Link } from "gatsby";
 import { GatsbyImage } from 'gatsby-plugin-image';
 import Layout from "../components/layout";
-import FaqSchema from "../components/FaqSchema";
-import BlogPostingSchema from "../components/BlogPostingSchema";
+import SEO from '../components/seo';
+import {
+  buildBlogPostingSchema,
+  buildFaqSchema,
+} from "../utils/schemaBuilders"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, MARKS } from "@contentful/rich-text-types";
 
@@ -28,13 +31,35 @@ const options = {
 
 const BlogDetails = ({ data, pageContext }) => {
   const post = data.contentfulBlogPost;
+  const siteUrl = data.site.siteMetadata.siteUrl
+  const siteName = data.site.siteMetadata.title
+
+  const blogPostingSchema = buildBlogPostingSchema({
+    post,
+    siteUrl,
+    siteName,
+    logoUrl: `${siteUrl}/logo.png`,
+  })
+
+  const faqSchema = buildFaqSchema(post.faqs)
+
+  const schemas = [
+    blogPostingSchema,
+    faqSchema,
+  ].filter(Boolean) // removes nulls safely
 
   console.log(("POST", post))
 
   return (
     <Layout>
-      <BlogPostingSchema post={post} siteUrl={`www.veera.co.za/news/${post.slug}`} />
-      <FaqSchema faqs={post.faqs} />
+      <SEO
+        title={post.title}
+        description={post.excerpt.raw}
+        image={post.image?.file?.url}
+        canonical={`${siteUrl}/${post.slug}`}
+        article
+        structuredData={schemas}
+      />
       <article className="blog-post">
         <div className="container">
           {/* Breadcrumb */}
@@ -117,6 +142,12 @@ const BlogDetails = ({ data, pageContext }) => {
 
 export const query = graphql`
 query blogDetailsQuery ($slug: String!) {
+    site {
+      siteMetadata {
+        title
+        siteUrl
+      }
+    }
     contentfulBlogPost (slug: { eq: $slug }) {
       title
       excerpt {
