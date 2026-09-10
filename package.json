@@ -31,6 +31,7 @@
     "google-map-react": "^2.2.0",
     "graphql-request": "^7.1.2",
     "gsap": "^3.13.0",
+    "htmlparser2": "8.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-gsap": "^3.2.1",
@@ -38,6 +39,7 @@
     "react-hook-form": "^7.62.0",
     "react-icons": "^5.5.0",
     "react-scrollmagic": "^2.3.0",
+    "sanitize-html": "2.13.1",
     "sass": "^1.56.1",
     "wowjs": "^1.1.3"
   },
@@ -63,5 +65,11 @@
   },
   "bugs": {
     "url": "https://github.com/gatsbyjs/gatsby/issues"
+  },
+  "overrides": {
+    "sanitize-html": {
+      ".": "2.13.1",
+      "htmlparser2": "8.0.2"
+    }
   }
 }
