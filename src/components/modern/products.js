@@ -80,11 +80,16 @@ const Products = () => {
   };
   
   // Filter and sort Botanical Blends (Premix Blends)
-  const premixBlends = sortProducts(products.filter(({ node }) => 
-    node.tags && node.tags.some(tag => 
+  const premixBlends = sortProducts(products.filter(({ node }) => {
+    const title = node.title.toLowerCase();
+    const isSignatureBlend = ['mood magick', 'moon mylk', 'ritual roots']
+      .some(productName => title.includes(productName));
+    const hasBlendTag = node.tags && node.tags.some(tag =>
       tag.toLowerCase().includes('blend')
-    )
-  ));
+    );
+
+    return isSignatureBlend || hasBlendTag;
+  }));
   
   const nutritionalJourneys = products.filter(({ node }) => 
     node.tags && node.tags.some(tag => 
