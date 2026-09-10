@@ -56,11 +56,16 @@ const ProductsHome = () => {
   const products = data.allShopifyProduct.edges;
   
   // Filter for Botanical Blends (Premix Blends) only
-  const botanicalBlends = products.filter(({ node }) => 
-    node.tags && node.tags.some(tag => 
+  const botanicalBlends = products.filter(({ node }) => {
+    const title = node.title.toLowerCase();
+    const isSignatureBlend = ['mood magick', 'moon mylk', 'ritual roots']
+      .some(productName => title.includes(productName));
+    const hasBlendTag = node.tags && node.tags.some(tag =>
       tag.toLowerCase().includes('blend')
-    )
-  );
+    );
+
+    return isSignatureBlend || hasBlendTag;
+  });
   
   // Custom sorting function to order products as requested
   const sortProducts = (productList) => {
