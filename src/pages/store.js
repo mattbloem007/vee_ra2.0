@@ -128,7 +128,7 @@ const StorePage = () => {
               <br/>Each product is crafted with intention for wellness, ritual, and inner harmony.
               <br />
               <br/>
-              Mix, match, and make it yours — combine any three of our blends for unique flavour twists!
+              Mix, match, and make it yours – combine any three of our blends for unique flavour twists!
             </p>
           </div>
           
@@ -138,9 +138,8 @@ const StorePage = () => {
             <div className="cacao-info">
               <h2>About Our Cacao</h2>
               <p>
-              Our cacao is sourced carefully. We only use organic cacao where possible 
-              that is fairtrade, crafted with intention for spiritual and wellness 
-              practices. Our Mood Magick and Moon Mylk contains premium cacao combined 
+              Our cacao is sourced carefully. We only use organic cacao where possible
+              that is fairtrade. Our Mood Magick and Moon Mylk contains premium cacao combined
               with carefully selected botanicals for enhanced benefits.
               </p>
             </div>
@@ -149,7 +148,7 @@ const StorePage = () => {
               <h2>About Our Coffee Alternatives</h2>
               <p>
                 For those sensitive to caffeine or seeking coffee alternatives, 
-                our Ritual Roots blend offers rich, roasted flavors without the 
+                our Ritual Roots blend offers rich, roasted flavours without the
                 jitters. Perfect for morning rituals and those transitioning away 
                 from coffee.
               </p>
@@ -158,18 +157,28 @@ const StorePage = () => {
             <div className="shipping-info">
               <h2>Shipping & Returns</h2>
               <p>
-                We ship within South Africa. 
+                We ship within South Africa. Free collection is available in Noordhoek
+                – simply select this option at checkout.
                 <br />
                 For returns, please contact us on info@veera.co.za
               </p>
             </div>
-            
+
             <div className="quality-assurance">
               <h2>Quality Assurance</h2>
               <p>
-              All our products are crafted with organic ingredients — where possible —  
-              that are ethically sourced. Each batch is tested for purity, potency, and 
-              quality standards.
+              All our products are crafted with organic ingredients – where possible –
+              that are ethically sourced. Each batch is tested for purity, potency, and
+              quality standards. We use high-potency extracts and ingredients chosen for
+              their bioavailability, so every blend delivers real, felt benefits.
+              </p>
+            </div>
+
+            <div className="local-business-info">
+              <h2>Proudly South African</h2>
+              <p>
+              Vee/Ra is a South African business, and we support other local South
+              African businesses and suppliers wherever possible.
               </p>
             </div>
           </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'gatsby';
 
 const ProductAccordion = ({ sections, productId }) => {
   const [openSections, setOpenSections] = useState(new Set());
@@ -14,6 +15,13 @@ const ProductAccordion = ({ sections, productId }) => {
   };
 
   const isOpen = (sectionKey) => openSections.has(sectionKey);
+
+  const renderWithBold = (text) => {
+    const parts = text.split(/\*\*(.+?)\*\*/g);
+    return parts.map((part, i) =>
+      i % 2 === 1 ? <strong key={i}>{part}</strong> : part
+    );
+  };
 
   return (
     <div className="product-accordion">
@@ -37,11 +45,19 @@ const ProductAccordion = ({ sections, productId }) => {
             aria-hidden={!isOpen(sectionKey)}
           >
             <div className="product-accordion__body">
-              {section.content.split('\n').map((paragraph, index) => (
+              {section.content.split('\n').filter(p => p.trim() !== '').map((paragraph, index) => (
                 <p key={index}>
-                  {paragraph}
+                  {renderWithBold(paragraph)}
                 </p>
               ))}
+              {sectionKey === 'brew-guide' && (
+                <Link
+                  to={`/brew-guides?product=${productId}`}
+                  className="product-accordion__brew-guide-link"
+                >
+                  View full Brew Guide →
+                </Link>
+              )}
             </div>
           </div>
         </div>

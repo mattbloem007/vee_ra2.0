@@ -5,6 +5,7 @@ import { GatsbyImage } from "gatsby-plugin-image";
 import { useStore } from "../context/StoreContext";
 import ProductAccordion from "../components/modern/ProductAccordion";
 import { getProductData } from "../data/products";
+import { formatPrice } from "../utils/utilityFunctions";
 
 const Product = (props) => {
     const data = props.data;
@@ -104,23 +105,25 @@ const Product = (props) => {
             images.push({
                 id: 'featured',
                 image: data.shopifyProduct.featuredImage.gatsbyImageData,
-                alt: data.shopifyProduct.title
+                alt: data.shopifyProduct.title,
+                src: featuredImageSrc
             });
             seenImages.add(featuredImageSrc);
         }
-        
+
         // Add media images if they exist (avoiding duplicates)
         if (data.shopifyProduct.media && data.shopifyProduct.media.length > 0) {
             data.shopifyProduct.media.forEach((mediaItem, index) => {
                 if (mediaItem.preview && mediaItem.preview.image) {
                     const mediaImageSrc = mediaItem.preview.image.gatsbyImageData.images.fallback.src;
-                    
+
                     // Only add if we haven't seen this image before
                     if (!seenImages.has(mediaImageSrc)) {
                         images.push({
                             id: `media-${index}`,
                             image: mediaItem.preview.image.gatsbyImageData,
-                            alt: `${data.shopifyProduct.title} - Image ${index + 1}`
+                            alt: `${data.shopifyProduct.title} - Image ${index + 1}`,
+                            src: mediaImageSrc
                         });
                         seenImages.add(mediaImageSrc);
                     }
@@ -136,6 +139,17 @@ const Product = (props) => {
             setSelectedVariant(data.shopifyProduct.variants[0]);
         }
     }, [data]);
+
+    // Show the selected variant's own image (e.g. 45g sachet vs 250g bag) in the gallery, when it has one
+    useEffect(() => {
+        const variantImageSrc = selectedVariant?.image?.src;
+        if (!variantImageSrc) return;
+
+        const matchingIndex = productImages.findIndex((img) => img.src === variantImageSrc);
+        if (matchingIndex !== -1) {
+            setCurrentImageIndex(matchingIndex);
+        }
+    }, [selectedVariant, productImages]);
 
     const handleVariantChange = (e) => {
         const variant = data.shopifyProduct.variants.find(v => v.title === e.target.value);
@@ -225,10 +239,6 @@ const Product = (props) => {
         } finally {
             setIsAddingToCart(false);
         }
-    };
-
-    const formatPrice = (price) => {
-        return `R${parseFloat(price).toFixed(2)}`;
     };
 
     const formatTitleWithCapitalizedLetters = (title) => {
@@ -605,6 +615,10 @@ export const query = graphql`
                 title
                 storefrontId
                 inventoryQuantity
+                image {
+                    gatsbyImageData
+                    src
+                }
             }
         }
     }

@@ -45,8 +45,8 @@ const Hero = () => {
         }
         logo {
           gatsbyImageData(
-            width: 200
-            height: 200
+            width: 600
+            height: 600
             placeholder: BLURRED
             formats: [AUTO, WEBP]
             quality: 90

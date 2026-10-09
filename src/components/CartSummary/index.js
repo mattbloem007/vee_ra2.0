@@ -1,4 +1,5 @@
 import React from 'react'
+import { formatPrice } from '../../utils/utilityFunctions'
 
 export default ({
   handleCheckout,
@@ -10,7 +11,7 @@ export default ({
       <div className="cart-summary__total">
         <span className="cart-summary__label">Subtotal:</span>
         <span className="cart-summary__amount">
-          R{estimatedCost && estimatedCost.subtotalAmount ? parseFloat(estimatedCost.subtotalAmount.amount).toFixed(2) : '0.00'}
+          {estimatedCost && estimatedCost.subtotalAmount ? formatPrice(estimatedCost.subtotalAmount.amount) : 'R0.00'}
         </span>
       </div>
       

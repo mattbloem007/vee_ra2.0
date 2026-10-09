@@ -5,9 +5,9 @@ import SEO from '../components/seo';
 import { useBrewGuide } from '../context/BrewGuideContext';
 
 // Import product images
-import moodMagickImage from '../assets/images/products/mood-magick-thumbnail.png';
-import moonMylkImage from '../assets/images/products/moon-mylk-thumbnail.png';
-import ritualRootsImage from '../assets/images/products/ritual-roots-thumbnail.png';
+import moodMagickImage from '../assets/images/products/mood-magick-thumbnail.jpg';
+import moonMylkImage from '../assets/images/products/moon-mylk-thumbnail.jpg';
+import ritualRootsImage from '../assets/images/products/ritual-roots-thumbnail.jpg';
 
 // Import brew method icons
 import blenderIcon from '../assets/images/brew-methods/moon-mylk-deep-gold/blender-method-deep-gold.png';
@@ -146,13 +146,24 @@ const BrewGuides = ({ data }) => {
     clearSelection();
   };
 
-  // Restore last visited product only when coming back from video guide
+  // Select a product directly from a ?product= link (e.g. from a product page's Brew Guide section),
+  // or restore the last visited product when coming back from a video guide
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const searchParams = new URLSearchParams(window.location.search);
       const shouldRestore = searchParams.get('restore') === 'true';
-      
-      if (shouldRestore && !selectedProduct) {
+      const productParam = searchParams.get('product');
+
+      if (productParam) {
+        const matchedProduct = products.find((product) => product.id === productParam);
+        if (matchedProduct) {
+          selectProduct(matchedProduct);
+        }
+
+        // Clean up the URL by removing the query parameter
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, '', newUrl);
+      } else if (shouldRestore && !selectedProduct) {
         // If we're coming back from a video guide and should restore, do it
         const restored = restoreLastVisited();
         
@@ -179,13 +190,13 @@ const BrewGuides = ({ data }) => {
         // Clean up the URL by removing the query parameter
         const newUrl = window.location.pathname;
         window.history.replaceState({}, '', newUrl);
-      } else if (!shouldRestore && !selectedProduct) {
-        // If we're NOT coming from a video guide and no product is selected, 
-        // clear any existing selection but don't clear localStorage yet
+      } else if (!shouldRestore && !productParam && !selectedProduct) {
+        // If we're NOT coming from a video guide or a direct product link,
+        // and no product is selected, clear any existing selection but don't clear localStorage yet
         clearSelection();
       }
     }
-  }, [selectedProduct, restoreLastVisited, clearSelection]);
+  }, [selectedProduct, selectProduct, restoreLastVisited, clearSelection, products]);
 
   // Track navigation source and clear localStorage appropriately
   useEffect(() => {

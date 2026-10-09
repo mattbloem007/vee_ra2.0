@@ -8,7 +8,7 @@ description: "The French press method extracts rich flavors and creates beautifu
 icon: "../assets/images/brew-methods/moon-mylk-deep-gold/french-press-method-deep-gold.png"
 steps:
   - "Add 1 heaped Tbsp (10g) of Ritual Roots to a French press"
-  - "Add 200-250ml of boiled water 250ml over the blend"
+  - "Add 200-250ml of boiled water over the blend"
   - "Let steep for 5-10 minutes, depending on desired strength – the longer the better!"
   - "Gently press the plunger down"
   - "Pour into your favourite cup and enjoy the rich, flavourful brew"

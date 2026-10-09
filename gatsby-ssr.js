@@ -11,6 +11,38 @@ import { BrewGuideProvider } from "./src/context/BrewGuideContext"
 
 export function onRenderBody({ setHeadComponents}) {
  setHeadComponents([
+    <link
+      key="preload-font-rozelle"
+      rel="preload"
+      href="/fonts/Rozelle-Regular.otf"
+      as="font"
+      type="font/otf"
+      crossOrigin="anonymous"
+    />,
+    <link
+      key="preload-font-belwe"
+      rel="preload"
+      href="/fonts/Belwe-Medium.otf"
+      as="font"
+      type="font/otf"
+      crossOrigin="anonymous"
+    />,
+    <link
+      key="preload-font-sweet-rosetia"
+      rel="preload"
+      href="/fonts/Sweet-Rosetia-Sans-Regular.ttf"
+      as="font"
+      type="font/ttf"
+      crossOrigin="anonymous"
+    />,
+    <link
+      key="preload-font-atlane"
+      rel="preload"
+      href="/fonts/Atlane-Regular.woff"
+      as="font"
+      type="font/woff"
+      crossOrigin="anonymous"
+    />,
     <script
      dangerouslySetInnerHTML={{
         __html:`

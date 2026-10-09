@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
 import { GatsbyImage } from "gatsby-plugin-image";
-import { slugify } from '../../utils/utilityFunctions';
+import { slugify, formatPrice } from '../../utils/utilityFunctions';
 
 const ProductsHome = () => {
   // Function to extract title and subtitle from product title
@@ -94,11 +94,11 @@ const ProductsHome = () => {
   // Sort and limit to 3 products for home page display
   const displayProducts = sortProducts(botanicalBlends).slice(0, 3);
 
-  const formatPrice = (price) => {
+  const formatPriceRange = (price) => {
     if (price.maxVariantPrice.amount === price.minVariantPrice.amount) {
-      return `R${parseFloat(price.maxVariantPrice.amount).toFixed(2)}`;
+      return formatPrice(price.maxVariantPrice.amount);
     } else {
-      return `R${parseFloat(price.minVariantPrice.amount).toFixed(2)} - R${parseFloat(price.maxVariantPrice.amount).toFixed(2)}`;
+      return `${formatPrice(price.minVariantPrice.amount)} - ${formatPrice(price.maxVariantPrice.amount)}`;
     }
   };
 
@@ -129,7 +129,7 @@ const ProductsHome = () => {
                      {subtitle && (
                        <p className="product-card__subtitle">{subtitle}</p>
                      )}
-                     <div className="product-card__price">{formatPrice(node.priceRangeV2)}</div>
+                     <div className="product-card__price">{formatPriceRange(node.priceRangeV2)}</div>
                    </div>
                 </Link>
               </div>

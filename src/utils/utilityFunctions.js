@@ -19,7 +19,15 @@ const createList = ({list, separator = ","}) =>{
       }
       return {text, sep}
   })
-} 
+}
+
+const formatPrice = (amount) => {
+    const formatted = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    }).format(parseFloat(amount))
+    return `R${formatted}`
+}
 
 
-module.exports = { slugify, createList }
+module.exports = { slugify, createList, formatPrice }
