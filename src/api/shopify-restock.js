@@ -10,10 +10,6 @@ import { getStore } from '@netlify/blobs';
 //    event "back_in_stock" which fires the "Back in stock" automation email.
 // 4. Whenever inventory actually changes, pings the Netlify build hook so
 //    the Gatsby site rebuilds with fresh stock levels.
-//
-// Written for Netlify's Lambda-compatible functions API: `handler` receives
-// the Lambda `event`, whose `body` is the exact raw request body (required
-// for a byte-exact HMAC check).
 
 const STORE_NAME = 'back-in-stock';
 const OMNISEND_EVENT = 'back_in_stock';
@@ -30,56 +26,78 @@ const slugify = (text) =>
     .replace(/^-+/, '')
     .replace(/-+$/, '');
 
-const json = (body, statusCode = 200) => ({
-  statusCode,
-  headers: { 'content-type': 'application/json' },
-  body: JSON.stringify(body)
-});
-
-export const handler = async (event) => {
-  if (event.httpMethod !== 'POST') {
-    return json({ error: 'Method not allowed' }, 405);
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.status(405).json({ error: 'Method not allowed' });
+    return;
   }
 
   const secret = process.env.SHOPIFY_WEBHOOK_SECRET;
   if (!secret) {
-    return json({ error: 'Server not configured' }, 500);
+    res.status(500).json({ error: 'Server not configured' });
+    return;
   }
 
-  // Verify the webhook: Shopify signs the raw request body with HMAC-SHA256.
-  let raw = event.body || '';
-  if (event.isBase64Encoded) {
-    raw = Buffer.from(raw, 'base64').toString('utf8');
+  // Locate the raw request body (needed byte-exact for the HMAC check).
+  let raw = null;
+  let rawSource = 'none';
+  try {
+    if (req.rawBody !== undefined && req.rawBody !== null) {
+      rawSource = 'rawBody';
+      raw = typeof req.rawBody === 'string' ? req.rawBody : Buffer.from(req.rawBody).toString('utf8');
+    } else if (typeof req.text === 'function') {
+      rawSource = 'text';
+      raw = await req.text();
+    } else if (req.body !== undefined) {
+      rawSource = 'stringify';
+      raw = JSON.stringify(req.body);
+    }
+  } catch (err) {
+    rawSource = 'error: ' + err.message;
   }
-  const headers = {};
-  for (const [key, value] of Object.entries(event.headers || {})) {
-    headers[key.toLowerCase()] = value;
-  }
+
+  const headers = req.headers || {};
   const hmacHeader = headers['x-shopify-hmac-sha256'] || '';
-  const digest = crypto.createHmac('sha256', secret).update(raw, 'utf8').digest('base64');
+
+  const digest = crypto.createHmac('sha256', secret).update(raw || '', 'utf8').digest('base64');
   if (!timingSafeEqual(digest, hmacHeader)) {
-    return json({ error: 'Unauthorized' }, 401);
+    // TEMPORARY: include diagnostics so we can confirm the raw body source.
+    res.status(401).json({
+      error: 'Unauthorized',
+      debug: {
+        rawSource,
+        rawLength: raw ? raw.length : 0,
+        bodyType: typeof req.body,
+        reqKeys: Object.keys(req).slice(0, 40),
+        hasRawBody: req.rawBody !== undefined
+      }
+    });
+    return;
   }
 
   const topic = headers['x-shopify-topic'] || '';
   if (topic !== 'products/update') {
-    return json({ ok: true, ignored: topic });
+    res.status(200).json({ ok: true, ignored: topic });
+    return;
   }
 
   let product;
   try {
-    product = JSON.parse(raw);
+    product = typeof req.body === 'object' && req.body !== null ? req.body : JSON.parse(raw);
   } catch (err) {
-    return json({ error: 'Invalid JSON body' }, 400);
+    res.status(400).json({ error: 'Invalid JSON body' });
+    return;
   }
   if (!product || !product.handle || !Array.isArray(product.variants)) {
-    return json({ error: 'Unexpected payload' }, 400);
+    res.status(400).json({ error: 'Unexpected payload' });
+    return;
   }
 
   const store = getStore({ name: STORE_NAME, consistency: 'strong' });
   const { data: ledger, etag } = await store.getWithMetadata(product.handle, { type: 'json' });
   if (!ledger) {
-    return json({ ok: true, note: 'No waitlist for this product' });
+    res.status(200).json({ ok: true, note: 'No waitlist for this product' });
+    return;
   }
 
   // Track stock levels per variant to detect the out-of-stock -> in-stock
@@ -180,15 +198,15 @@ export const handler = async (event) => {
   // inventory actually changed.
   if (inventoryChanged && process.env.NETLIFY_BUILD_HOOK_URL) {
     try {
-      const res = await fetch(process.env.NETLIFY_BUILD_HOOK_URL, { method: 'POST' });
-      result.buildTriggered = res.ok;
+      const hookRes = await fetch(process.env.NETLIFY_BUILD_HOOK_URL, { method: 'POST' });
+      result.buildTriggered = hookRes.ok;
     } catch (err) {
       console.error('Build hook error:', err);
     }
   }
 
-  return json({ ok: true, ...result });
-};
+  res.status(200).json({ ok: true, ...result });
+}
 
 async function sendOmnisendEvent({ apiKey, email, fields }) {
   const response = await fetch('https://api.omnisend.com/v3/events', {
