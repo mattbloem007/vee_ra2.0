@@ -268,6 +268,120 @@ Working draft for the three Omnisend flows. Everything here is written to be pas
 
 ---
 
+## FLOW 4 — "From the Journal" (blog awareness)
+
+**Purpose:** bring the latest blog posts back into customers' awareness. Runs as **Campaigns** (not automations) — one send to the full opted-in list, then a follow-up to the non-openers a week later.
+
+**Posts featured (as of drafting):**
+- [Coffee vs Cacao: Energy, Stress, Heart Health & Theobromine vs Caffeine Explained](https://www.veera.co.za/news/coffee-vs-cacao/) (Feb 2026)
+- [Theobroma Cacao Explained: Benefits, Science, Preparation & Nervous System Support](https://www.veera.co.za/news/theobroma-cacao-benefits-nervous-system/) (Feb 2026)
+- [The Truth About What It Takes to Create Premium Medicine](https://www.veera.co.za/news/truth-about-creating-premium-wellness-products/) (Jan 2026)
+
+---
+
+### Email 4.1 — "Which cup is yours?"
+
+**Send:** to segment "Subscribed to email" (everyone opted in).
+
+**Subject options:**
+- Coffee vs Cacao: which cup is yours?
+- The cup that grounds & blooms vs the cup that sparks & blasts
+
+**Preview text:** What your morning is really doing to your body.
+
+**Body:**
+
+> Hi {{ Contact.firstName | default: "friend" }},
+>
+> Most of us don't choose our morning drink — we just inherit it. Coffee happened to us.
+>
+> We spent some time in the journal asking a different question: **what is each cup actually doing to your body?**
+>
+> **[Coffee vs Cacao: Theobromine vs Caffeine, explained](https://www.veera.co.za/news/coffee-vs-cacao/)**
+> Two cups, two very different days. One sparks and blasts; the other grounds and blooms. We compared the energy, the stress response and the heart health story of both — and the differences run deeper than taste.
+>
+> **[Theobroma Cacao: benefits, preparation & your nervous system](https://www.veera.co.za/news/theobroma-cacao-benefits-nervous-system/)**
+> What "ceremonial cacao" actually means, how to prepare it properly, and why this plant has been used for centuries as much for the mind as for the body.
+>
+> No position to defend, nothing to sell in this letter — just a good read before you choose your next cup.
+>
+> — Matthew
+>
+> [Read the journal →]
+
+**Omnisend notes:**
+- Campaigns → New campaign. Segment: everyone with email status "subscribed".
+- Two blog-post blocks side by side (Omnisend content blocks), each with its featured image + the link above.
+
+---
+
+### Email 4.2 — "What premium medicine actually takes" (follow-up)
+
+**Send:** one week later, to segment: subscribed **and** did not open Email 4.1 (build this segment after 4.1 sends: Segment → condition "Did not open campaign" → select 4.1).
+
+**Subject options:**
+- What premium medicine actually takes
+- The part of wellness nobody posts about
+
+**Preview text:** Behind every batch of Vee/Ra.
+
+**Body:**
+
+> Hi {{ Contact.firstName | default: "friend" }},
+>
+> Here's something we don't say often enough: making things properly is slow, and mostly invisible.
+>
+> We wrote about **what it actually takes to create premium medicine** — the sourcing, the waiting, the small-batch compromises we refuse to make, and the ones we make gladly.
+>
+> [Read: The Truth About What It Takes to Create Premium Medicine](https://www.veera.co.za/news/truth-about-creating-premium-wellness-products/)
+>
+> If you've ever wondered why Vee/Ra is the way it is — why we'd rather sell out than dilute — this letter is the honest answer.
+>
+> It's also a nice window into everything on the journal, if you'd like more of these:
+>
+> [Browse News & Insights →]
+>
+> — Matthew
+
+**Omnisend notes:** same campaign setup; the "did not open" segment keeps the follow-up respectful. If 4.1 performed well, you can skip 4.2 or re-send later.
+
+---
+
+### Reusable template — "Journal Digest" (for future posts)
+
+Keep this structure for every batch of new posts — one campaign, roughly monthly or whenever 2–3 posts accumulate:
+
+**Subject options:**
+- From the journal: [hook from best post]
+- New on the journal: [topic]
+
+**Body:**
+
+> Hi {{ Contact.firstName | default: "friend" }},
+>
+> A few things worth your reading time this [month]:
+>
+> **[POST TITLE 1]** — [one calm sentence on why it matters]
+> [Read →]
+>
+> **[POST TITLE 2]** — [one sentence]
+> [Read →]
+>
+> **[POST TITLE 3]** — [one sentence]
+> [Read →]
+>
+> That's the letter. Brew something and settle in.
+>
+> — Matthew
+>
+> [Browse the journal →]
+
+---
+
+**Alternative — evergreen option:** if you'd rather have new *subscribers* see the best posts, add a "Start here on the journal" block (3 post links) to Email 2.3 of the welcome flow instead of a separate flow. New-subscriber attention is the most valuable place for evergreen content; campaigns are the right tool for reaching existing customers.
+
+---
+
 ## TEMPLATE — Monthly newsletter
 
 One story, one blend, one ritual. Fill the [bracketed] slots each month. Keep the structure identical so it stays sustainable.
