@@ -1,5 +1,7 @@
 # Vee/Ra Email Marketing Flows
 
+> **Full copy drafts:** see [`email-copy-deep-dive.md`](./email-copy-deep-dive.md) — complete subject lines, preview text and body copy for every email in these flows, plus a monthly newsletter template and a subject-line bank. The outlines below are the quick-reference version.
+
 Everything in this doc is built in the **Omnisend dashboard** (Automations → New workflow) unless marked otherwise. Segments live under **Audience → Segments**.
 
 ---
