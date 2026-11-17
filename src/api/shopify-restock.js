@@ -10,6 +10,10 @@ import { getStore } from '@netlify/blobs';
 //    event "back_in_stock" which fires the "Back in stock" automation email.
 // 4. Whenever inventory actually changes, pings the Netlify build hook so
 //    the Gatsby site rebuilds with fresh stock levels.
+//
+// Written for Netlify's Lambda-compatible functions API: `handler` receives
+// the Lambda `event`, whose `body` is the exact raw request body (required
+// for a byte-exact HMAC check).
 
 const STORE_NAME = 'back-in-stock';
 const OMNISEND_EVENT = 'back_in_stock';
@@ -26,14 +30,14 @@ const slugify = (text) =>
     .replace(/^-+/, '')
     .replace(/-+$/, '');
 
-const json = (body, status = 200) =>
-  new Response(JSON.stringify(body), {
-    status,
-    headers: { 'content-type': 'application/json' }
-  });
+const json = (body, statusCode = 200) => ({
+  statusCode,
+  headers: { 'content-type': 'application/json' },
+  body: JSON.stringify(body)
+});
 
-export default async (req, context) => {
-  if (req.method !== 'POST') {
+export const handler = async (event) => {
+  if (event.httpMethod !== 'POST') {
     return json({ error: 'Method not allowed' }, 405);
   }
 
@@ -43,14 +47,21 @@ export default async (req, context) => {
   }
 
   // Verify the webhook: Shopify signs the raw request body with HMAC-SHA256.
-  const raw = await req.text();
-  const hmacHeader = req.headers.get('x-shopify-hmac-sha256') || '';
+  let raw = event.body || '';
+  if (event.isBase64Encoded) {
+    raw = Buffer.from(raw, 'base64').toString('utf8');
+  }
+  const headers = {};
+  for (const [key, value] of Object.entries(event.headers || {})) {
+    headers[key.toLowerCase()] = value;
+  }
+  const hmacHeader = headers['x-shopify-hmac-sha256'] || '';
   const digest = crypto.createHmac('sha256', secret).update(raw, 'utf8').digest('base64');
   if (!timingSafeEqual(digest, hmacHeader)) {
     return json({ error: 'Unauthorized' }, 401);
   }
 
-  const topic = req.headers.get('x-shopify-topic') || '';
+  const topic = headers['x-shopify-topic'] || '';
   if (topic !== 'products/update') {
     return json({ ok: true, ignored: topic });
   }
