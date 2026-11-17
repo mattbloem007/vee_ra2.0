@@ -4,6 +4,7 @@ import { useStaticQuery, graphql } from 'gatsby';
 import { GatsbyImage } from "gatsby-plugin-image";
 import { FaInstagram, FaEnvelope } from "react-icons/fa";
 import { slugify } from '../../utils/utilityFunctions';
+import SubscribeForm from './SubscribeForm';
 
 const Footer = () => {
   const data = useStaticQuery(graphql`
@@ -102,7 +103,9 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        
+
+        <SubscribeForm />
+
         <div className="footer__bottom">
           <div className="footer__social">
             <a href="https://instagram.com/veera_cacao" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">

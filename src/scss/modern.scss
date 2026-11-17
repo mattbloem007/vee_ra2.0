@@ -7485,3 +7485,113 @@ html body .product-details .product-details__title,
 .brew-guide-content {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
+// ---------------------------------------------------------------------------
+// Newsletter signup (footer subscribe form)
+// ---------------------------------------------------------------------------
+.newsletter {
+  padding: 2.5rem 0;
+  margin-bottom: 2.5rem;
+  border-top: 1px solid #444;
+  border-bottom: 1px solid #444;
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+
+    @media (min-width: 769px) {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+
+  &__title {
+    font-family: $font-subtitle;
+    color: $accent-color;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    margin: 0 0 0.4rem;
+    text-transform: uppercase;
+  }
+
+  &__subtitle {
+    color: #cccccc;
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  &__form {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 460px;
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+    }
+  }
+
+  &__input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid #444;
+    border-radius: 4px;
+    color: white;
+    font-family: $font-body;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease;
+
+    &::placeholder {
+      color: #8b8b8b;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $accent-color;
+    }
+  }
+
+  &__button {
+    padding: 0.8rem 1.6rem;
+    background: $accent-color;
+    color: $primary-color;
+    border: none;
+    border-radius: 4px;
+    font-family: $font-body;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: #c19b2f;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__message {
+    margin: 0;
+    font-size: 0.9rem;
+    width: 100%;
+
+    &--success {
+      color: $accent-color;
+    }
+
+    &--error {
+      color: #e07a6a;
+    }
+  }
+}
