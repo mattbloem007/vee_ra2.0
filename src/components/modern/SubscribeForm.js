@@ -41,7 +41,7 @@ const SubscribeForm = () => {
         <div className="newsletter__text">
           <h3 className="newsletter__title">Join the ritual</h3>
           <p className="newsletter__subtitle">
-            One letter a month. Brew guides and blend news. No spam, ever.
+            For cacao news, lifestyle tips, and nourishing practices to keep in your rhythmic flow.
           </p>
         </div>
         <form className="newsletter__form" onSubmit={handleSubmit} noValidate>

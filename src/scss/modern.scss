@@ -7489,9 +7489,8 @@ html body .product-details .product-details__title,
 // Newsletter signup (footer subscribe form)
 // ---------------------------------------------------------------------------
 .newsletter {
-  padding: 2.5rem 0;
+  padding: 0 0 2.5rem;
   margin-bottom: 2.5rem;
-  border-top: 1px solid #444;
   border-bottom: 1px solid #444;
 
   &__inner {

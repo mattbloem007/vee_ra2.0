@@ -35,6 +35,8 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="container">
+        <SubscribeForm />
+
         <div className="footer__content">
           <div className="footer__logo">
             {logo ? (
@@ -103,8 +105,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
-        <SubscribeForm />
 
         <div className="footer__bottom">
           <div className="footer__social">
