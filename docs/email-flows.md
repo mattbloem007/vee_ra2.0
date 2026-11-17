@@ -155,6 +155,11 @@ Keep it sustainable — one email per month is enough to stay present:
 - [ ] **Omnisend → Automations:** create "Win-back 180" workflow (Section 2).
 - [ ] **Omnisend → Automations:** create "Welcome" workflow (Section 3).
 - [ ] **Omnisend → Forms:** enable a popup or landing-page form. The Omnisend snippet is already installed on veera.co.za, so forms created in the dashboard go live immediately — no code needed.
-- [ ] **Netlify:** add environment variables `SHOPIFY_WEBHOOK_SECRET` and `NETLIFY_BUILD_HOOK_URL` (create the build hook under Site configuration → Build & deploy → Build hooks).
-- [ ] **Shopify admin → Settings → Notifications → Webhooks:** create webhook, topic **Product update**, URL `https://www.veera.co.za/api/shopify-restock`, format JSON. Copy the generated secret into Netlify's `SHOPIFY_WEBHOOK_SECRET`.
+- [ ] **Netlify:** environment variables (already set via CLI during setup, listed here for reference):
+  - `OMNISEND_API_KEY` (existing)
+  - `SHOPIFY_ADMIN_TOKEN` — the Shopify Admin API token (used to re-fetch product truth)
+  - `SHOPIFY_SHOP_DOMAIN` — e.g. `u8chnc-qf.myshopify.com`
+  - `NETLIFY_BUILD_HOOK_URL` — build hook "Shopify restock" (`https://api.netlify.com/build_hooks/…`)
+- [ ] **Shopify admin → Settings → Notifications → Webhooks:** webhook exists for topic **Product update** → `https://www.veera.co.za/api/shopify-restock` (JSON). Created via the Admin API (id `2103723327540`).
+  - Note: the handler treats the webhook as an untrusted trigger — Shopify's delivery signing secret could not be established for this app, so the handler always re-fetches the product from the Admin API (source of truth) before acting, with rate limits on the re-fetch and on build-hook triggers. A spoofed request cannot inject fake stock data.
 - [ ] **Test end-to-end:** sell a variant to zero on a test product → sign up via the product page "Notify me" button → restock it → confirm the email arrives and the site rebuilds with new stock.
