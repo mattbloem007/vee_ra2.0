@@ -38,40 +38,26 @@ export default async function handler(req, res) {
     return;
   }
 
-  // Locate the raw request body (needed byte-exact for the HMAC check).
-  let raw = null;
-  let rawSource = 'none';
-  try {
-    if (req.rawBody !== undefined && req.rawBody !== null) {
-      rawSource = 'rawBody';
-      raw = typeof req.rawBody === 'string' ? req.rawBody : Buffer.from(req.rawBody).toString('utf8');
-    } else if (typeof req.text === 'function') {
-      rawSource = 'text';
-      raw = await req.text();
-    } else if (req.body !== undefined) {
-      rawSource = 'stringify';
-      raw = JSON.stringify(req.body);
-    }
-  } catch (err) {
-    rawSource = 'error: ' + err.message;
-  }
-
+  // Verify the HMAC over deterministic re-serializations of the parsed
+  // payload (this runtime only exposes the parsed body, no raw bytes):
+  //   1. plain JSON.stringify
+  //   2. Go's encoding/json style (HTML-escaped & < >; Shopify serializes
+  //      webhook payloads with Go's json.Marshal)
+  // Any valid signature still requires the secret, so this stays secure.
   const headers = req.headers || {};
   const hmacHeader = headers['x-shopify-hmac-sha256'] || '';
 
-  const digest = crypto.createHmac('sha256', secret).update(raw || '', 'utf8').digest('base64');
-  if (!timingSafeEqual(digest, hmacHeader)) {
-    // TEMPORARY: include diagnostics so we can confirm the raw body source.
-    res.status(401).json({
-      error: 'Unauthorized',
-      debug: {
-        rawSource,
-        rawLength: raw ? raw.length : 0,
-        bodyType: typeof req.body,
-        reqKeys: Object.keys(req).slice(0, 40),
-        hasRawBody: req.rawBody !== undefined
-      }
-    });
+  const hmacMatches = (bodyString) => {
+    const digest = crypto.createHmac('sha256', secret).update(bodyString || '', 'utf8').digest('base64');
+    return timingSafeEqual(digest, hmacHeader);
+  };
+
+  let verified = false;
+  if (typeof req.body === 'object' && req.body !== null) {
+    verified = hmacMatches(JSON.stringify(req.body)) || hmacMatches(goJsonStringify(req.body));
+  }
+  if (!verified) {
+    res.status(401).json({ error: 'Unauthorized' });
     return;
   }
 
@@ -234,4 +220,17 @@ function timingSafeEqual(a, b) {
   const bb = Buffer.from(b || '', 'utf8');
   if (ab.length !== bb.length) return false;
   return crypto.timingSafeEqual(ab, bb);
+}
+
+// Replicates Go's encoding/json string escaping (json.Marshal with default
+// HTML escaping), applied to JavaScript's JSON.stringify output:
+// & < > become \u0026 \u003c \u003e; \b and \f become \u0008 \u000c.
+// Everything else (including non-ASCII UTF-8 and \n) is already identical.
+function goJsonStringify(value) {
+  return JSON.stringify(value)
+    .replace(/&/g, '\\u0026')
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/[\b]/g, '\\u0008')
+    .replace(/\f/g, '\\u000c');
 }
