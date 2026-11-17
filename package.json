@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Matthew Bloemetje <mattb007@gmail.com>",
   "dependencies": {
+    "@netlify/blobs": "^11.0.0",
     "@shopify/storefront-api-client": "^1.0.9",
     "bootstrap": "^5.3.7",
     "emailjs-com": "^3.2.0",
