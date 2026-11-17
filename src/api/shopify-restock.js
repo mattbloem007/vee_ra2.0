@@ -3,17 +3,37 @@ import { getStore } from '@netlify/blobs';
 
 // Shopify "products/update" webhook handler.
 //
-// 1. Verifies the request with the Shopify webhook secret (HMAC-SHA256).
-// 2. Detects variants that went from out of stock (0 or less) back in stock.
-// 3. For everyone waiting on that variant (recorded by notify-instock.js in
-//    the Netlify Blobs "back-in-stock" store), triggers the Omnisend custom
-//    event "back_in_stock" which fires the "Back in stock" automation email.
-// 4. Whenever inventory actually changes, pings the Netlify build hook so
-//    the Gatsby site rebuilds with fresh stock levels.
+// Design note: this endpoint does NOT verify Shopify's HMAC signature.
+// The signing secret used by Shopify's delivery pipeline could not be
+// established for this app's webhooks (the secret supplied via the Admin
+// API is not the one used to sign deliveries). Instead, the webhook is
+// treated as an UNTRUSTED TRIGGER: the handler always re-fetches the
+// product's actual state from the Shopify Admin API and makes all
+// decisions on that authenticated data. A spoofed request therefore
+// cannot inject fake stock data — it can only cause a rate-limited
+// re-check.
+//
+// Flow:
+// 1. Sanity checks: POST, looks like a Shopify delivery.
+// 2. Re-fetches the product from the Shopify Admin API (source of truth).
+// 3. Detects variants that went from out of stock (0 or less) back in stock
+//    and, for everyone waiting (recorded by notify-instock.js in the
+//    Netlify Blobs "back-in-stock" store), triggers the Omnisend custom
+//    event "back_in_stock" which fires the "Back in stock" automation.
+// 4. Triggers the Netlify build hook (rate-limited) so the Gatsby site
+//    rebuilds with fresh stock levels.
 
 const STORE_NAME = 'back-in-stock';
 const OMNISEND_EVENT = 'back_in_stock';
 const SITE_URL = 'https://www.veera.co.za';
+const ADMIN_API_VERSION = '2024-01';
+
+// Minimum interval between two build-hook triggers, in ms. Keeps the
+// Gatsby site fresh while capping build usage even under spam.
+const BUILD_COOLDOWN_MS = 5 * 60 * 1000;
+
+// Minimum interval between Admin API re-fetches, in ms. Caps API usage.
+const FETCH_COOLDOWN_MS = 2000;
 
 const normVariant = (variantTitle) => (variantTitle || '').trim().toLowerCase();
 
@@ -32,160 +52,171 @@ export default async function handler(req, res) {
     return;
   }
 
-  const secret = process.env.SHOPIFY_WEBHOOK_SECRET;
-  if (!secret) {
+  const adminToken = process.env.SHOPIFY_ADMIN_TOKEN;
+  const shopDomain = (process.env.SHOPIFY_SHOP_DOMAIN || '').trim().toLowerCase().replace(/^https?:\/\//, '');
+  if (!adminToken || !shopDomain) {
     res.status(500).json({ error: 'Server not configured' });
     return;
   }
 
-  // Verify the HMAC over deterministic re-serializations of the parsed
-  // payload (this runtime only exposes the parsed body, no raw bytes):
-  //   1. plain JSON.stringify
-  //   2. Go's encoding/json style (HTML-escaped & < >; Shopify serializes
-  //      webhook payloads with Go's json.Marshal)
-  // Any valid signature still requires the secret, so this stays secure.
   const headers = req.headers || {};
-  const hmacHeader = headers['x-shopify-hmac-sha256'] || '';
 
-  const hmacMatches = (bodyString) => {
-    const digest = crypto.createHmac('sha256', secret).update(bodyString || '', 'utf8').digest('base64');
-    return timingSafeEqual(digest, hmacHeader);
-  };
-
-  let verified = false;
-  if (typeof req.body === 'object' && req.body !== null) {
-    verified = hmacMatches(JSON.stringify(req.body)) || hmacMatches(goJsonStringify(req.body));
-  }
-  if (!verified) {
-    res.status(401).json({ error: 'Unauthorized' });
+  // Sanity checks: must look like a Shopify delivery for this shop.
+  const shopHeader = String(headers['x-shopify-shop-domain'] || '').toLowerCase();
+  const topic = String(headers['x-shopify-topic'] || '');
+  const webhookId = String(headers['x-shopify-webhook-id'] || '');
+  if (!webhookId || !topic.startsWith('products/') || (shopDomain && shopHeader !== shopDomain)) {
+    res.status(202).json({ ok: true, ignored: 'not a shopify delivery' });
     return;
   }
 
-  const topic = headers['x-shopify-topic'] || '';
-  if (topic !== 'products/update') {
-    res.status(200).json({ ok: true, ignored: topic });
-    return;
-  }
-
-  let product;
-  try {
-    product = typeof req.body === 'object' && req.body !== null ? req.body : JSON.parse(raw);
-  } catch (err) {
-    res.status(400).json({ error: 'Invalid JSON body' });
-    return;
-  }
-  if (!product || !product.handle || !Array.isArray(product.variants)) {
-    res.status(400).json({ error: 'Unexpected payload' });
-    return;
-  }
+  let product = typeof req.body === 'object' && req.body !== null ? req.body : null;
+  const productId = product && product.id;
 
   const store = getStore({ name: STORE_NAME, consistency: 'strong' });
-  const { data: ledger, etag } = await store.getWithMetadata(product.handle, { type: 'json' });
-  if (!ledger) {
-    res.status(200).json({ ok: true, note: 'No waitlist for this product' });
+
+  // ---- Rate-limit the Admin API re-fetch ---------------------------------
+  const meta = await store.get('meta', { type: 'json' });
+  const now = Date.now();
+  const lastFetchAt = meta && typeof meta.lastFetchAt === 'number' ? meta.lastFetchAt : 0;
+  const lastBuildAt = meta && typeof meta.lastBuildAt === 'number' ? meta.lastBuildAt : 0;
+  if (now - lastFetchAt < FETCH_COOLDOWN_MS) {
+    res.status(200).json({ ok: true, note: 'rate limited, skipping re-check' });
     return;
   }
 
-  // Track stock levels per variant to detect the out-of-stock -> in-stock
-  // transition. Also read the price/title per variant for the email fields.
-  const variantQty = ledger.variants && typeof ledger.variants === 'object' ? { ...ledger.variants } : {};
-  const restocked = new Set();
-  const variantInfo = {};
-  let inventoryChanged = false;
-
-  for (const variant of product.variants) {
-    const vKey = normVariant(variant.title);
-    if (!vKey) continue;
-    const newQty = typeof variant.inventory_quantity === 'number' ? variant.inventory_quantity : null;
-    if (newQty === null) continue;
-
-    const oldQty = typeof variant.old_inventory_quantity === 'number'
-      ? variant.old_inventory_quantity
-      : variantQty[vKey] ?? null;
-
-    if (oldQty !== null && oldQty !== newQty) {
-      inventoryChanged = true;
+  // ---- Re-fetch the product from the Admin API (source of truth) ---------
+  let truth = null;
+  try {
+    const url = `https://${shopDomain}/admin/api/${ADMIN_API_VERSION}/products/${productId}.json?fields=id,title,handle,status,image,variants`;
+    const apiRes = await fetch(url, {
+      headers: { 'X-Shopify-Access-Token': adminToken, 'Content-Type': 'application/json' }
+    });
+    if (apiRes.status === 404) {
+      // Product was deleted (or the id was bogus) — just acknowledge.
+      await saveMeta(store, meta, { lastFetchAt: now });
+      res.status(200).json({ ok: true, note: 'product not found' });
+      return;
     }
-    if (oldQty !== null && oldQty <= 0 && newQty > 0) {
-      restocked.add(vKey);
+    if (!apiRes.ok) {
+      console.error('Admin API error:', apiRes.status, await apiRes.text());
+      await saveMeta(store, meta, { lastFetchAt: now });
+      res.status(200).json({ ok: true, note: 'admin api error' });
+      return;
     }
-    variantQty[vKey] = newQty;
-    variantInfo[vKey] = {
-      title: variant.title || product.title,
-      price: variant.price || ''
-    };
+    const data = await apiRes.json();
+    truth = data.product || null;
+  } catch (err) {
+    console.error('Admin API fetch failed:', err);
+    await saveMeta(store, meta, { lastFetchAt: now });
+    res.status(200).json({ ok: true, note: 'admin api fetch failed' });
+    return;
   }
 
+  await saveMeta(store, meta, { lastFetchAt: now });
+
+  if (!truth || !truth.handle || !Array.isArray(truth.variants)) {
+    res.status(200).json({ ok: true, note: 'unexpected admin payload' });
+    return;
+  }
+
+  const { data: ledger, etag } = await store.getWithMetadata(truth.handle, { type: 'json' });
+
+  // ---- Restock detection + notifications ---------------------------------
   const result = { notified: 0, failed: 0, buildTriggered: false };
 
-  // Notify everyone waiting on a variant that just came back, plus anyone
-  // we previously failed to notify and whose variant is now in stock.
-  const dueEntries = ledger.waitlist.filter((entry) => {
-    if (entry.notifiedAt) return false;
-    const qty = entry.variantKey ? variantQty[entry.variantKey] : null;
-    return (restocked.has(entry.variantKey) || (qty !== null && qty > 0));
-  });
-
-  if (dueEntries.length > 0) {
-    const productUrl = `${SITE_URL}/store/${slugify(product.title)}`;
-    for (const entry of dueEntries) {
-      const vKey = entry.variantKey;
-      const info = variantInfo[vKey] || {};
-      try {
-        await sendOmnisendEvent({
-          apiKey: process.env.OMNISEND_API_KEY,
-          email: entry.email,
-          fields: {
-            productTitle: product.title,
-            productVariant: info.title || entry.variant || product.title,
-            productPrice: info.price || '',
-            productUrl,
-            productImage: (product.image && product.image.src) || ''
-          }
-        });
-        entry.notifiedAt = new Date().toISOString();
-        result.notified += 1;
-      } catch (err) {
-        console.error('Omnisend event error:', err);
-        result.failed += 1;
+  if (ledger && Array.isArray(ledger.waitlist)) {
+    // Track stock levels per variant to detect the out-of-stock -> in-stock
+    // transition, plus per-variant info for the email fields.
+    const variantQty = ledger.variants && typeof ledger.variants === 'object' ? { ...ledger.variants } : {};
+    const restocked = new Set();
+    const variantInfo = {};
+    for (const variant of truth.variants) {
+      const vKey = normVariant(variant.title);
+      if (!vKey) continue;
+      const newQty = typeof variant.inventory_quantity === 'number' ? variant.inventory_quantity : null;
+      if (newQty === null) continue;
+      const oldQty = variantQty[vKey] ?? null;
+      if (oldQty !== null && oldQty <= 0 && newQty > 0) {
+        restocked.add(vKey);
       }
+      variantQty[vKey] = newQty;
+      variantInfo[vKey] = {
+        title: variant.title || truth.title,
+        price: variant.price || ''
+      };
     }
-  }
 
-  // Persist the updated stock levels and notified flags.
-  ledger.productTitle = product.title;
-  ledger.updatedAt = new Date().toISOString();
-  ledger.variants = variantQty;
-  try {
-    const write = await store.setJSON(product.handle, ledger, { onlyIfMatch: etag });
-    if (!write.modified) {
-      // A signup raced us between the read and write; re-read and merge.
-      const { data: fresh } = await store.getWithMetadata(product.handle, { type: 'json' });
-      if (fresh) {
-        fresh.productTitle = ledger.productTitle;
-        fresh.updatedAt = ledger.updatedAt;
-        fresh.variants = variantQty;
-        for (const due of dueEntries) {
-          const match = fresh.waitlist.find(
-            (w) => w.email === due.email && w.variantKey === due.variantKey
-          );
-          if (match && !match.notifiedAt && due.notifiedAt) {
-            match.notifiedAt = due.notifiedAt;
-          }
+    // Notify everyone waiting on a variant that just came back, plus anyone
+    // we previously failed to notify and whose variant is now in stock.
+    const dueEntries = ledger.waitlist.filter((entry) => {
+      if (entry.notifiedAt) return false;
+      const qty = entry.variantKey ? variantQty[entry.variantKey] : null;
+      return restocked.has(entry.variantKey) || (qty !== null && qty > 0);
+    });
+
+    if (dueEntries.length > 0) {
+      const productUrl = `${SITE_URL}/store/${slugify(truth.title)}`;
+      for (const entry of dueEntries) {
+        const info = variantInfo[entry.variantKey] || {};
+        try {
+          await sendOmnisendEvent({
+            apiKey: process.env.OMNISEND_API_KEY,
+            email: entry.email,
+            fields: {
+              productTitle: truth.title,
+              productVariant: info.title || entry.variant || truth.title,
+              productPrice: info.price || '',
+              productUrl,
+              productImage: (truth.image && truth.image.src) || ''
+            }
+          });
+          entry.notifiedAt = new Date().toISOString();
+          result.notified += 1;
+        } catch (err) {
+          console.error('Omnisend event error:', err);
+          result.failed += 1;
         }
-        await store.setJSON(product.handle, fresh);
       }
     }
-  } catch (err) {
-    console.error('Ledger write error:', err);
+
+    // Persist the updated stock levels and notified flags.
+    ledger.productTitle = truth.title;
+    ledger.updatedAt = new Date().toISOString();
+    ledger.variants = variantQty;
+    try {
+      const write = await store.setJSON(truth.handle, ledger, { onlyIfMatch: etag });
+      if (!write.modified) {
+        // A signup raced us between the read and write; re-read and merge.
+        const { data: fresh } = await store.getWithMetadata(truth.handle, { type: 'json' });
+        if (fresh) {
+          fresh.productTitle = ledger.productTitle;
+          fresh.updatedAt = ledger.updatedAt;
+          fresh.variants = variantQty;
+          for (const due of dueEntries) {
+            const match = fresh.waitlist.find(
+              (w) => w.email === due.email && w.variantKey === due.variantKey
+            );
+            if (match && !match.notifiedAt && due.notifiedAt) {
+              match.notifiedAt = due.notifiedAt;
+            }
+          }
+          await store.setJSON(truth.handle, fresh);
+        }
+      }
+    } catch (err) {
+      console.error('Ledger write error:', err);
+    }
   }
 
-  // Keep the Gatsby site's stock display fresh: trigger a rebuild whenever
-  // inventory actually changed.
-  if (inventoryChanged && process.env.NETLIFY_BUILD_HOOK_URL) {
+  // ---- Keep the Gatsby site's stock display fresh ------------------------
+  if (now - lastBuildAt >= BUILD_COOLDOWN_MS && process.env.NETLIFY_BUILD_HOOK_URL) {
     try {
       const hookRes = await fetch(process.env.NETLIFY_BUILD_HOOK_URL, { method: 'POST' });
       result.buildTriggered = hookRes.ok;
+      if (hookRes.ok) {
+        await saveMeta(store, meta, { lastBuildAt: Date.now() });
+      }
     } catch (err) {
       console.error('Build hook error:', err);
     }
@@ -215,22 +246,9 @@ async function sendOmnisendEvent({ apiKey, email, fields }) {
   }
 }
 
-function timingSafeEqual(a, b) {
-  const ab = Buffer.from(a || '', 'utf8');
-  const bb = Buffer.from(b || '', 'utf8');
-  if (ab.length !== bb.length) return false;
-  return crypto.timingSafeEqual(ab, bb);
-}
-
-// Replicates Go's encoding/json string escaping (json.Marshal with default
-// HTML escaping), applied to JavaScript's JSON.stringify output:
-// & < > become \u0026 \u003c \u003e; \b and \f become \u0008 \u000c.
-// Everything else (including non-ASCII UTF-8 and \n) is already identical.
-function goJsonStringify(value) {
-  return JSON.stringify(value)
-    .replace(/&/g, '\\u0026')
-    .replace(/</g, '\\u003c')
-    .replace(/>/g, '\\u003e')
-    .replace(/[\b]/g, '\\u0008')
-    .replace(/\f/g, '\\u000c');
+async function saveMeta(store, meta, updates) {
+  const next = { ...(meta || {}), ...updates };
+  // Last-write-wins is fine for the cooldown markers: a lost race only
+  // means the next event triggers one extra (rate-limited) build/fetch.
+  await store.setJSON('meta', next).catch((err) => console.error('meta write error:', err));
 }
